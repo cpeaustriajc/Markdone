@@ -51,7 +51,7 @@ const markdownSyntaxHighlighting = HighlightStyle.define([
   },
 ]);
 
-function useCodeMirror<T extends Element>(
+export function useCodeMirror<T extends Element>(
   props: Props
 ): [React.MutableRefObject<T | null>, EditorView?] {
   const ref = useRef<T>(null);
@@ -97,5 +97,3 @@ function useCodeMirror<T extends Element>(
 
   return [ref, editorView];
 }
-
-export default useCodeMirror;
