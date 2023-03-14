@@ -1,12 +1,15 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./app/**/*.{jsx,ts,jsx,tsx}",
+    "./components/**.{jsx,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+        sans: ['var(--font-inter)',],
+        mono: ['var(--font-roboto-mono)'],
       },
       keyframes: {
         "accordion-down": {

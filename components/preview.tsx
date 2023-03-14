@@ -17,7 +17,7 @@ export const Preview = ({ doc }: { doc: string }) => {
     .processSync(doc).result;
 
   return (
-    <div className="h-full basis-1/2 overflow-x-hidden overflow-y-auto grow-0 shrink-0 pl-3 border-l border-gray-400 prose dark:prose-invert">
+    <div className="h-full basis-1/2 grow-0 shrink-0 overflow-x-hidden overflow-y-auto pl-3 border-l border-gray-400 prose max-w-full dark:prose-invert">
       {md}
     </div>
   );

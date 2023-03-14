@@ -1,20 +1,24 @@
+"use client";
+
 import { EditorState } from "@codemirror/state";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useCodeMirror } from "../hooks/use-codemirror";
 
 interface Props {
-  initialDoc: string;
-  onChange: (newDoc: string) => void;
+  doc: string;
 }
 
 export const Editor: React.FC<Props> = (props) => {
-  const { initialDoc, onChange } = props;
+  const { doc } = props;
+
+  const [currentDoc, setCurrentDoc] = useState<string>(doc);
+
   const handleChange = useCallback(
-    (state: EditorState) => onChange(state.doc.toString()),
-    [onChange]
+    (state: EditorState) => setCurrentDoc(state.doc.toString()),
+    [setCurrentDoc]
   );
   const [editorRef, editorView] = useCodeMirror<HTMLDivElement>({
-    initialDoc: initialDoc,
+    initialDoc: currentDoc,
     onChange: handleChange,
   });
 
@@ -24,16 +28,11 @@ export const Editor: React.FC<Props> = (props) => {
         changes: {
           from: 0,
           to: editorView.state.doc.length,
-          insert: initialDoc,
+          insert: currentDoc,
         },
       });
     }
   }, [editorView]);
 
-  return (
-    <div
-      className="basis-1/2 grow-0 shrink-0 h-full overflow-y-auto"
-      ref={editorRef}
-    />
-  );
+  return <div className="h-full basis-1/2 grow-0 shrink-0 overflow-y-auto" ref={editorRef} />;
 };
