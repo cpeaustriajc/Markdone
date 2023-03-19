@@ -1,3 +1,5 @@
+"use client";
+
 import { createElement, Fragment } from "react";
 import { unified } from "unified";
 import remarkParse from "remark-parse/lib";
@@ -5,7 +7,12 @@ import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype/lib";
 import rehypeReact from "rehype-react/lib";
 
-export const Preview = ({ doc }: { doc: string }) => {
+type Props = {
+  doc: string;
+};
+export const Preview = (props: Props) => {
+  const { doc } = props;
+
   const md = unified()
     .use(remarkParse)
     .use(remarkGfm)

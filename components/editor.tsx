@@ -34,5 +34,10 @@ export const Editor: React.FC<Props> = (props) => {
     }
   }, [editorView]);
 
-  return <div className="h-full basis-1/2 grow-0 shrink-0 overflow-y-auto" ref={editorRef} />;
+  return (
+    <div
+      ref={editorRef}
+      className="h-full basis-1/2 grow-0 shrink-0 overflow-y-auto"
+    />
+  );
 };
