@@ -1,26 +1,34 @@
+"use client";
+
 import { Editor } from "../components/editor";
 import { Preview } from "../components/preview";
+import useSWR from "swr";
 
-async function getDefaultMarkdownFile() {
-  const res = await fetch(
-    "https://gist.githubusercontent.com/jaycedotbin/c9a7ac32fa5bc58eaeb50e0b8fa65555/raw/b438ba5c6ff0cefcba1030a69ff5e2ce098473ac/markdown-tutorial.md"
+const fetcher = (url: string) => fetch(url).then((res) => res.text());
+
+export default function HomePage() {
+  const { data, error, isLoading } = useSWR(
+    "https://gist.githubusercontent.com/jaycedotbin/c9a7ac32fa5bc58eaeb50e0b8fa65555/raw/b438ba5c6ff0cefcba1030a69ff5e2ce098473ac/markdown-tutorial.md",
+    fetcher
   );
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch default markdown file");
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
-  return res.text();
-}
-
-export default async function HomePage() {
-  const data = await getDefaultMarkdownFile();
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <>
       <main className="flex flex-row h-full">
-        <Editor doc={data} />
-        <Preview doc={data} />
+        {data && (
+          <>
+            <Editor doc={data} />
+            <Preview doc={data} />
+          </>
+        )}
       </main>
     </>
   );
