@@ -12,26 +12,12 @@ import { bracketMatching, indentOnInput } from "@codemirror/language";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
 import { tags } from "@lezer/highlight";
+import { dracula } from "thememirror";
 
 type Props = {
   initialDoc: string;
   onChange: (state: EditorState) => void;
 };
-
-export const defaultTheme = EditorView.theme(
-  {
-    "&": {
-      height: "100%",
-      background: "hsl(0deg 0% 99%)",
-      borderRight: "1px solid hsl(0deg 0% 80%)",
-    },
-    ".cm-content": {
-      fontFamily: '"Roboto Mono", Consolas, Courier New, monospace',
-      fontSize: "12px",
-    },
-  },
-  { dark: false }
-);
 
 const markdownSyntaxHighlighting = HighlightStyle.define([
   {
@@ -64,6 +50,7 @@ export function useCodeMirror<T extends Element>(
     const startState = EditorState.create({
       doc: props.initialDoc,
       extensions: [
+        dracula,
         keymap.of([...defaultKeymap, ...historyKeymap]),
         lineNumbers(),
         highlightActiveLineGutter(),
