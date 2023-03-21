@@ -25,6 +25,7 @@ export const metadata = {
       },
     ],
   },
+  colorScheme: "dark light",
   manifest: "/site.webmanifest",
 };
 
