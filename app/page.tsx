@@ -2,6 +2,7 @@
 
 import { Editor } from "../components/editor";
 import { Preview } from "../components/preview";
+import { Spinner } from "../components/ui/spinner";
 import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.text());
@@ -13,7 +14,11 @@ export default function HomePage() {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <main className="flex justify-center items-center h-full">
+        <Spinner />
+      </main>
+    );
   }
 
   if (error) {
