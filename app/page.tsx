@@ -22,7 +22,7 @@ export default function HomePage() {
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return new Error(error);
   }
 
   return (
