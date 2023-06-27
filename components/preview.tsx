@@ -2,7 +2,7 @@
 
 import { createElement, Fragment } from "react";
 import { unified } from "unified";
-import remarkParse from "remark-parse/lib";
+import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype/lib";
 import rehypeReact from "rehype-react/lib";
