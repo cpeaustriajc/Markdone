@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Inter, Roboto_Mono } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata = {
   title: "Markdone | Get more things done with Markdone!",
@@ -45,9 +46,12 @@ interface Props {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en" className={`${inter.variable} ${roboto_mono.variable}`}>
-      <body className="dark:bg-slate-900 bg-white text-slate-800 dark:text-slate-200">
+    <html lang="en" className={`${inter.variable} ${roboto_mono.variable} h-full`} suppressHydrationWarning>
+      <body className="h-full">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+
         {children}
+        </ThemeProvider>
       </body>
     </html>
   );
