@@ -19,7 +19,7 @@ const Spinner: React.FC = () => {
       </svg>
       <span className="sr-only">Loading...</span>
     </div>
-  );
-};
+  )
+}
 
-export { Spinner };
+export { Spinner }

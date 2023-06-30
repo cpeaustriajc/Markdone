@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Menubar,
@@ -6,7 +6,7 @@ import {
   MenubarItem,
   MenubarMenu,
   MenubarTrigger,
-} from "./ui/menubar";
+} from './ui/menubar'
 
 export const Header = () => {
   return (
@@ -20,5 +20,5 @@ export const Header = () => {
         </MenubarMenu>
       </Menubar>
     </header>
-  );
-};
+  )
+}
