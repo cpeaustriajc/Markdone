@@ -16,11 +16,12 @@ engineers bootstrapped this project.
 
 ## Tech Stack
 
-- [Next.js][nextjs]
-- [Tailwind CSS][tailwind]
-- [Codemirror][codemirror]
+- [Next.js][next.js]
+- [Tailwind CSS][tailwind css]
+- [Codemirror]
 - [shadcn/ui]
 - [swr]
+- [Sentry]
 
 ## Features
 
@@ -43,9 +44,10 @@ pnpm dev
 [devaslife]: https://www.youtube.com/watch?v=gxBis8EgoAg
 [0xsuk]:
   https://0xsuk.github.io/posts/2022-03-25-build-your-own-markdown-editor-with-react.js-and-codemirror-6/
-[nextjs]: https://nextjs.org
-[tailwind]: https://tailwindcss.com
+[next.js]: https://nextjs.org
+[tailwind css]: https://tailwindcss.com
 [codemirror]: https://codemirror.net
 [markdone]: https://markdone.jaycedotbin.me
 [shadcn/ui]: https://ui.shadcn.com
 [swr]: https://swr.vercel.app
+[sentry]: https://sentry.io/

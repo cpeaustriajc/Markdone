@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 
 .next
+
+# Sentry Auth Token
+.sentryclirc
+
+.vercel
