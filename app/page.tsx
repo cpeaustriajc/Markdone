@@ -15,7 +15,7 @@ export default function HomePage() {
 
   if (isLoading) {
     return (
-      <main className="flex justify-center items-center h-full">
+      <main className="flex h-full items-center justify-center">
         <Spinner />
       </main>
     )
@@ -27,7 +27,7 @@ export default function HomePage() {
 
   return (
     <>
-      <main className="flex flex-row h-full">
+      <main className="flex h-full flex-col md:flex-row">
         {data && (
           <>
             <Editor doc={data} />

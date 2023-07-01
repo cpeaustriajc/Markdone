@@ -37,7 +37,7 @@ export const Editor: React.FC<Props> = (props) => {
   return (
     <div
       ref={editorRef}
-      className="h-full basis-1/2 grow-0 shrink-0 overflow-y-auto"
+      className="h-full shrink-0 grow-0 basis-1/2 overflow-y-auto"
     />
   )
 }

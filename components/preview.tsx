@@ -13,7 +13,7 @@ export const Preview = (props: Props) => {
     <ReactMarkdown
       children={doc}
       remarkPlugins={[[remarkGfm, { tableCellPadding: true }]]}
-      className="h-full basis-1/2 grow-0 shrink-0 overflow-x-hidden overflow-y-auto pl-3 border-l border-gray-400 prose max-w-full dark:prose-invert"
+      className="prose h-full max-w-full shrink-0 grow-0 basis-1/2 overflow-y-auto overflow-x-hidden border-l border-gray-400 pl-3 dark:prose-invert"
     />
   )
 }

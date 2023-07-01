@@ -12,14 +12,6 @@
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown ."
   },
-  "prettier": {
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "proseWrap": "always",
-    "printWidth": 80
-  },
   "dependencies": {
     "@codemirror/commands": "^6.2.4",
     "@codemirror/lang-markdown": "^6.2.0",

@@ -10,7 +10,7 @@ import {
 
 export const Header = () => {
   return (
-    <header className="flex items-center justify-between h-16 px-4 bg-white border-b border-gray-200 dark:bg-slate-900 dark:border-slate-800">
+    <header className="flex h-16 items-center justify-between border-b border-gray-200 bg-white px-4 dark:border-slate-800 dark:bg-slate-900">
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>File</MenubarTrigger>
