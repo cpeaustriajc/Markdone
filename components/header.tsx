@@ -6,7 +6,7 @@ import {
   MenubarItem,
   MenubarMenu,
   MenubarTrigger,
-} from './ui/menubar'
+} from '@/components/ui/menubar'
 
 export const Header = () => {
   return (

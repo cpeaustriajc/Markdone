@@ -1,8 +1,8 @@
 'use client'
 
-import { Editor } from '../components/editor'
-import { Preview } from '../components/preview'
-import { Spinner } from '../components/ui/spinner'
+import { Editor } from '@/components/editor'
+import { Preview } from '@/components/preview'
+import { Spinner } from '@/components/ui/spinner'
 import useSWR from 'swr'
 
 const fetcher = (url: string) => fetch(url).then((res) => res.text())
