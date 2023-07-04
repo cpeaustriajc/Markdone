@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator'
 export default function HomePage() {
   return (
     <>
+      <Header />
       <main className="flex h-full flex-col md:flex-row">
         <Editor />
         <Separator orientation="vertical" />
