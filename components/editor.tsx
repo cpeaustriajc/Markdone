@@ -8,7 +8,7 @@ interface Props {
   doc: string
 }
 
-export const Editor: React.FC<Props> = (props) => {
+export function Editor(props: Props) {
   const { doc } = props
 
   const [currentDoc, setCurrentDoc] = useState<string>(doc)

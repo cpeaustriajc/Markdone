@@ -8,9 +8,9 @@ import {
   MenubarTrigger,
 } from '@/components/ui/menubar'
 
-export const Header = () => {
+export function Header ()  {
   return (
-    <header className="flex h-16 items-center justify-between border-b border-gray-200 bg-white px-4 dark:border-slate-800 dark:bg-slate-900">
+    <header className="flex h-16 items-center justify-between border-b px-4 bg-background text-foreground">
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>File</MenubarTrigger>

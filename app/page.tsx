@@ -1,39 +1,19 @@
-'use client'
-
 import { Editor } from '@/components/editor'
+import { Header } from '@/components/header'
 import { Preview } from '@/components/preview'
-import { Spinner } from '@/components/ui/spinner'
-import useSWR from 'swr'
+import { Separator } from '@/components/ui/separator'
 
-const fetcher = (url: string) => fetch(url).then((res) => res.text())
-
-export default function HomePage() {
-  const { data, error, isLoading } = useSWR(
-    'https://gist.githubusercontent.com/jaycedotbin/c9a7ac32fa5bc58eaeb50e0b8fa65555/raw/b438ba5c6ff0cefcba1030a69ff5e2ce098473ac/markdown-tutorial.md',
-    fetcher
-  )
-
-  if (isLoading) {
-    return (
-      <main className="flex h-full items-center justify-center">
-        <Spinner />
-      </main>
-    )
-  }
-
-  if (error) {
-    return new Error(error)
-  }
+export default async function HomePage() {
+  const initialDocument =
+    'Get started with Markdone by learning [markdown](https://www.markdownguide.org/)'
 
   return (
     <>
+      <Header />
       <main className="flex h-full flex-col md:flex-row">
-        {data && (
-          <>
-            <Editor doc={data} />
-            <Preview doc={data} />
-          </>
-        )}
+        <Editor doc={initialDocument} />
+        <Separator orientation="vertical" />
+        <Preview doc={initialDocument} />
       </main>
     </>
   )

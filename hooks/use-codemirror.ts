@@ -12,7 +12,6 @@ import { bracketMatching, indentOnInput } from '@codemirror/language'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import { tags } from '@lezer/highlight'
-import { dracula } from 'thememirror'
 
 type Props = {
   initialDoc: string
@@ -50,7 +49,6 @@ export function useCodeMirror<T extends Element>(
     const startState = EditorState.create({
       doc: props.initialDoc,
       extensions: [
-        dracula,
         keymap.of([...defaultKeymap, ...historyKeymap]),
         lineNumbers(),
         highlightActiveLineGutter(),

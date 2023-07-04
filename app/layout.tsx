@@ -37,7 +37,7 @@ const inter = Inter({
 
 const roboto_mono = Roboto_Mono({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-roboto-mono',
 })
 
 interface Props {
