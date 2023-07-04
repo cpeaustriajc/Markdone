@@ -1,17 +1,17 @@
 'use client'
 
 import { EditorState } from '@codemirror/state'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useCodeMirror } from '@/hooks/use-codemirror'
-import { useMarkdownFile } from '@/hooks/use-markdownfile'
+import { markdownAtom } from '@/app/store'
+import { useAtom } from 'jotai'
 
 export function Editor() {
-  const doc = useMarkdownFile((state) => state.markdownFile)
-  const updateContent = useMarkdownFile((state) => state.updateContent)
+  const [doc, setDoc] = useAtom(markdownAtom)
 
   const handleChange = useCallback(
-    (state: EditorState) => updateContent(state.doc.toString()),
-    [updateContent]
+    (state: EditorState) => setDoc(state.doc.toString()),
+    [setDoc]
   )
   const [editorRef, editorView] = useCodeMirror<HTMLDivElement>({
     initialDoc: doc,

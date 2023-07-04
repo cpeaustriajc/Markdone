@@ -2,10 +2,11 @@
 
 import remarkGfm from 'remark-gfm'
 import ReactMarkdown from 'react-markdown'
-import { useMarkdownFile } from '@/hooks/use-markdownfile'
+import { markdownAtom } from '@/app/store'
+import { useAtom } from 'jotai'
 
 export function Preview() {
-  const doc = useMarkdownFile((state) => state.markdownFile)
+  const [doc] = useAtom(markdownAtom)
 
   return (
     <ReactMarkdown

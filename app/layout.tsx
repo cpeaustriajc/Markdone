@@ -1,6 +1,6 @@
 import './globals.css'
 import { Inter, Roboto_Mono } from 'next/font/google'
-import { ThemeProvider } from '@/components/theme-provider'
+import Providers from './providers'
 
 export const metadata = {
   title: 'Markdone | Get more things done with Markdone!',
@@ -52,9 +52,7 @@ export default function RootLayout({ children }: Props) {
       suppressHydrationWarning
     >
       <body className="h-full">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )
