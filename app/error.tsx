@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect } from 'react'
-import * as Sentry from '@sentry/nextjs'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
 
@@ -13,7 +12,7 @@ export default function Error({
   reset: () => void
 }) {
   useEffect(() => {
-    Sentry.captureException(error)
+    console.error(error)
   }, [error])
 
   return (
