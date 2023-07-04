@@ -1,13 +1,7 @@
 import { withSentryConfig } from '@sentry/nextjs'
 
 /** @type {import('next').NextConfig}*/
-const nextConfig = {
-  modularizeImports: {
-    '@radix-ui/react-icons': {
-      transform: '@radix-ui/react-icons/{{member}}',
-    },
-  },
-}
+const nextConfig = {}
 
 export default withSentryConfig(
   nextConfig,
