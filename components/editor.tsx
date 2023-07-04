@@ -3,22 +3,18 @@
 import { EditorState } from '@codemirror/state'
 import { useCallback, useEffect, useState } from 'react'
 import { useCodeMirror } from '@/hooks/use-codemirror'
+import { useMarkdownFile } from '@/hooks/use-markdownfile'
 
-interface Props {
-  doc: string
-}
-
-export function Editor(props: Props) {
-  const { doc } = props
-
-  const [currentDoc, setCurrentDoc] = useState<string>(doc)
+export function Editor() {
+  const doc = useMarkdownFile((state) => state.markdownFile)
+  const updateContent = useMarkdownFile((state) => state.updateContent)
 
   const handleChange = useCallback(
-    (state: EditorState) => setCurrentDoc(state.doc.toString()),
-    [setCurrentDoc]
+    (state: EditorState) => updateContent(state.doc.toString()),
+    [updateContent]
   )
   const [editorRef, editorView] = useCodeMirror<HTMLDivElement>({
-    initialDoc: currentDoc,
+    initialDoc: doc,
     onChange: handleChange,
   })
 
@@ -28,7 +24,7 @@ export function Editor(props: Props) {
         changes: {
           from: 0,
           to: editorView.state.doc.length,
-          insert: currentDoc,
+          insert: doc,
         },
       })
     }

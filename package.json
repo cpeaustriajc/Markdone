@@ -35,7 +35,8 @@
     "react-markdown": "^8.0.7",
     "remark-gfm": "^3.0.1",
     "tailwind-merge": "^1.13.2",
-    "tailwindcss-animate": "^1.0.6"
+    "tailwindcss-animate": "^1.0.6",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",

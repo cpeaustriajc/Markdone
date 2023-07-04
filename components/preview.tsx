@@ -2,13 +2,10 @@
 
 import remarkGfm from 'remark-gfm'
 import ReactMarkdown from 'react-markdown'
+import { useMarkdownFile } from '@/hooks/use-markdownfile'
 
-type Props = {
-  doc: string
-}
-
-export function Preview(props: Props) {
-  const { doc } = props
+export function Preview() {
+  const doc = useMarkdownFile((state) => state.markdownFile)
 
   return (
     <ReactMarkdown

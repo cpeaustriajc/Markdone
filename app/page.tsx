@@ -3,17 +3,14 @@ import { Header } from '@/components/header'
 import { Preview } from '@/components/preview'
 import { Separator } from '@/components/ui/separator'
 
-export default async function HomePage() {
-  const initialDocument =
-    'Get started with Markdone by learning [markdown](https://www.markdownguide.org/)'
-
+export default function HomePage() {
   return (
     <>
       <Header />
       <main className="flex h-full flex-col md:flex-row">
-        <Editor doc={initialDocument} />
+        <Editor />
         <Separator orientation="vertical" />
-        <Preview doc={initialDocument} />
+        <Preview />
       </main>
     </>
   )
