@@ -2,13 +2,13 @@
 
 import { markdownAtom } from '@/app/store'
 import { useAtom } from 'jotai'
-import {
-  memo,
-  useMemo,
-  useRef,
-} from 'react'
+import { memo, useMemo, useRef } from 'react'
 
-export function Editor() {
+export function Editor({
+  editorRef,
+}: {
+  editorRef: React.MutableRefObject<HTMLDivElement | null>
+}) {
   const [doc, setDoc] = useAtom(markdownAtom)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -51,29 +51,32 @@ export function Editor() {
       </span>
     ))
   })
+  LineNumbers.displayName = 'LineNumbers'
 
   return (
-    <div className="shrink-0 grow-0 basis-1/2  font-mono text-sm">
+    <div
+      ref={editorRef}
+      className="shrink-0 grow-0 basis-1/2 overflow-auto font-mono text-sm"
+    >
       <label htmlFor="markdown-editor" className="sr-only">
         Markdown Editor
       </label>
-      <div className="flex w-full flex-row">
-        <div className="flex h-fit w-8 flex-col items-end border-r px-2">
+      <div className="flex flex-row overflow-auto">
+        <div className="flex w-8 flex-col items-end border-r px-2">
           <LineNumbers />
         </div>
         <textarea
           ref={textAreaRef}
-          id="markdown-editor"
-          name="markdown-editor"
           cols={longestString}
           rows={lineNumber}
-          className="w-full resize-none overflow-x-auto break-keep bg-background pl-1 outline-none focus:border-none active:border-none"
+          id="markdown-editor"
+          name="markdown-editor"
+          className="resize-none break-keep bg-background pl-1 outline-none focus:border-none active:border-none "
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           wrap="off"
           value={doc}
-        >
-        </textarea>
+        />
       </div>
     </div>
   )
