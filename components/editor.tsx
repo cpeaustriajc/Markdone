@@ -62,7 +62,7 @@ export function Editor({
         Markdown Editor
       </label>
       <div className="flex flex-row overflow-auto">
-        <div className="flex w-8 flex-col items-end border-r px-2">
+        <div className="flex h-fit w-8 flex-col items-end border-r px-2">
           <LineNumbers />
         </div>
         <textarea
