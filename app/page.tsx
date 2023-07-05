@@ -6,7 +6,7 @@ export default function HomePage() {
   return (
     <>
       <Header />
-      <main className="flex h-full flex-col md:flex-row">
+      <main className="flex h-[calc(100%-4rem)] flex-col md:flex-row">
         <Editor />
         <Preview />
       </main>
