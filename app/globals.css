@@ -76,7 +76,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-.cm-editor {
-  height: 100%;
-}
