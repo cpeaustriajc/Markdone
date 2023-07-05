@@ -4,6 +4,7 @@ import Providers from './providers'
 
 export const metadata = {
   title: 'Markdone | Get more things done with Markdone!',
+  description: 'Get more things done with Markdone!',
   icons: {
     apple: {
       sizes: '180x180',
