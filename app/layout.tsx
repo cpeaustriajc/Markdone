@@ -52,7 +52,7 @@ export default function RootLayout({ children }: Props) {
       className={`${inter.variable} ${roboto_mono.variable} h-full`}
       suppressHydrationWarning
     >
-      <body className="h-full">
+      <body className="h-full bg-background text-foreground">
         <Providers>{children}</Providers>
       </body>
     </html>
