@@ -17,6 +17,7 @@ import { Button } from './ui/button'
 export function Header() {
 	const [doc, setDoc] = useAtom(markdownAtom)
 	const [filename, setFilename] = useAtom(filenameAtom)
+
 	const openFile = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const reader = new FileReader()
 
@@ -64,7 +65,7 @@ export function Header() {
 			</Sheet>
 
 			<h2 className="scroll-m-20 text-xl font-semibold tracking-tight">
-				{filename}
+				{filename.substring(0, filename.lastIndexOf('.'))}
 			</h2>
 		</header>
 	)
