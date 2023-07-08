@@ -16,13 +16,13 @@ engineers bootstrapped this project.
 
 ## Tech Stack
 
-- [Next.js][nextjs]
-- [Tailwind CSS][tailwindcss]
-- [shadcn/ui]
+-   [Next.js][nextjs]
+-   [Tailwind CSS][tailwindcss]
+-   [shadcn/ui]
 
 ## Features
 
-- Markdown Preview
+-   Markdown Preview
 
 ## Running Locally
 
@@ -40,7 +40,7 @@ pnpm dev
 
 [devaslife]: https://www.youtube.com/watch?v=gxBis8EgoAg
 [0xsuk]:
-  https://0xsuk.github.io/posts/2022-03-25-build-your-own-markdown-editor-with-react.js-and-codemirror-6/
+	https://0xsuk.github.io/posts/2022-03-25-build-your-own-markdown-editor-with-react.js-and-codemirror-6/
 [nextjs]: https://nextjs.org
 [tailwindcss]: https://tailwindcss.com
 [markdone]: https://markdone.jaycedotbin.me
