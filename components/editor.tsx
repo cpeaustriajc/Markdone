@@ -76,6 +76,7 @@ export function Editor({
           onKeyDown={handleKeyDown}
           wrap="off"
           value={doc}
+          aria-label="Markdown Input"
         />
       </div>
     </div>
