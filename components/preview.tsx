@@ -1,9 +1,9 @@
 'use client'
 
-import remarkGfm from 'remark-gfm'
-import ReactMarkdown from 'react-markdown'
 import { markdownAtom } from '@/app/store'
 import { useAtom } from 'jotai'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 export function Preview({
   previewRef,

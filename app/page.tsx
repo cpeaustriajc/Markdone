@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { Editor } from '@/components/editor'
 import { Header } from '@/components/header'

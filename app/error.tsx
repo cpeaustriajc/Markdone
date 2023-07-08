@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect } from 'react'
-import { ReloadIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
+import { ReloadIcon } from '@radix-ui/react-icons'
+import { useEffect } from 'react'
 
 export default function Error({
   error,
