@@ -6,28 +6,6 @@ import { Toaster } from '@/components/ui/toaster'
 export const metadata = {
 	title: 'Markdone | Get more things done with Markdone!',
 	description: 'Get more things done with Markdone!',
-	icons: {
-		apple: {
-			sizes: '180x180',
-			url: '/apple-touch-icon.png',
-		},
-		icon: [
-			{
-				type: 'image/png',
-				sizes: '32x32',
-				url: '/favicon-32x32.png',
-			},
-			{
-				type: 'image/png',
-				sizes: '16x16',
-				url: '/favicon-16x16.png',
-			},
-			{
-				type: 'image/x-icon',
-				url: '/favicon.ico',
-			},
-		],
-	},
 	colorScheme: 'dark light',
 	manifest: '/site.webmanifest',
 }
