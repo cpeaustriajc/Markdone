@@ -5,6 +5,8 @@ import { Editor } from '@/components/editor'
 import { Header } from '@/components/header'
 import { Preview } from '@/components/preview'
 
+export const runtime = 'edge'
+
 function useSyncScroll(
 	ref1: React.RefObject<HTMLDivElement>,
 	ref2: React.RefObject<HTMLDivElement>,

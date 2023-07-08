@@ -20,12 +20,14 @@
 		"@radix-ui/react-separator": "^1.0.3",
 		"@radix-ui/react-slot": "^1.0.2",
 		"@radix-ui/react-toast": "^1.1.4",
+		"ai": "^2.1.17",
 		"class-variance-authority": "^0.6.1",
 		"clsx": "^1.2.1",
 		"eslint-config-next": "^13.4.9",
 		"jotai": "^2.2.2",
 		"next": "^13.4.9",
 		"next-themes": "^0.2.1",
+		"openai-edge": "^1.2.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-markdown": "^8.0.7",
@@ -45,6 +47,7 @@
 		"prettier": "^2.8.8",
 		"prettier-plugin-tailwindcss": "^0.3.0",
 		"tailwindcss": "^3.3.2",
-		"typescript": "^5.1.6"
+		"typescript": "^5.1.6",
+		"zod": "^3.21.4"
 	}
 }

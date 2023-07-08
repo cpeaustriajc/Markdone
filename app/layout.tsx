@@ -1,6 +1,7 @@
 import './globals.css'
 import { Inter, Roboto_Mono } from 'next/font/google'
 import Providers from './providers'
+import { Toaster } from '@/components/ui/toaster'
 
 export const metadata = {
 	title: 'Markdone | Get more things done with Markdone!',
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: Props) {
 			suppressHydrationWarning>
 			<body className="h-full bg-background text-foreground">
 				<Providers>{children}</Providers>
+				<Toaster />
 			</body>
 		</html>
 	)
