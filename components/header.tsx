@@ -20,13 +20,21 @@ export function Header() {
 
 	const openFile = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const reader = new FileReader()
+		reader.readAsText(e.target.files![0])
 
 		reader.onload = () => {
 			let text = reader.result
 			setDoc(text as string)
-		}
+			localStorage.removeItem('markdown')
+			localStorage.setItem(
+				'markdown',
+				JSON.stringify({
+					filename: e.target.files![0].name,
+					content: reader.result,
+				}),
 
-		reader.readAsText(e.target.files![0])
+			)
+		}
 	}
 
 	const saveFile = () => {

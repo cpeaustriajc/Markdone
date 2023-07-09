@@ -1,7 +1,7 @@
 'use client'
 
-import { markdownAtom } from '@/app/store'
-import { useAtom } from 'jotai'
+import { filenameAtom, markdownAtom } from '@/app/store'
+import { useAtom, useAtomValue } from 'jotai'
 import { memo, useMemo, useRef } from 'react'
 
 export function Editor({
@@ -10,6 +10,7 @@ export function Editor({
 	editorRef: React.MutableRefObject<HTMLDivElement | null>
 }) {
 	const [doc, setDoc] = useAtom(markdownAtom)
+	const filename = useAtomValue(filenameAtom)
 	const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
 	const lineNumber = useMemo(() => doc.split('\n').length, [doc])
@@ -23,6 +24,7 @@ export function Editor({
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		e.preventDefault()
 		setDoc(e.target.value)
+		localStorage.setItem('markdown', JSON.stringify({ filename: filename, content: e.target.value }))
 	}
 
 	const insertTab = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
