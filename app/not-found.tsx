@@ -1,8 +1,6 @@
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-export const runtime = 'edge'
-
 export default function NotFound() {
 	return (
 		<main className="flex h-full flex-col items-center justify-center">

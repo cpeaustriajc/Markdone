@@ -6,8 +6,6 @@ import { Header } from '@/components/header'
 import { Preview } from '@/components/preview'
 import { Separator } from '@/components/ui/separator'
 
-export const runtime = 'edge'
-
 function useSyncScroll(
 	ref1: React.RefObject<HTMLDivElement>,
 	ref2: React.RefObject<HTMLDivElement>,

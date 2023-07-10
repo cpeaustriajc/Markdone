@@ -24,6 +24,7 @@ dist-ssr
 *.sw?
 
 .next
+out
 
 # Sentry Auth Token
 .sentryclirc
