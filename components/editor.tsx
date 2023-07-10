@@ -4,22 +4,17 @@ import { filenameAtom, markdownAtom } from '@/app/store'
 import { useAtom, useAtomValue } from 'jotai'
 import { memo, useMemo, useRef } from 'react'
 
-export function Editor({
-	editorRef,
-}: {
+interface EditorProps {
 	editorRef: React.MutableRefObject<HTMLDivElement | null>
-}) {
+}
+export function Editor({ editorRef }: EditorProps) {
 	const [doc, setDoc] = useAtom(markdownAtom)
 	const filename = useAtomValue(filenameAtom)
 	const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
 	const lineNumber = useMemo(() => doc.split('\n').length, [doc])
-	const longestString = useMemo(
-		() =>
-			doc.split('\n').reduce((a, b) => (a.length > b.length ? a : b))
-				.length,
-		[doc],
-	)
+	// prettier-ignore
+	const longestString = useMemo(() => doc.split('\n').reduce((a, b) => (a.length > b.length ? a : b)).length, [doc])
 
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		e.preventDefault()
@@ -32,10 +27,8 @@ export function Editor({
 		const start = textArea.selectionStart
 		const end = textArea.selectionEnd
 
-		textArea.value =
-			textAreaRef.current?.value.substring(0, start) +
-			'\t' +
-			textAreaRef.current?.value.substring(end)
+		// prettier-ignore
+		textArea.value = textAreaRef.current?.value.substring(0, start) + '\t' + textAreaRef.current?.value.substring(end)
 
 		e.preventDefault()
 	}
@@ -57,9 +50,7 @@ export function Editor({
 	LineNumbers.displayName = 'LineNumbers'
 
 	return (
-		<div
-			ref={editorRef}
-			className="shrink-0 grow-0 basis-1/2 overflow-auto font-mono text-sm">
+		<div ref={editorRef} className="shrink-0 grow-0 basis-1/2 overflow-auto font-mono text-sm">
 			<label htmlFor="markdown-editor" className="sr-only">
 				Markdown Editor
 			</label>

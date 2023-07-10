@@ -18,9 +18,7 @@ export default function HomePage() {
 			<Header />
 			<main className="flex h-[calc(100%-4rem)] flex-col md:flex-row">
 				<Editor editorRef={editorRef} />
-				<Separator
-					orientation={isDesktop ? 'vertical' : 'horizontal'}
-				/>
+				<Separator orientation={isDesktop ? 'vertical' : 'horizontal'} />
 				<Preview previewRef={previewRef} />
 			</main>
 		</>

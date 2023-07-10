@@ -4,13 +4,7 @@ import { Button } from '@/components/ui/button'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { useEffect } from 'react'
 
-export default function Error({
-	error,
-	reset,
-}: {
-	error: Error
-	reset: () => void
-}) {
+export default function Error({ error, reset }: { error: Error; reset: () => void }) {
 	useEffect(() => {
 		console.error(error)
 	}, [error])
@@ -18,9 +12,7 @@ export default function Error({
 	return (
 		<main className="flex h-full flex-col items-center justify-center gap-4">
 			<section>
-				<strong className="text-lg font-semibold">
-					Something went wrong!
-				</strong>
+				<strong className="text-lg font-semibold">Something went wrong!</strong>
 			</section>
 			<section>
 				<Button onClick={() => reset()}>

@@ -4,7 +4,7 @@
 	"semi": false,
 	"singleQuote": true,
 	"proseWrap": "always",
-	"printWidth": 80,
+	"printWidth": 120,
 	"arrowParens": "avoid",
 	"bracketSameLine": true,
 	"trailingComma": "all",

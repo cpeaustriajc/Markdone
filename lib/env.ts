@@ -1,4 +1,4 @@
-import { z } from "zod"
+import { z } from 'zod'
 
 const environmentVariables = z.object({
 	OPENAI_API_KEY: z.string(),

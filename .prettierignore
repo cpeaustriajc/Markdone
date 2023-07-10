@@ -1,4 +1,5 @@
 .next
+out
 .vercel
 pnpm-lock.yaml
 package-lock.json

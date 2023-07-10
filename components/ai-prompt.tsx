@@ -7,35 +7,31 @@ import { Button } from './ui/button'
 import { toast } from './ui/use-toast'
 
 export default function AIPrompt() {
-	const { completion, isLoading, input, handleInputChange, handleSubmit } = useCompletion(
-		{
-			api: '/api/completion',
-			onResponse: res => {
-				switch (res.status) {
-					case 429:
-						toast({
-							variant: 'destructive',
-							title: 'Uh oh! Something went wrong.',
-							description:
-								'You are being rate limited. Please try again later.',
-						})
-					case 500:
-						toast({
-							variant: 'destructive',
-							title: 'Uh oh! Something went wrong.',
-							description:
-								'Something went wrong with out servers. Please try again later.',
-						})
-				}
-			},
-			onFinish: () => {
-				toast({
-					title: 'Success!',
-					description: 'Your markdown has been generated.',
-				})
-			},
+	const { completion, isLoading, input, handleInputChange, handleSubmit } = useCompletion({
+		api: '/api/completion',
+		onResponse: res => {
+			switch (res.status) {
+				case 429:
+					toast({
+						variant: 'destructive',
+						title: 'Uh oh! Something went wrong.',
+						description: 'You are being rate limited. Please try again later.',
+					})
+				case 500:
+					toast({
+						variant: 'destructive',
+						title: 'Uh oh! Something went wrong.',
+						description: 'Something went wrong with out servers. Please try again later.',
+					})
+			}
 		},
-	)
+		onFinish: () => {
+			toast({
+				title: 'Success!',
+				description: 'Your markdown has been generated.',
+			})
+		},
+	})
 
 	return (
 		<div className="flex h-screen flex-col items-center justify-center">
@@ -59,14 +55,12 @@ export default function AIPrompt() {
 						disabled={isLoading}>
 						Submit
 					</Button>
-					<Button
-						className="relative bottom-0 mb-8 max-w-xs rounded p-2"
-						variant="destructive">
+					<Button className="relative bottom-0 mb-8 max-w-xs rounded p-2" variant="destructive">
 						Stop
 					</Button>
 				</div>
 			</form>
-			<output className='whitespace-pre-wrap my-6'>{completion}</output>
+			<output className="my-6 whitespace-pre-wrap">{completion}</output>
 		</div>
 	)
 }
