@@ -5,10 +5,13 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
 import { useAtom } from 'jotai'
 import { Button } from './ui/button'
+import { useDrafts } from '@/context/drafts-context'
 
 export function Menu() {
 	const [filename, setFilename] = useAtom(filenameAtom)
 	const [doc, setDoc] = useAtom(filenameAtom)
+	const { state, dispatch } = useDrafts()
+
 
 	const openFile = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const reader = new FileReader()

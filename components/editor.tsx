@@ -1,6 +1,7 @@
 'use client'
 
 import { filenameAtom, markdownAtom } from '@/app/store'
+import { useDrafts } from '@/context/drafts-context'
 import { useAtom, useAtomValue } from 'jotai'
 import { memo, useMemo, useRef } from 'react'
 
@@ -10,6 +11,8 @@ interface EditorProps {
 export function Editor({ editorRef }: EditorProps) {
 	const [doc, setDoc] = useAtom(markdownAtom)
 	const filename = useAtomValue(filenameAtom)
+	const { state, dispatch } = useDrafts()
+
 	const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
 	const lineNumber = useMemo(() => doc.split('\n').length, [doc])
@@ -18,6 +21,15 @@ export function Editor({ editorRef }: EditorProps) {
 
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		e.preventDefault()
+
+		dispatch({
+			type: 'UPDATE_DRAFT',
+			payload: {
+				id: '1',
+				content: e.target.value,
+			},
+		})
+
 		setDoc(e.target.value)
 		localStorage.setItem('markdown', JSON.stringify({ filename: filename, content: e.target.value }))
 	}
@@ -68,7 +80,7 @@ export function Editor({ editorRef }: EditorProps) {
 					onChange={handleChange}
 					onKeyDown={handleKeyDown}
 					wrap="off"
-					value={doc}
+					value={state.drafts.find(draft => draft.id === '1')?.content ?? ''}
 					aria-label="Markdown Input"
 				/>
 			</div>
