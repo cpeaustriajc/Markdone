@@ -1,17 +1,23 @@
-import { createContext, useContext, useState } from 'react'
+import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react'
 
 export interface UserPreferenceData {
-	activeDraftId: number
+	activeDraftId: number | undefined
 }
 
 type UserPreferenceProviderProps = { children: React.ReactNode }
+type UserPreferenceContext = {
+	userPreference: UserPreferenceData
+	setUserPreference: Dispatch<SetStateAction<UserPreferenceData>> | undefined
+}
 
-const UserPreference = createContext<UserPreferenceData | undefined>(undefined)
+const UserPreference = createContext<UserPreferenceContext | undefined>(undefined)
 
 function UserPreferenceProvider({ children }: UserPreferenceProviderProps) {
-	const [userPreference, setUserPreference] = useState<UserPreferenceData>()
+	const [userPreference, setUserPreference] = useState<UserPreferenceData>({ activeDraftId: 1 })
 
-	return <UserPreference.Provider value={userPreference}>{children}</UserPreference.Provider>
+	const value = { userPreference, setUserPreference }
+
+	return <UserPreference.Provider value={value}>{children}</UserPreference.Provider>
 }
 
 function useUserPreference() {

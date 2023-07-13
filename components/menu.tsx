@@ -1,17 +1,12 @@
-import { filenameAtom } from '@/app/store'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
-import { useAtom } from 'jotai'
 import { Button } from './ui/button'
 import { useDrafts } from '@/context/drafts-context'
 
 export function Menu() {
-	const [filename, setFilename] = useAtom(filenameAtom)
-	const [doc, setDoc] = useAtom(filenameAtom)
 	const { state, dispatch } = useDrafts()
-
 
 	const openFile = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const reader = new FileReader()
@@ -22,8 +17,17 @@ export function Menu() {
 
 		reader.onload = () => {
 			let text = reader.result
-			setDoc(text as string)
 			if (e.target.files === null) throw new Error('No file selected')
+
+			dispatch({
+				type: 'UPDATE_DRAFT',
+				payload: {
+					id: 1,
+					filename: e.target.files[0].name,
+					content: text as string,
+				},
+			})
+
 			localStorage.removeItem('markdown')
 			localStorage.setItem(
 				'markdown',
@@ -37,28 +41,42 @@ export function Menu() {
 
 	const saveFile = () => {
 		const element = document.createElement('a')
-		const file = new Blob([doc], { type: 'text/markdown; charset=UTF-8; variant=GFM' })
+		const file = new Blob([state.drafts.find(draft => draft.id === 1)!.filename], {
+			type: 'text/markdown; charset=UTF-8; variant=GFM',
+		})
 		element.href = URL.createObjectURL(file)
-		element.download = filename
+		element.download = state.drafts.find(draft => draft.id === 1)!.filename
 		document.body.appendChild(element)
 		element.click()
 	}
 
-return (	<Sheet>
-	<SheetTrigger>
-		<span className="sr-only">Open Menu</span> <HamburgerMenuIcon className="h-6 w-6" />
-	</SheetTrigger>
-	<SheetContent side="left">
-		<SheetHeader>
-			<SheetTitle>Menu</SheetTitle>
-		</SheetHeader>
-		<div className="grid w-full gap-1.5">
-			<Label htmlFor="upload">Open File</Label>
-			<Input id="upload" type="file" onChange={openFile} />
-			<Label htmlFor="save">Save File</Label>
-			<Input id="save" value={filename} onChange={e => setFilename(e.target.value)} required />
-			<Button onClick={saveFile}>Save File</Button>
-		</div>
-	</SheetContent>
-</Sheet>)
+	return (
+		<Sheet>
+			<SheetTrigger>
+				<span className="sr-only">Open Menu</span> <HamburgerMenuIcon className="h-6 w-6" />
+			</SheetTrigger>
+			<SheetContent side="left">
+				<SheetHeader>
+					<SheetTitle>Menu</SheetTitle>
+				</SheetHeader>
+				<div className="grid w-full gap-1.5">
+					<Label htmlFor="upload">Open File</Label>
+					<Input id="upload" type="file" onChange={openFile} />
+					<Label htmlFor="save">Save File</Label>
+					<Input
+						id="save"
+						value={state.drafts.find(draft => draft.id === 1)!.filename}
+						onChange={e =>
+							dispatch({
+								type: 'UPDATE_DRAFT',
+								payload: { id: 1, filename: e.target.value, content: state.drafts.find(draft => draft.id === 1)!.content },
+							})
+						}
+						required
+					/>
+					<Button onClick={saveFile}>Save File</Button>
+				</div>
+			</SheetContent>
+		</Sheet>
+	)
 }
