@@ -69,7 +69,11 @@ export function Menu() {
 						onChange={e =>
 							dispatch({
 								type: 'UPDATE_DRAFT',
-								payload: { id: 1, filename: e.target.value, content: state.drafts.find(draft => draft.id === 1)!.content },
+								payload: {
+									id: 1,
+									filename: e.target.value,
+									content: state.drafts.find(draft => draft.id === 1)!.content,
+								},
 							})
 						}
 						required

@@ -11,6 +11,7 @@ export function Editor({ editorRef }: EditorProps) {
 
 	const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
+	//prettier-ignore
 	const lineNumber = useMemo(() => state.drafts.find(draft => draft.id === 1)?.content.split('\n').length, [state.drafts])
 	// prettier-ignore
 	const longestString = useMemo(() => state.drafts.find(draft => draft.id === 1)?.content.split('\n').reduce((a, b) => (a.length > b.length ? a : b)).length, [state.drafts])
@@ -27,7 +28,10 @@ export function Editor({ editorRef }: EditorProps) {
 			},
 		})
 
-		localStorage.setItem('markdown', JSON.stringify({ filename: state.drafts.find(draft => draft.id === 1), content: e.target.value }))
+		localStorage.setItem(
+			'markdown',
+			JSON.stringify({ filename: state.drafts.find(draft => draft.id === 1), content: e.target.value }),
+		)
 	}
 
 	const insertTab = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
