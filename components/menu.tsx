@@ -41,21 +41,23 @@ export function Menu() {
 		element.click()
 	}
 
-return (	<Sheet>
-	<SheetTrigger>
-		<span className="sr-only">Open Menu</span> <HamburgerMenuIcon className="h-6 w-6" />
-	</SheetTrigger>
-	<SheetContent side="left">
-		<SheetHeader>
-			<SheetTitle>Menu</SheetTitle>
-		</SheetHeader>
-		<div className="grid w-full gap-1.5">
-			<Label htmlFor="upload">Open File</Label>
-			<Input id="upload" type="file" onChange={openFile} />
-			<Label htmlFor="save">Save File</Label>
-			<Input id="save" value={filename} onChange={e => setFilename(e.target.value)} required />
-			<Button onClick={saveFile}>Save File</Button>
-		</div>
-	</SheetContent>
-</Sheet>)
+	return (
+		<Sheet>
+			<SheetTrigger>
+				<span className="sr-only">Open Menu</span> <HamburgerMenuIcon className="h-6 w-6" />
+			</SheetTrigger>
+			<SheetContent side="left">
+				<SheetHeader>
+					<SheetTitle>Menu</SheetTitle>
+				</SheetHeader>
+				<div className="grid w-full gap-1.5">
+					<Label htmlFor="upload">Open File</Label>
+					<Input id="upload" type="file" onChange={openFile} />
+					<Label htmlFor="save">Save File</Label>
+					<Input id="save" value={filename} onChange={e => setFilename(e.target.value)} required />
+					<Button onClick={saveFile}>Save File</Button>
+				</div>
+			</SheetContent>
+		</Sheet>
+	)
 }
