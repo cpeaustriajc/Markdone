@@ -1,6 +1,5 @@
 'use client'
 
-import { useDrafts } from '@/context/drafts-context'
 import { Fragment, ReactNode, createElement } from 'react'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
@@ -9,14 +8,12 @@ import remarkRehype from 'remark-rehype'
 import rehypeReact from 'rehype-react'
 
 export function Preview({ previewRef }: { previewRef: React.MutableRefObject<HTMLDivElement | null> }) {
-	const { state } = useDrafts()
-
 	const md = unified()
 		.use(remarkParse)
 		.use(remarkGfm)
 		.use(remarkRehype)
 		.use(rehypeReact, { createElement, Fragment })
-		.processSync(state.drafts.find(draft => draft.id === 1)?.content ?? '').result as ReactNode
+		.processSync('').result as ReactNode
 	return (
 		<div
 			ref={previewRef}

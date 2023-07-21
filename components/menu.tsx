@@ -22,7 +22,7 @@ export function Menu() {
 			dispatch({
 				type: 'UPDATE_DRAFT',
 				payload: {
-					id: 1,
+					id: '1',
 					filename: e.target.files[0].name,
 					content: text as string,
 				},
@@ -41,11 +41,11 @@ export function Menu() {
 
 	const saveFile = () => {
 		const element = document.createElement('a')
-		const file = new Blob([state.drafts.find(draft => draft.id === 1)!.filename], {
+		const file = new Blob([state.draft.filename], {
 			type: 'text/markdown; charset=UTF-8; variant=GFM',
 		})
 		element.href = URL.createObjectURL(file)
-		element.download = state.drafts.find(draft => draft.id === 1)!.filename
+		element.download = state.draft.filename
 		document.body.appendChild(element)
 		element.click()
 	}
@@ -65,14 +65,14 @@ export function Menu() {
 					<Label htmlFor="save">Save File</Label>
 					<Input
 						id="save"
-						value={state.drafts.find(draft => draft.id === 1)!.filename}
+						value={state.draft.filename}
 						onChange={e =>
 							dispatch({
 								type: 'UPDATE_DRAFT',
 								payload: {
-									id: 1,
+									id: '1',
 									filename: e.target.value,
-									content: state.drafts.find(draft => draft.id === 1)!.content,
+									content: state.draft.content,
 								},
 							})
 						}

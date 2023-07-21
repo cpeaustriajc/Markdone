@@ -1,12 +1,11 @@
+import { Dispatch } from 'react';
 import { MarkdownData } from './markdown-data'
 
-export type State = {
-	drafts: Array<MarkdownData>
-}
-export type Action = {
-	type: 'CREATE_DRAFT' | 'READ_DRAFT' | 'UPDATE_DRAFT' | 'DELETE_DRAFT'
-	payload: MarkdownData
-}
-type Dispatch = (action: Action) => void
+export type State = { draft: MarkdownData }
+export type Action =
+	| { type: 'CREATE_DRAFT'; payload: string }
+	| { type: 'READ_DRAFT'; payload: MarkdownData }
+	| { type: 'UPDATE_DRAFT'; payload: MarkdownData }
+	| { type: 'DELETE_DRAFT'; payload: string }
 export type DraftsProviderProps = { children: React.ReactNode }
-export type DraftsContext = { state: State; dispatch: Dispatch }
+export type DraftContext = { state: State; dispatch: Dispatch<Action> }

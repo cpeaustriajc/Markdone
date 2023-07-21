@@ -1,5 +1,5 @@
 export interface MarkdownData {
-	id: number
+	id: string
 	filename: string
 	content: string
 }

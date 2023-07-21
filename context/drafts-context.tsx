@@ -1,79 +1,71 @@
-import { getSavedDrafts } from '@/lib/utils'
 import { useReducer, createContext, useContext } from 'react'
-import { DraftsContext, State, Action, DraftsProviderProps } from '@/types/drafts-context'
+import { DraftContext, State, Action, DraftsProviderProps } from '@/types/drafts-context'
+import { MarkdownData } from '@/types/markdown-data'
 
-const savedDrafts = getSavedDrafts()
+const DraftContext = createContext<DraftContext | undefined>(undefined)
 
-const DraftsContext = createContext<DraftsContext | undefined>(undefined)
-
-function draftsReducer(state: State, action: Action) {
+function draftReducer(state: State, action: Action): State {
 	switch (action.type) {
 		case 'CREATE_DRAFT':
+			const newDraft: MarkdownData = {
+				id: Math.random().toString(36).substring(7),
+				filename: 'New File.md',
+				content: action.payload,
+			}
 			return {
-				...state,
-				drafts: [...state.drafts, action.payload],
+				draft: newDraft,
 			}
 		case 'READ_DRAFT':
 			return {
 				...state,
-				drafts: state.drafts.map(draft => {
-					if (draft.id === action.payload.id) {
-						return {
-							...draft,
-							filename: action.payload.filename,
-							content: action.payload.content,
-						}
-					}
-					return draft
-				}),
+				draft: { id: action.payload.id, filename: action.payload.filename, content: action.payload.content },
 			}
 		case 'UPDATE_DRAFT':
 			return {
 				...state,
-				drafts: state.drafts.map(draft => {
-					if (draft.id === action.payload.id) {
-						return {
-							...draft,
-							content: action.payload.content,
-						}
-					}
-					return draft
-				}),
+				draft: {
+					id: action.payload.id,
+					filename: action.payload.filename,
+					content: action.payload.content,
+				},
 			}
 		case 'DELETE_DRAFT':
 			return {
 				...state,
-				drafts: state.drafts.filter(draft => draft.id !== action.payload.id),
+				draft: {
+					id: '',
+					filename: '',
+					content: '',
+				},
 			}
 		default:
 			return state
 	}
 }
 
-function DraftsContextProvider({ children }: DraftsProviderProps) {
-	const [state, dispatch] = useReducer(draftsReducer, {
-		drafts: [
-			{
-				id: savedDrafts?.id ?? 1,
-				filename: savedDrafts?.filename ?? 'Getting Started.md',
-				content:
-					savedDrafts?.content ??
-					'Learn more about markdown in [Markdown Guide](https://www.markdownguide.org/)',
-			},
-		],
-	})
+const initialState: State = {
+	draft: {
+		id: '',
+		filename: '',
+		content: '',
+	},
+}
+
+
+function DraftContextProvider({ children }: DraftsProviderProps) {
+	const [state, dispatch] = useReducer(draftReducer, initialState)
 
 	const value = { state, dispatch }
 
-	return <DraftsContext.Provider value={value}>{children}</DraftsContext.Provider>
+	return <DraftContext.Provider value={value}>{children}</DraftContext.Provider>
 }
 
 function useDrafts() {
-	const context = useContext(DraftsContext)
+	const context = useContext(DraftContext)
 	if (context === undefined) {
 		throw new Error('useDrafts must be used within a DraftsContextProvider')
 	}
 	return context
 }
 
-export { DraftsContextProvider, useDrafts }
+export { DraftContextProvider as DraftsContextProvider, useDrafts }

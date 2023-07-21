@@ -1,37 +1,21 @@
 'use client'
 
 import { useDrafts } from '@/context/drafts-context'
-import { memo, useMemo, useRef } from 'react'
+import { memo, useRef } from 'react'
 
 interface EditorProps {
 	editorRef: React.MutableRefObject<HTMLDivElement | null>
 }
 export function Editor({ editorRef }: EditorProps) {
 	const { state, dispatch } = useDrafts()
-
+	const { content } = state.draft
 	const textAreaRef = useRef<HTMLTextAreaElement>(null)
-
-	//prettier-ignore
-	const lineNumber = useMemo(() => state.drafts.find(draft => draft.id === 1)?.content.split('\n').length, [state.drafts])
-	// prettier-ignore
-	const longestString = useMemo(() => state.drafts.find(draft => draft.id === 1)?.content.split('\n').reduce((a, b) => (a.length > b.length ? a : b)).length, [state.drafts])
+	const lineNumber =  state.draft.content.split('\n').length
+	const longestString =  state.draft.content.split('\n').reduce((a, b) => (a.length > b.length ? a : b)).length
 
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		e.preventDefault()
-
-		dispatch({
-			type: 'UPDATE_DRAFT',
-			payload: {
-				id: 1,
-				filename: state.drafts.find(draft => draft.id === 1)?.filename ?? '',
-				content: e.target.value,
-			},
-		})
-
-		localStorage.setItem(
-			'markdown',
-			JSON.stringify({ filename: state.drafts.find(draft => draft.id === 1), content: e.target.value }),
-		)
+		dispatch({ type: 'UPDATE_DRAFT', payload: { id: state.draft.id, filename: state.draft.filename, content: e.target.value } })
 	}
 
 	const insertTab = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -80,7 +64,7 @@ export function Editor({ editorRef }: EditorProps) {
 					onChange={handleChange}
 					onKeyDown={handleKeyDown}
 					wrap="off"
-					value={state.drafts.find(draft => draft.id === 1)?.content ?? ''}
+					value={content}
 					aria-label="Markdown Input"
 				/>
 			</div>

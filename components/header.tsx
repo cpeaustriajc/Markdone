@@ -10,9 +10,7 @@ export function Header() {
 		<header className="flex h-16 items-center gap-1.5 border-b bg-background px-4 text-foreground">
 			<Menu />
 			<h2 className="scroll-m-20 text-xl font-semibold tracking-tight">
-				{state.drafts
-					.find(draft => draft.id === 1)
-					?.filename.substring(0, state.drafts.find(draft => draft.id === 1)?.filename.lastIndexOf('.'))}
+				{state.draft.filename}
 			</h2>
 		</header>
 	)
