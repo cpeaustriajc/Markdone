@@ -1,8 +1,6 @@
 import { UserPreferenceContext, UserPreferenceData, UserPreferenceProviderProps } from '@/types/user-preference-context'
 import { createContext, useContext, useState } from 'react'
 
-
-
 const UserPreference = createContext<UserPreferenceContext | undefined>(undefined)
 
 function UserPreferenceProvider({ children }: UserPreferenceProviderProps) {

@@ -1,4 +1,4 @@
-import { MarkdownData } from "./markdown-data"
+import { MarkdownData } from './markdown-data'
 
 export type State = {
 	drafts: Array<MarkdownData>

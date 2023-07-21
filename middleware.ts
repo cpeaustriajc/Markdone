@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
 		secure: true,
 		sameSite: 'strict',
 		expires: new Date(60 * 60 * 24 * 365 * 10 * 1000 + Date.now()),
-		priority: 'high'
+		priority: 'high',
 	})
 
 	return response

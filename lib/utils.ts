@@ -13,7 +13,8 @@ export function getSavedDrafts(): MarkdownData | undefined {
 		const markdown = localStorage.getItem('markdown')
 
 		if (!markdown) {
-			throw new Error('No markdown found in local storage')
+			console.error('No markdown found in local storage')
+			throw new Error()
 		}
 		return JSON.parse(markdown.toString())
 	} catch (error) {
