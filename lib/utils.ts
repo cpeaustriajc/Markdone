@@ -1,5 +1,5 @@
-import { MarkdownData } from '@/context/drafts-context'
-import { type ClassValue, clsx } from 'clsx'
+import { MarkdownData } from '@/types/markdown-data'
+import { ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {

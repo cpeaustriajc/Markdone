@@ -1,22 +1,6 @@
 import { getSavedDrafts } from '@/lib/utils'
 import { useReducer, createContext, useContext } from 'react'
-
-export interface MarkdownData {
-	id: number
-	filename: string
-	content: string
-}
-
-type State = {
-	drafts: Array<MarkdownData>
-}
-type Action = {
-	type: 'CREATE_DRAFT' | 'READ_DRAFT' | 'UPDATE_DRAFT' | 'DELETE_DRAFT'
-	payload: MarkdownData
-}
-type Dispatch = (action: Action) => void
-type DraftsProviderProps = { children: React.ReactNode }
-type DraftsContext = { state: State; dispatch: Dispatch }
+import { DraftsContext, State, Action, DraftsProviderProps } from '@/types/drafts-context'
 
 const DraftsContext = createContext<DraftsContext | undefined>(undefined)
 

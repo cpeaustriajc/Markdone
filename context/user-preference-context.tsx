@@ -1,14 +1,7 @@
-import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react'
+import { UserPreferenceContext, UserPreferenceData, UserPreferenceProviderProps } from '@/types/user-preference-context'
+import { createContext, useContext, useState } from 'react'
 
-export interface UserPreferenceData {
-	activeDraftId: number | undefined
-}
 
-type UserPreferenceProviderProps = { children: React.ReactNode }
-type UserPreferenceContext = {
-	userPreference: UserPreferenceData
-	setUserPreference: Dispatch<SetStateAction<UserPreferenceData>> | undefined
-}
 
 const UserPreference = createContext<UserPreferenceContext | undefined>(undefined)
 
