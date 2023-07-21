@@ -2,6 +2,8 @@ import { getSavedDrafts } from '@/lib/utils'
 import { useReducer, createContext, useContext } from 'react'
 import { DraftsContext, State, Action, DraftsProviderProps } from '@/types/drafts-context'
 
+const savedDrafts = getSavedDrafts()
+
 const DraftsContext = createContext<DraftsContext | undefined>(undefined)
 
 function draftsReducer(state: State, action: Action) {
@@ -47,8 +49,6 @@ function draftsReducer(state: State, action: Action) {
 			return state
 	}
 }
-
-const savedDrafts = getSavedDrafts()
 
 function DraftsContextProvider({ children }: DraftsProviderProps) {
 	const [state, dispatch] = useReducer(draftsReducer, {
