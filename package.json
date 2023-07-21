@@ -5,7 +5,7 @@
 	"type": "module",
 	"license": "MIT",
 	"scripts": {
-		"dev": "next dev --turbo",
+		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
@@ -22,7 +22,6 @@
 		"@radix-ui/react-toast": "^1.1.4",
 		"ai": "^2.1.22",
 		"next": "^13.4.11",
-		"next-themes": "^0.2.1",
 		"openai-edge": "^1.2.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",

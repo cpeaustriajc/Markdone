@@ -2,6 +2,7 @@ import { Toaster } from '@/components/ui/toaster'
 import { Inter, Roboto_Mono } from 'next/font/google'
 import './globals.css'
 import Providers from './providers'
+import { getTheme } from './actions'
 
 export const metadata = {
 	title: 'Markdone | Get more things done with Markdone!',
@@ -25,8 +26,9 @@ interface Props {
 }
 
 export default function RootLayout({ children }: Props) {
+	const theme = getTheme()
 	return (
-		<html lang="en" className={`${inter.variable} ${roboto_mono.variable} h-full`} suppressHydrationWarning>
+		<html lang="en" className={`${inter.variable} ${roboto_mono.variable} h-full ${theme}`}>
 			<body className="h-full bg-background text-foreground">
 				<Providers>{children}</Providers>
 				<Toaster />
