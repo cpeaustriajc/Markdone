@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 
 export function getTheme() {
-	return cookies().get('theme')?.value ?? 'light'
+	return cookies().get('theme')?.value ?? 'dark'
 }
 
 export async function setTheme(theme: string) {
