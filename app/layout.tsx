@@ -28,7 +28,10 @@ interface Props {
 export default function RootLayout({ children }: Props) {
 	const theme = getTheme()
 	return (
-		<html lang="en" className={`${inter.variable} ${roboto_mono.variable} h-full ${theme}`}>
+		<html
+			lang="en"
+			className={`${inter.variable} ${roboto_mono.variable} h-full ${theme}`}
+			style={{ colorScheme: theme }}>
 			<body className="h-full bg-background text-foreground">
 				<Providers>{children}</Providers>
 				<Toaster />
