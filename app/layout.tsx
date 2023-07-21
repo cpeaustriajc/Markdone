@@ -1,4 +1,3 @@
-import { Toaster } from '@/components/ui/toaster'
 import { Inter, Roboto_Mono } from 'next/font/google'
 import './globals.css'
 import Providers from './providers'
@@ -34,7 +33,6 @@ export default function RootLayout({ children }: Props) {
 			style={{ colorScheme: theme }}>
 			<body className="h-full bg-background text-foreground">
 				<Providers>{children}</Providers>
-				<Toaster />
 			</body>
 		</html>
 	)
