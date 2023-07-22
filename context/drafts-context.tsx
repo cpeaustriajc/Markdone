@@ -45,9 +45,9 @@ function draftReducer(state: State, action: Action): State {
 
 const initialState: State = {
 	draft: {
-		id: '',
-		filename: '',
-		content: '',
+		id: '0',
+		filename: 'Getting Started.md',
+		content: 'Get started with markdown via [Markdown Guide](https://www.markdownguide.org/)',
 	},
 }
 
