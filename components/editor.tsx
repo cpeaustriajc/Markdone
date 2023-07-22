@@ -10,12 +10,15 @@ export function Editor({ editorRef }: EditorProps) {
 	const { state, dispatch } = useDrafts()
 	const { content } = state.draft
 	const textAreaRef = useRef<HTMLTextAreaElement>(null)
-	const lineNumber =  state.draft.content.split('\n').length
-	const longestString =  state.draft.content.split('\n').reduce((a, b) => (a.length > b.length ? a : b)).length
+	const lineNumber = state.draft.content.split('\n').length
+	const longestString = state.draft.content.split('\n').reduce((a, b) => (a.length > b.length ? a : b)).length
 
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		e.preventDefault()
-		dispatch({ type: 'UPDATE_DRAFT', payload: { id: state.draft.id, filename: state.draft.filename, content: e.target.value } })
+		dispatch({
+			type: 'UPDATE_DRAFT',
+			payload: { id: state.draft.id, filename: state.draft.filename, content: e.target.value },
+		})
 	}
 
 	const insertTab = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

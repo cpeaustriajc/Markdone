@@ -51,7 +51,6 @@ const initialState: State = {
 	},
 }
 
-
 function DraftContextProvider({ children }: DraftsProviderProps) {
 	const [state, dispatch] = useReducer(draftReducer, initialState)
 

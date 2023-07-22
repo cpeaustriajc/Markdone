@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch } from 'react'
 import { MarkdownData } from './markdown-data'
 
 export type State = { draft: MarkdownData }

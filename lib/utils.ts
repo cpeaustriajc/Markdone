@@ -12,11 +12,11 @@ export function getSavedDrafts(): MarkdownData | undefined {
 
 		const markdown = localStorage.getItem('markdown')
 
-		if (markdown === null) return undefined;
+		if (markdown === null) return undefined
 
 		return JSON.parse(markdown) as MarkdownData
 	} catch (error) {
-		console.log('Error while parsing saved drafts: ',error)
+		console.log('Error while parsing saved drafts: ', error)
 		return undefined
 	}
 }
