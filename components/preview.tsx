@@ -6,14 +6,17 @@ import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
 import rehypeReact from 'rehype-react'
+import { useDrafts } from '@/context/drafts-context'
 
 export function Preview({ previewRef }: { previewRef: React.MutableRefObject<HTMLDivElement | null> }) {
+	const { state } = useDrafts()
+
 	const md = unified()
 		.use(remarkParse)
 		.use(remarkGfm)
 		.use(remarkRehype)
 		.use(rehypeReact, { createElement, Fragment })
-		.processSync('').result as ReactNode
+		.processSync(state.draft.content).result as ReactNode
 	return (
 		<div
 			ref={previewRef}
