@@ -1,5 +1,5 @@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-import { HamburgerMenuIcon } from '@radix-ui/react-icons'
+import { HamburgerMenuIcon, FilePlusIcon, FileIcon } from '@radix-ui/react-icons'
 import { Button } from './ui/button'
 import { useDrafts } from '@/context/drafts-context'
 import { useEffect, useState } from 'react'
@@ -35,12 +35,14 @@ export function Sidebar() {
 						onClick={() => {
 							dispatch({ type: 'CREATE_DRAFT' })
 						}}>
-						New
+						<FilePlusIcon className="mr-2 h-4 w-4" /> Create New Draft
 					</Button>
 					<h2 className="text-lg font-semibold text-foreground">Drafts</h2>
-					{/* <Button className="justify-start text-left" variant="ghost" asChild> */}
-					{/* <Link href={"/" + state.draft.id}>{state.draft.filename}</Link> */}
-					{/* </Button> */}
+					<Button className="justify-start text-left" variant="ghost" asChild>
+						<Link href={'/' + state.draft.id} className='align-middle items-center'>
+							<FileIcon className="mr-2 h-4 w-4" /> {state.draft.filename}
+						</Link>
+					</Button>
 				</div>
 			</SheetContent>
 		</Sheet>
