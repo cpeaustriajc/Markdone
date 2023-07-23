@@ -32,3 +32,4 @@ out
 .vercel
 .env*.local
 *.tsbuildinfo
+.turbo
