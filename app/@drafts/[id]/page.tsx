@@ -1,3 +1,5 @@
+'use client'
+
 import { Editor } from '@/components/editor'
 import { Preview } from '@/components/preview'
 import { Separator } from '@/components/ui/separator'
