@@ -5,12 +5,12 @@ import { Preview } from '@/components/preview'
 import { Separator } from '@/components/ui/separator'
 import { useMediaquery } from '@/hooks/use-media-query'
 import { useSyncScroll } from '@/hooks/use-sync-scroll'
-import { supabaseClient } from '@/lib/supabase'
+import { getDrafts } from '@/lib/supabase'
 import { useRef } from 'react'
 
 export async function generateStaticParams() {
-	const { data } = await supabaseClient.from('drafts').select('*')
-	return data?.map(data => ({
+	const drafts = await getDrafts()
+	return drafts?.data!.map(data => ({
 		id: data.id,
 	}))
 }
