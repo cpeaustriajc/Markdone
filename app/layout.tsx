@@ -22,7 +22,6 @@ const roboto_mono = Roboto_Mono({
 })
 
 interface Props {
-	drafts: React.ReactNode
 	children: React.ReactNode
 }
 
@@ -36,8 +35,6 @@ export default function RootLayout(props: Props) {
 			<body className="h-full bg-background text-foreground">
 				<Providers>
 					<Header />
-
-					{props.drafts}
 					{props.children}
 				</Providers>
 			</body>
