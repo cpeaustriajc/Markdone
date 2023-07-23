@@ -1,23 +1,31 @@
 'use client'
 
 import { useDrafts } from '@/context/drafts-context'
-import { memo, useRef } from 'react'
+import { DraftResponseSuccess, getDraft } from '@/lib/supabase'
+import { memo, useEffect, useRef, useState } from 'react'
 
 interface EditorProps {
 	editorRef: React.MutableRefObject<HTMLDivElement | null>
+	id: string
 }
-export function Editor({ editorRef }: EditorProps) {
-	const { state, dispatch } = useDrafts()
-	const { content } = state.draft
+
+export function Editor({ editorRef, id }: EditorProps) {
+	const [draft, setDraft] = useState<DraftResponseSuccess>()
+	const { dispatch } = useDrafts()
+
+	useEffect(() => {
+		getDraft(id).then(res => setDraft(res.data))
+	}, [setDraft, id])
+
 	const textAreaRef = useRef<HTMLTextAreaElement>(null)
-	const lineNumber = state.draft.content.split('\n').length
-	const longestString = state.draft.content.split('\n').reduce((a, b) => (a.length > b.length ? a : b)).length
+	const lineNumber = draft?.content?.split('\n').length
+	const longestString = draft?.content?.split('\n').reduce((a: any, b: any) => (a.length > b.length ? a : b)).length
 
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		e.preventDefault()
 		dispatch({
 			type: 'UPDATE_DRAFT',
-			payload: { id: state.draft.id, filename: state.draft.filename, content: e.target.value },
+			payload: { id: draft!.id, filename: draft!.filename!, content: e.target.value },
 		})
 	}
 
@@ -63,11 +71,11 @@ export function Editor({ editorRef }: EditorProps) {
 					rows={lineNumber}
 					id="markdown-editor"
 					name="markdown-editor"
-					className="resize-none break-keep bg-background pl-1 outline-none focus:border-none active:border-none text-lg"
+					className="resize-none break-keep bg-background pl-1 text-lg outline-none focus:border-none active:border-none"
 					onChange={handleChange}
 					onKeyDown={handleKeyDown}
 					wrap="off"
-					value={content}
+					value={draft?.content!}
 					aria-label="Markdown Input"
 				/>
 			</div>

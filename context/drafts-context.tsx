@@ -1,60 +1,38 @@
 import { useReducer, createContext, useContext } from 'react'
-import { DraftContext, State, Action, DraftsProviderProps } from '@/types/drafts-context'
-import { MarkdownData } from '@/types/markdown-data'
+import { DraftContext, State, Action, DraftsProviderProps } from '@/types/drafts-context.types'
+import { MarkdownData } from '@/types/markdown-data.types'
 
 const DraftContext = createContext<DraftContext | undefined>(undefined)
 
-function draftReducer(state: State, action: Action): State {
+function draftReducer(drafts: State, action: Action): State {
 	switch (action.type) {
 		case 'CREATE_DRAFT':
 			const newDraft: MarkdownData = {
 				id: Math.random().toString(36).substring(7),
-				filename: "Untitled.md",
-				content: "",
+				filename: 'Untitled',
+				content: '',
 			}
-			return {
-				draft: newDraft,
-			}
-		case 'READ_DRAFT':
-			return {
-				...state,
-				draft: { id: action.payload.id, filename: action.payload.filename, content: action.payload.content },
-			}
+			return [...drafts, newDraft]
 		case 'UPDATE_DRAFT':
-			return {
-				...state,
-				draft: {
-					id: action.payload.id,
-					filename: action.payload.filename,
-					content: action.payload.content,
-				},
-			}
+			return drafts.map(draft => {
+				if (draft.id === action.payload.id) {
+					return { ...draft, filename: action.payload.filename, content: action.payload.content }
+				}
+				return draft
+			})
 		case 'DELETE_DRAFT':
-			return {
-				...state,
-				draft: {
-					id: '',
-					filename: '',
-					content: '',
-				},
-			}
+			return drafts.filter(draft => draft.id !== action.id)
 		default:
-			return state
+			return drafts
 	}
 }
 
-const initialState: State = {
-	draft: {
-		id: '0',
-		filename: 'Getting Started.md',
-		content: 'Get started with markdown via [Markdown Guide](https://www.markdownguide.org/)',
-	},
-}
+const initialState: State = []
 
 function DraftContextProvider({ children }: DraftsProviderProps) {
-	const [state, dispatch] = useReducer(draftReducer, initialState)
+	const [drafts, dispatch] = useReducer(draftReducer, initialState)
 
-	const value = { state, dispatch }
+	const value = { drafts, dispatch }
 
 	return <DraftContext.Provider value={value}>{children}</DraftContext.Provider>
 }

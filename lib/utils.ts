@@ -20,3 +20,10 @@ export function getSavedDrafts(): MarkdownData | undefined {
 		return undefined
 	}
 }
+
+export function toKebabCase(input: string) {
+	return input
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/(^-|-$)+/g, '')
+}
