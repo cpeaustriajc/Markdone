@@ -9,8 +9,8 @@ function draftReducer(state: State, action: Action): State {
 		case 'CREATE_DRAFT':
 			const newDraft: MarkdownData = {
 				id: Math.random().toString(36).substring(7),
-				filename: 'New File.md',
-				content: action.payload,
+				filename: "Untitled.md",
+				content: "",
 			}
 			return {
 				draft: newDraft,

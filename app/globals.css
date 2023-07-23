@@ -71,5 +71,20 @@
 @layer base {
 	* {
 		border-color: hsl(var(--border));
+		scrollbar-width: thin;
+	}
+
+	::-webkit-scrollbar {
+		width: 4px;
+		height: 4px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: hsl(var(--foreground));
+		border-radius: var(--radius);
+	}
+
+	::-webkit-scrollbar-corner {
+		background: hsl(var(--background));
 	}
 }

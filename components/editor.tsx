@@ -54,7 +54,7 @@ export function Editor({ editorRef }: EditorProps) {
 				Markdown Editor
 			</label>
 			<div className="flex flex-row overflow-auto">
-				<div className="flex h-fit w-8 flex-col items-end border-r px-2">
+				<div className="flex h-fit w-8 flex-col items-end border-r px-2 text-lg">
 					<LineNumbers />
 				</div>
 				<textarea
@@ -63,7 +63,7 @@ export function Editor({ editorRef }: EditorProps) {
 					rows={lineNumber}
 					id="markdown-editor"
 					name="markdown-editor"
-					className="resize-none break-keep bg-background pl-1 outline-none focus:border-none active:border-none "
+					className="resize-none break-keep bg-background pl-1 outline-none focus:border-none active:border-none text-lg"
 					onChange={handleChange}
 					onKeyDown={handleKeyDown}
 					wrap="off"

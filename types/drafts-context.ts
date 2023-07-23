@@ -3,7 +3,7 @@ import { MarkdownData } from './markdown-data'
 
 export type State = { draft: MarkdownData }
 export type Action =
-	| { type: 'CREATE_DRAFT'; payload: string }
+	| { type: 'CREATE_DRAFT'; }
 	| { type: 'READ_DRAFT'; payload: MarkdownData }
 	| { type: 'UPDATE_DRAFT'; payload: MarkdownData }
 	| { type: 'DELETE_DRAFT'; payload: string }

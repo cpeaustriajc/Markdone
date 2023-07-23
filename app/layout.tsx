@@ -2,6 +2,7 @@ import { Inter, Roboto_Mono } from 'next/font/google'
 import './globals.css'
 import Providers from './providers'
 import { getTheme } from './actions'
+import { Header } from '@/components/header'
 
 export const metadata = {
 	title: 'Markdone | Get more things done with Markdone!',
@@ -21,10 +22,11 @@ const roboto_mono = Roboto_Mono({
 })
 
 interface Props {
+	drafts: React.ReactNode
 	children: React.ReactNode
 }
 
-export default function RootLayout({ children }: Props) {
+export default function RootLayout(props: Props) {
 	const theme = getTheme()
 	return (
 		<html
@@ -32,7 +34,12 @@ export default function RootLayout({ children }: Props) {
 			className={`${inter.variable} ${roboto_mono.variable} h-full ${theme}`}
 			style={{ colorScheme: theme }}>
 			<body className="h-full bg-background text-foreground">
-				<Providers>{children}</Providers>
+				<Providers>
+					<Header />
+
+					{props.drafts}
+					{props.children}
+				</Providers>
 			</body>
 		</html>
 	)
