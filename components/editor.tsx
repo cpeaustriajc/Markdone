@@ -1,31 +1,23 @@
 'use client'
 
-import { useEditor } from '@/context/editor-context'
-import { useFetchDraft } from '@/lib/supabase'
-import { useRef, memo } from 'react'
-import { LoadingSkeleton } from './loading-skeleton'
+import { useRef, memo, Dispatch, SetStateAction } from 'react'
 
 interface EditorProps {
 	editorRef: React.MutableRefObject<HTMLDivElement | null>
-	id: string
+	content: string
+	setContent: Dispatch<SetStateAction<string>>
 }
 
-export function Editor({ editorRef, id }: EditorProps) {
-	const { draft, isLoading } = useFetchDraft(id)
+export function Editor({ editorRef, content, setContent }: EditorProps) {
 	const textAreaRef = useRef<HTMLTextAreaElement>(null)
-	const { dispatch } = useEditor()
 
-	if (isLoading || !draft) {
-		return <LoadingSkeleton />
-	}
-
-	const lineNumber = draft.content.split('\n').length
-	const longestString = draft.content.split('\n').reduce((a: any, b: any) => (a.length > b.length ? a : b)).length
+	const lineNumber = content.split('\n').length
+	const longestString = content.split('\n').reduce((a: any, b: any) => (a.length > b.length ? a : b)).length
 
 	const handleChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		e.preventDefault()
 
-		dispatch({ type: 'UPDATE_DRAFT', payload: { id: draft.id, content: e.target.value, filename: draft.filename } })
+		setContent(e.target.value)
 	}
 
 	const insertTab = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -74,7 +66,7 @@ export function Editor({ editorRef, id }: EditorProps) {
 					onChange={handleChange}
 					onKeyDown={handleKeyDown}
 					wrap="off"
-					value={draft.content}
+					value={content}
 					aria-label="Markdown Input"
 				/>
 			</div>

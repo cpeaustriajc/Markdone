@@ -3,17 +3,14 @@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { HamburgerMenuIcon, FilePlusIcon, FileIcon, TrashIcon } from '@radix-ui/react-icons'
 import { Button } from './ui/button'
-import { useEditor } from '@/context/editor-context'
 import { Fragment } from 'react'
 import Link from 'next/link'
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from './ui/dialog'
 import { DialogDescription } from '@radix-ui/react-dialog'
-import { useFetchDrafts } from '@/lib/supabase'
+import { supabaseClient, useFetchDrafts } from '@/lib/supabase'
 import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
 
 export function Sidebar() {
-	const { dispatch } = useEditor()
-	// Workaround until https://github.com/radix-ui/primitives/issues/1386 is fixed
 	const { drafts, isLoading } = useFetchDrafts()
 
 	if (isLoading || !drafts) {
@@ -34,8 +31,11 @@ export function Sidebar() {
 				<div className="grid w-full gap-1.5">
 					<Button
 						className="justify-start text-left"
-						onClick={() => {
-							dispatch({ type: 'CREATE_DRAFT' })
+						onClick={async () => {
+							const { error } = await supabaseClient.from('drafts').insert({})
+							if (error) {
+								throw new Error(`Could not create new draft: ${error.message}`)
+							}
 						}}>
 						<FilePlusIcon className="mr-2 h-4 w-4" /> Create New Draft
 					</Button>
@@ -63,8 +63,14 @@ export function Sidebar() {
 											<div>
 												<Button
 													variant={'destructive'}
-													onClick={() => {
-														dispatch({ type: 'DELETE_DRAFT', id: draft.id })
+													onClick={async () => {
+														const { error } = await supabaseClient
+															.from('drafts')
+															.delete()
+															.eq('id', draft.id)
+														if (error) {
+															throw new Error(`Could not delete draft: ${error.message}`)
+														}
 													}}>
 													Yes, I am Sure
 												</Button>
