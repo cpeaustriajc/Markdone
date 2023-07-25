@@ -1,13 +1,12 @@
+import { Header } from '@/components/header'
+import { Metadata } from 'next'
 import { Inter, Roboto_Mono } from 'next/font/google'
 import './globals.css'
 import Providers from './providers'
-import { getTheme } from './actions'
-import { Header } from '@/components/header'
 
-export const metadata = {
+export const metadata: Metadata = {
 	title: 'Markdone | Get more things done with Markdone!',
 	description: 'Get more things done with Markdone!',
-	colorScheme: 'dark light',
 	manifest: '/site.webmanifest',
 }
 
@@ -26,12 +25,8 @@ interface Props {
 }
 
 export default function RootLayout(props: Props) {
-	const theme = getTheme()
 	return (
-		<html
-			lang="en"
-			className={`${inter.variable} ${roboto_mono.variable} h-full ${theme}`}
-			style={{ colorScheme: theme }}>
+		<html lang="en" className={`${inter.variable} ${roboto_mono.variable} h-full`} suppressHydrationWarning>
 			<body className="h-full bg-background text-foreground">
 				<Providers>
 					<Header />
