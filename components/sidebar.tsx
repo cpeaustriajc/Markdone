@@ -18,10 +18,9 @@ export function Sidebar() {
 	const [domLoaded, setDomLoaded] = useState(false)
 	const [drafts, setDrafts] = useState<DraftsResponseSuccess>([])
 
-	const supabase = createClientComponentClient()
 	useEffect(() => {
 		getDrafts().then(res => setDrafts(res.data))
-	}, [supabase, setDrafts])
+	}, [setDrafts])
 
 	useEffect(() => {
 		setDomLoaded(true)
