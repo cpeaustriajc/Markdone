@@ -4,7 +4,7 @@ import { MarkdownData } from '@/types/markdown-data.types'
 
 const EditorContext = createContext<EditorContext | undefined>(undefined)
 
-function draftReducer(drafts: State, action: Action): State {
+function editorReducer(drafts: State, action: Action): State {
 	switch (action.type) {
 		case 'CREATE_DRAFT':
 			const newDraft: MarkdownData = {
@@ -30,7 +30,7 @@ function draftReducer(drafts: State, action: Action): State {
 const initialState: State = []
 
 export function EditorContextProvider({ children }: EditorProviderProps) {
-	const [drafts, dispatch] = useReducer(draftReducer, initialState)
+	const [drafts, dispatch] = useReducer(editorReducer, initialState)
 
 	const value = { drafts, dispatch }
 
