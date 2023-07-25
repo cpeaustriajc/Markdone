@@ -9,8 +9,13 @@ import { getDrafts } from '@/lib/supabase'
 import { useRef } from 'react'
 
 export async function generateStaticParams() {
-	const drafts = await getDrafts()
-	return drafts?.data!.map(data => ({
+	const { data } = await getDrafts()
+
+	if (!data) {
+		throw new Error('No drafts found')
+	}
+
+	return data.map(data => ({
 		id: data.id,
 	}))
 }
