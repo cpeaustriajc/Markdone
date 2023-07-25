@@ -40,7 +40,7 @@ export function EditorContextProvider({ children }: EditorProviderProps) {
 export function useEditor() {
 	const context = useContext(EditorContext)
 	if (context === undefined) {
-		throw new Error('useDrafts must be used within a DraftsContextProvider')
+		throw new Error('useEditor must be used within a EditorContextProvider')
 	}
 	return context
 }
