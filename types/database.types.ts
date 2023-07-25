@@ -39,7 +39,7 @@ export interface Database {
 					content?: string
 					created_at?: string
 					filename?: string
-					id: string
+					id?: string
 				}
 				Update: {
 					content?: string
