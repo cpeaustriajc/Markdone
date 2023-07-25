@@ -9,8 +9,7 @@ import Link from 'next/link'
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from './ui/dialog'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { redirect } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { DraftsResponseSuccess, getDraft, getDrafts } from '@/lib/supabase'
+import { DraftsResponseSuccess, getDrafts } from '@/lib/supabase'
 
 export function Sidebar() {
 	const { dispatch } = useDrafts()
