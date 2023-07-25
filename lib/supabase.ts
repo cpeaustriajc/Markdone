@@ -28,7 +28,7 @@ export function useFetchDraft(id: string) {
 		fetchDraft()
 	}, [setDraft, id, error])
 
-	return { draft, isLoading }
+	return { draft, isLoading, error }
 }
 
 export const getDrafts = async () => {
