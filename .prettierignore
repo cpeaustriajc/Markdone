@@ -1,3 +1,6 @@
 pnpm-lock.yaml
 yarn.lock
 package-lock.json
+
+supabase/.temp
+supabse/.branches

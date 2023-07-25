@@ -22,7 +22,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
 	useSyncScroll(editorRef, previewRef)
 	return (
-		<main className="flex h-[calc(100%-4rem)] flex-col md:flex-row">
+		<main className="container flex h-[calc(100%-4rem)] flex-col md:flex-row xl:border-x">
 			<Editor editorRef={editorRef} id={params.id} />
 			<Separator orientation={isDesktop ? 'vertical' : 'horizontal'} />
 			<Preview previewRef={previewRef} id={params.id} />

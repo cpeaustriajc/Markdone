@@ -1,8 +1,8 @@
 import { useReducer, createContext, useContext } from 'react'
-import { DraftContext, State, Action, DraftsProviderProps } from '@/types/drafts-context.types'
+import { EditorContext, State, Action, EditorProviderProps } from '@/types/editor-context.types'
 import { MarkdownData } from '@/types/markdown-data.types'
 
-const DraftContext = createContext<DraftContext | undefined>(undefined)
+const EditorContext = createContext<EditorContext | undefined>(undefined)
 
 function draftReducer(drafts: State, action: Action): State {
 	switch (action.type) {
@@ -29,20 +29,18 @@ function draftReducer(drafts: State, action: Action): State {
 
 const initialState: State = []
 
-function DraftContextProvider({ children }: DraftsProviderProps) {
+export function EditorContextProvider({ children }: EditorProviderProps) {
 	const [drafts, dispatch] = useReducer(draftReducer, initialState)
 
 	const value = { drafts, dispatch }
 
-	return <DraftContext.Provider value={value}>{children}</DraftContext.Provider>
+	return <EditorContext.Provider value={value}>{children}</EditorContext.Provider>
 }
 
-function useDrafts() {
-	const context = useContext(DraftContext)
+export function useEditor() {
+	const context = useContext(EditorContext)
 	if (context === undefined) {
 		throw new Error('useDrafts must be used within a DraftsContextProvider')
 	}
 	return context
 }
-
-export { DraftContextProvider as DraftsContextProvider, useDrafts }

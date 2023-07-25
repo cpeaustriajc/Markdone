@@ -3,39 +3,30 @@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { HamburgerMenuIcon, FilePlusIcon, FileIcon, TrashIcon } from '@radix-ui/react-icons'
 import { Button } from './ui/button'
-import { useDrafts } from '@/context/drafts-context'
-import { Fragment, useEffect, useState } from 'react'
+import { useEditor } from '@/context/editor-context'
+import { Fragment } from 'react'
 import Link from 'next/link'
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from './ui/dialog'
 import { DialogDescription } from '@radix-ui/react-dialog'
-import { redirect } from 'next/navigation'
-import { DraftsResponseSuccess, getDrafts } from '@/lib/supabase'
+import { useFetchDrafts } from '@/lib/supabase'
+import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
 
 export function Sidebar() {
-	const { dispatch } = useDrafts()
+	const { dispatch } = useEditor()
 	// Workaround until https://github.com/radix-ui/primitives/issues/1386 is fixed
-	const [domLoaded, setDomLoaded] = useState(false)
-	const [drafts, setDrafts] = useState<DraftsResponseSuccess>([])
+	const { drafts, isLoading } = useFetchDrafts()
 
-	useEffect(() => {
-		getDrafts().then(res => setDrafts(res.data))
-	}, [setDrafts])
-
-	useEffect(() => {
-		setDomLoaded(true)
-	}, [])
+	if (isLoading || !drafts) {
+		return <SidebarLoadingSkeleton />
+	}
 
 	return (
 		<Sheet>
-			<div className="h-9 w-14">
-				{domLoaded && (
-					<SheetTrigger asChild>
-						<Button variant="ghost">
-							<span className="sr-only">Open Menu</span> <HamburgerMenuIcon className="h-6 w-6" />
-						</Button>
-					</SheetTrigger>
-				)}
-			</div>
+			<SheetTrigger asChild>
+				<Button variant="ghost">
+					<span className="sr-only">Open Menu</span> <HamburgerMenuIcon className="h-6 w-6" />
+				</Button>
+			</SheetTrigger>
 			<SheetContent side="left">
 				<SheetHeader>
 					<SheetTitle>Menu</SheetTitle>
@@ -49,8 +40,7 @@ export function Sidebar() {
 						<FilePlusIcon className="mr-2 h-4 w-4" /> Create New Draft
 					</Button>
 					<h2 className="text-lg font-semibold text-foreground">Drafts</h2>
-
-					{drafts?.map(draft => (
+					{drafts.map(draft => (
 						<Fragment key={draft.id}>
 							<Button className="justify-start text-left" variant="ghost" asChild>
 								<Link
@@ -75,7 +65,6 @@ export function Sidebar() {
 													variant={'destructive'}
 													onClick={() => {
 														dispatch({ type: 'DELETE_DRAFT', id: draft.id })
-														redirect('/')
 													}}>
 													Yes, I am Sure
 												</Button>

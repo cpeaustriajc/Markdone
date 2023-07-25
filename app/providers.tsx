@@ -1,12 +1,12 @@
 'use client'
 
-import { DraftsContextProvider } from '@/context/drafts-context'
+import { EditorContextProvider } from '@/context/editor-context'
 import { ThemeProvider } from 'next-themes'
 
 export default function Providers({ children }: { children: React.ReactNode }) {
 	return (
 		<ThemeProvider attribute="class" enableSystem defaultTheme="system">
-			<DraftsContextProvider>{children}</DraftsContextProvider>
+			<EditorContextProvider>{children}</EditorContextProvider>
 		</ThemeProvider>
 	)
 }

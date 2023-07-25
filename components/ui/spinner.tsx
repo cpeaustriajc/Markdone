@@ -1,4 +1,4 @@
-const Spinner: React.FC = () => {
+export function Spinner() {
 	return (
 		<div role="status">
 			<svg
@@ -20,5 +20,3 @@ const Spinner: React.FC = () => {
 		</div>
 	)
 }
-
-export { Spinner }

@@ -1,12 +1,13 @@
 'use client'
 
-import { DraftResponseSuccess, getDraft } from '@/lib/supabase'
-import { Fragment, ReactNode, createElement, useEffect, useState } from 'react'
+import { useFetchDraft } from '@/lib/supabase'
+import { Fragment, ReactNode, createElement } from 'react'
 import rehypeReact from 'rehype-react'
 import remarkGfm from 'remark-gfm'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import { unified } from 'unified'
+import { LoadingSkeleton } from './loading-skeleton'
 
 interface PreviewProps {
 	previewRef: React.MutableRefObject<HTMLDivElement | null>
@@ -14,18 +15,18 @@ interface PreviewProps {
 }
 
 export function Preview({ previewRef, id }: PreviewProps) {
-	const [draft, setDraft] = useState<DraftResponseSuccess>()
+	const { draft, isLoading } = useFetchDraft(id)
 
-	useEffect(() => {
-		getDraft(id).then(res => setDraft(res.data))
-	}, [setDraft, id])
+	if (isLoading || !draft) {
+		return <LoadingSkeleton />
+	}
 
 	const md = unified()
 		.use(remarkParse)
 		.use(remarkGfm)
 		.use(remarkRehype)
 		.use(rehypeReact, { createElement, Fragment })
-		.processSync(draft?.content!).result as ReactNode
+		.processSync(draft.content).result as ReactNode
 
 	return (
 		<div

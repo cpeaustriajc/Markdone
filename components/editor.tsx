@@ -1,8 +1,9 @@
 'use client'
 
-import { useDrafts } from '@/context/drafts-context'
-import { DraftResponseSuccess, getDraft } from '@/lib/supabase'
-import { memo, useEffect, useRef, useState } from 'react'
+import { useEditor } from '@/context/editor-context'
+import { useFetchDraft } from '@/lib/supabase'
+import { useRef, memo } from 'react'
+import { LoadingSkeleton } from './loading-skeleton'
 
 interface EditorProps {
 	editorRef: React.MutableRefObject<HTMLDivElement | null>
@@ -10,23 +11,21 @@ interface EditorProps {
 }
 
 export function Editor({ editorRef, id }: EditorProps) {
-	const [draft, setDraft] = useState<DraftResponseSuccess>()
-	const { dispatch } = useDrafts()
-
-	useEffect(() => {
-		getDraft(id).then(res => setDraft(res.data))
-	}, [setDraft, id])
-
+	const { draft, isLoading } = useFetchDraft(id)
 	const textAreaRef = useRef<HTMLTextAreaElement>(null)
-	const lineNumber = draft?.content?.split('\n').length
-	const longestString = draft?.content?.split('\n').reduce((a: any, b: any) => (a.length > b.length ? a : b)).length
+	const { dispatch } = useEditor()
 
-	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+	if (isLoading || !draft) {
+		return <LoadingSkeleton />
+	}
+
+	const lineNumber = draft.content.split('\n').length
+	const longestString = draft.content.split('\n').reduce((a: any, b: any) => (a.length > b.length ? a : b)).length
+
+	const handleChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		e.preventDefault()
-		dispatch({
-			type: 'UPDATE_DRAFT',
-			payload: { id: draft!.id, filename: draft!.filename!, content: e.target.value },
-		})
+
+		dispatch({ type: 'UPDATE_DRAFT', payload: { id: draft.id, content: e.target.value, filename: draft.filename } })
 	}
 
 	const insertTab = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -49,7 +48,7 @@ export function Editor({ editorRef, id }: EditorProps) {
 
 	const LineNumbers = memo(() => {
 		return Array.from({ length: lineNumber! }).map((_, index) => (
-			<span className="select-none" key={index}>
+			<span className="select-none text-secondary" key={index}>
 				{index + 1}
 			</span>
 		))
@@ -75,7 +74,7 @@ export function Editor({ editorRef, id }: EditorProps) {
 					onChange={handleChange}
 					onKeyDown={handleKeyDown}
 					wrap="off"
-					value={draft?.content!}
+					value={draft.content}
 					aria-label="Markdown Input"
 				/>
 			</div>
