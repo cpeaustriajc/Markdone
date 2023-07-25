@@ -1,12 +1,23 @@
+'use client'
+
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { GitHubLogoIcon, MoonIcon, SunIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
+import { useTheme } from 'next-themes'
 import { Sidebar } from './sidebar'
 import { Button } from './ui/button'
 import Link from 'next/link'
 import { NavigationMenu } from '@radix-ui/react-navigation-menu'
 import { NavigationMenuItem, NavigationMenuList } from './ui/navigation-menu'
-export function Header() {
+import { useEffect, useState } from 'react'
 
-export async function Header() {
+export function Header() {
+	const { setTheme } = useTheme()
+	const [isMounted, setIsMounted] = useState(false)
+
+	useEffect(() => {
+		setIsMounted(true)
+	}, [])
+
 	return (
 		<NavigationMenu asChild>
 			<header>
@@ -28,6 +39,24 @@ export async function Header() {
 									<TwitterLogoIcon className="h-5 w-5" />
 								</Link>
 							</Button>
+							<DropdownMenu>
+								<div className="h-9 w-9">
+									{isMounted && (
+										<DropdownMenuTrigger asChild>
+											<Button variant="ghost" size="icon">
+												<span className="sr-only">Toggle theme</span>
+												<SunIcon className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+												<MoonIcon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+											</Button>
+										</DropdownMenuTrigger>
+									)}
+								</div>
+								<DropdownMenuContent align="end">
+									<DropdownMenuItem onClick={() => setTheme('light')}>Light</DropdownMenuItem>
+									<DropdownMenuItem onClick={() => setTheme('dark')}>Dark</DropdownMenuItem>
+									<DropdownMenuItem onClick={() => setTheme('system')}>System</DropdownMenuItem>
+								</DropdownMenuContent>
+							</DropdownMenu>
 						</div>
 					</NavigationMenuItem>
 				</NavigationMenuList>
