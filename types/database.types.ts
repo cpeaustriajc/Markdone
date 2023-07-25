@@ -36,21 +36,21 @@ export interface Database {
     Tables: {
       drafts: {
         Row: {
-          content: string | null
-          created_at: string | null
-          filename: string | null
+          content: string
+          created_at: string
+          filename: string
           id: string
         }
         Insert: {
-          content?: string | null
-          created_at?: string | null
-          filename?: string | null
+          content?: string
+          created_at?: string
+          filename?: string
           id: string
         }
         Update: {
-          content?: string | null
-          created_at?: string | null
-          filename?: string | null
+          content?: string
+          created_at?: string
+          filename?: string
           id?: string
         }
         Relationships: []
