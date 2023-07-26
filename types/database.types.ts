@@ -173,12 +173,6 @@ export interface Database {
 						referencedRelation: 'buckets'
 						referencedColumns: ['id']
 					},
-					{
-						foreignKeyName: 'objects_owner_fkey'
-						columns: ['owner']
-						referencedRelation: 'users'
-						referencedColumns: ['id']
-					},
 				]
 			}
 		}
