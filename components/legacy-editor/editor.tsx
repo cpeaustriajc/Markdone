@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, memo, Dispatch, SetStateAction } from 'react'
+import { useRef, memo, Dispatch, SetStateAction, ElementRef } from 'react'
 
 interface EditorProps {
 	editorRef: React.MutableRefObject<HTMLDivElement | null>
@@ -9,18 +9,18 @@ interface EditorProps {
 }
 
 export function Editor({ editorRef, content, setContent }: EditorProps) {
-	const textAreaRef = useRef<HTMLTextAreaElement>(null)
+	const textAreaRef = useRef<ElementRef<'textarea'>>(null)
 
 	const lineNumber = content.split('\n').length
 	const longestString = content.split('\n').reduce((a: any, b: any) => (a.length > b.length ? a : b)).length
 
-	const handleChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+	const handleChange = async (e: React.ChangeEvent<ElementRef<'textarea'>>) => {
 		e.preventDefault()
 
 		setContent(e.target.value)
 	}
 
-	const insertTab = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+	const insertTab = (e: React.KeyboardEvent<ElementRef<'textarea'>>) => {
 		const textArea = textAreaRef.current!
 		const start = textArea.selectionStart
 		const end = textArea.selectionEnd
@@ -31,7 +31,7 @@ export function Editor({ editorRef, content, setContent }: EditorProps) {
 		e.preventDefault()
 	}
 
-	const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+	const handleKeyDown = (e: React.KeyboardEvent<ElementRef<'textarea'>>) => {
 		switch (e.key) {
 			case 'Tab':
 				insertTab(e)
