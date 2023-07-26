@@ -49,6 +49,34 @@ export interface Database {
 				}
 				Relationships: []
 			}
+			profiles: {
+				Row: {
+					avatar_url: string | null
+					first_name: string | null
+					id: string
+					last_name: string | null
+				}
+				Insert: {
+					avatar_url?: string | null
+					first_name?: string | null
+					id: string
+					last_name?: string | null
+				}
+				Update: {
+					avatar_url?: string | null
+					first_name?: string | null
+					id?: string
+					last_name?: string | null
+				}
+				Relationships: [
+					{
+						foreignKeyName: 'profiles_id_fkey'
+						columns: ['id']
+						referencedRelation: 'users'
+						referencedColumns: ['id']
+					},
+				]
+			}
 		}
 		Views: {
 			[_ in never]: never
