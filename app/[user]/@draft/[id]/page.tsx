@@ -20,7 +20,7 @@ export async function generateStaticParams() {
 	}))
 }
 
-export default function Page() {
+export default function DraftsPage() {
 	const editorRef = useRef<HTMLDivElement>(null)
 	const previewRef = useRef<HTMLDivElement>(null)
 	const [content, setContent] = useState<string>('')
