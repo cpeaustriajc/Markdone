@@ -17,12 +17,17 @@ export function useFetchDraft(id: string) {
 
 	useEffect(() => {
 		const fetchDraft = async () => {
-			const { data, error } = await getDraft(id)
-			setDraft(data)
-			if (error) {
-				setError(error)
+			try {
+				const { data, error } = await getDraft(id)
+				setDraft(data)
+				if (error) {
+					setError(error)
+				}
+			} catch (error) {
+				throw error
+			} finally {
+				setIsLoading(false)
 			}
-			setIsLoading(false)
 		}
 
 		fetchDraft()
@@ -42,14 +47,18 @@ export function useFetchDrafts() {
 
 	useEffect(() => {
 		const fetchDrafts = async () => {
-			const { data, error } = await getDrafts()
-			setDrafts(data)
-			if (error) {
-				setError(error)
+			try {
+				const { data, error } = await getDrafts()
+				setDrafts(data)
+				if (error) {
+					setError(error)
+				}
+			} catch (error) {
+				throw error
+			} finally {
+				setIsLoading(false)
 			}
-			setIsLoading(false)
 		}
-
 		fetchDrafts()
 	}, [setDrafts])
 
