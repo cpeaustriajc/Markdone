@@ -4,9 +4,20 @@ import { useEffect, useState } from 'react'
 
 export const supabaseClient = createClientComponentClient<Database>()
 
+export const getDrafts = async () => {
+	try {
+		return await supabaseClient.from('drafts').select('*')
+	} catch (error) {
+		throw error
+	}
+}
 
 export const getDraft = async (id: string) => {
-	return await supabaseClient.from('drafts').select('*').eq('id', id).single()
+	try {
+		return await supabaseClient.from('drafts').select('*').eq('id', id).single()
+	} catch (error) {
+		throw error
+	}
 }
 
 export function useFetchDraft(id: string) {
@@ -33,10 +44,6 @@ export function useFetchDraft(id: string) {
 	}, [setDraft, id, error])
 
 	return { draft, isLoading, error }
-}
-
-export const getDrafts = async () => {
-	return await supabaseClient.from('drafts').select('*')
 }
 
 export function useFetchDrafts() {
