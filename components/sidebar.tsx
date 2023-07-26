@@ -13,10 +13,6 @@ import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
 export function Sidebar() {
 	const { drafts, isLoading } = useFetchDrafts()
 
-	if (isLoading || !drafts) {
-		return <SidebarLoadingSkeleton />
-	}
-
 	return (
 		<Sheet>
 			<SheetTrigger asChild>
@@ -40,47 +36,55 @@ export function Sidebar() {
 						<FilePlusIcon className="mr-2 h-4 w-4" /> Create New Draft
 					</Button>
 					<h2 className="text-lg font-semibold text-foreground">Drafts</h2>
-					{drafts.map(draft => (
-						<Fragment key={draft.id}>
-							<Button className="justify-start text-left" variant="ghost" asChild>
-								<Link
-									href={`/drafts/${draft.id}`}
-									className="items-center justify-between align-middle">
-									<span className="flex">
-										<FileIcon className="mr-2 inline h-4 w-4" /> {draft.filename}
-									</span>
-									<Dialog>
-										<DialogTrigger asChild>
-											<Button
-												variant="ghost"
-												className="h-fit rounded-full px-2 hover:bg-destructive">
-												<TrashIcon className="h-4 w-4" />
-											</Button>
-										</DialogTrigger>
-										<DialogContent>
-											<DialogHeader>Are you sure you want to delete the file?</DialogHeader>
-											<DialogDescription>You will not be able to recover it.</DialogDescription>
-											<div>
+					{isLoading || !drafts ? (
+						<SidebarLoadingSkeleton />
+					) : (
+						drafts.map(draft => (
+							<Fragment key={draft.id}>
+								<Button className="justify-start text-left" variant="ghost" asChild>
+									<Link
+										href={`/drafts/${draft.id}`}
+										className="items-center justify-between align-middle">
+										<span className="flex">
+											<FileIcon className="mr-2 inline h-4 w-4" /> {draft.filename}
+										</span>
+										<Dialog>
+											<DialogTrigger asChild>
 												<Button
-													variant={'destructive'}
-													onClick={async () => {
-														const { error } = await supabaseClient
-															.from('drafts')
-															.delete()
-															.eq('id', draft.id)
-														if (error) {
-															throw new Error(`Could not delete draft: ${error.message}`)
-														}
-													}}>
-													Yes, I am Sure
+													variant="ghost"
+													className="h-fit rounded-full px-2 hover:bg-destructive">
+													<TrashIcon className="h-4 w-4" />
 												</Button>
-											</div>
-										</DialogContent>
-									</Dialog>
-								</Link>
-							</Button>
-						</Fragment>
-					))}
+											</DialogTrigger>
+											<DialogContent>
+												<DialogHeader>Are you sure you want to delete the file?</DialogHeader>
+												<DialogDescription>
+													You will not be able to recover it.
+												</DialogDescription>
+												<div>
+													<Button
+														variant={'destructive'}
+														onClick={async () => {
+															const { error } = await supabaseClient
+																.from('drafts')
+																.delete()
+																.eq('id', draft.id)
+															if (error) {
+																throw new Error(
+																	`Could not delete draft: ${error.message}`,
+																)
+															}
+														}}>
+														Yes, I am Sure
+													</Button>
+												</div>
+											</DialogContent>
+										</Dialog>
+									</Link>
+								</Button>
+							</Fragment>
+						))
+					)}
 				</div>
 			</SheetContent>
 		</Sheet>
