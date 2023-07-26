@@ -30,7 +30,7 @@ export function Sidebar() {
 						onClick={async () => {
 							const { error } = await supabaseClient.from('drafts').insert({})
 							if (error) {
-								throw new Error(`Could not create new draft: ${error.message}`)
+								throw error
 							}
 						}}>
 						<FilePlusIcon className="mr-2 h-4 w-4" /> Create New Draft
@@ -70,9 +70,7 @@ export function Sidebar() {
 																.delete()
 																.eq('id', draft.id)
 															if (error) {
-																throw new Error(
-																	`Could not delete draft: ${error.message}`,
-																)
+																throw error
 															}
 														}}>
 														Yes, I am Sure

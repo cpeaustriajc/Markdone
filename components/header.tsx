@@ -20,7 +20,7 @@ export function Header() {
 	useEffect(() => {
 		supabaseClient.auth.getSession().then(({ data: { session }, error }) => {
 			if (error) {
-				throw new Error(error.message)
+				throw error
 			}
 			setSession(session)
 		})

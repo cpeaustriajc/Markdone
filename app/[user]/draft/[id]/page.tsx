@@ -2,10 +2,10 @@ import LegacyEditor from '@/components/legacy-editor'
 import { getDrafts } from '@/lib/supabase'
 
 export async function generateStaticParams() {
-	const { data } = await getDrafts()
+	const { data, error } = await getDrafts()
 
 	if (!data) {
-		throw new Error('No drafts found')
+		throw error
 	}
 
 	return data.map(data => ({
