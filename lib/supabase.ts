@@ -2,9 +2,8 @@ import { Database } from '@/types/database.types'
 import { createClientComponentClient, createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react'
 
-export const supabaseClient = createClientComponentClient<Database>({
-	options: { global: { fetch: fetch.bind(globalThis) } },
-})
+export const supabaseClient = createClientComponentClient<Database>()
+
 
 export const getDraft = async (id: string) => {
 	return await supabaseClient.from('drafts').select('*').eq('id', id).single()
