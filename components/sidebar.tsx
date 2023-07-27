@@ -7,8 +7,9 @@ import { Fragment } from 'react'
 import Link from 'next/link'
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from './ui/dialog'
 import { DialogDescription } from '@radix-ui/react-dialog'
-import { supabaseClient, useFetchDrafts } from '@/lib/supabase'
+import { supabaseClient } from '@/lib/supabase'
 import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
+import { useFetchDrafts } from '@/hooks/use-fetch-drafts'
 
 export function Sidebar() {
 	const { drafts, isLoading } = useFetchDrafts()
