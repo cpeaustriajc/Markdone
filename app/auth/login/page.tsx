@@ -15,6 +15,7 @@ export default function LogInPage() {
 				appearance={{ theme: ThemeSupa }}
 				theme={systemTheme}
 				view="magic_link"
+				showLinks={false}
 				providers={[]}
 				redirectTo="http://localhost:3000/auth/callback"
 			/>
