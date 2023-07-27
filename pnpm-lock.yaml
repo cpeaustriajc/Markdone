@@ -71,6 +71,9 @@ dependencies:
   unified:
     specifier: ^10.1.2
     version: 10.1.2
+  valibot:
+    specifier: ^0.3.0
+    version: 0.3.0
 
 devDependencies:
   '@tailwindcss/typography':
@@ -127,9 +130,6 @@ devDependencies:
   typescript:
     specifier: ^5.1.6
     version: 5.1.6
-  zod:
-    specifier: ^3.21.4
-    version: 3.21.4
 
 packages:
 
@@ -4547,6 +4547,10 @@ packages:
       sade: 1.8.1
     dev: false
 
+  /valibot@0.3.0:
+    resolution: {integrity: sha512-zo40m35sB9tSpPnoY2MMyeVMEeAxE52mVc6Yn8QKe3BkIVxSbD/1EagpxQLQMYYpeW6ToMO6f0dMZ5faAGA+Zw==}
+    dev: false
+
   /vfile-message@3.1.4:
     resolution: {integrity: sha512-fa0Z6P8HUrQN4BZaX05SIVXic+7kE3b05PWAtPuYP9QLHsLKYR7/AlLW3NtOrpXRLeawpDLMsVkmk5DG0NXgWw==}
     dependencies:
@@ -4654,6 +4658,7 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+    dev: false
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
