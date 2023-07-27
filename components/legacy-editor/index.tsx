@@ -7,7 +7,6 @@ import { useMediaquery } from '@/hooks/use-media-query'
 import { useSyncScroll } from '@/hooks/use-sync-scroll'
 import { ElementRef, useRef, useState } from 'react'
 
-
 export default function LegacyEditor() {
 	const editorRef = useRef<ElementRef<'div'>>(null)
 	const previewRef = useRef<ElementRef<'div'>>(null)
