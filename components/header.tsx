@@ -9,30 +9,9 @@ import Link from 'next/link'
 import { NavigationMenu } from '@radix-ui/react-navigation-menu'
 import { NavigationMenuItem, NavigationMenuList } from './ui/navigation-menu'
 import { supabaseClient } from '@/lib/supabase'
-import { useEffect, useState } from 'react'
-import { Session } from '@supabase/supabase-js'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
 export function Header() {
 	const { setTheme } = useTheme()
-	const [session, setSession] = useState<Session | null>(null)
-
-	useEffect(() => {
-		supabaseClient.auth.getSession().then(({ data: { session }, error }) => {
-			if (error) {
-				throw error
-			}
-			setSession(session)
-		})
-
-		const {
-			data: { subscription },
-		} = supabaseClient.auth.onAuthStateChange((_event, session) => {
-			setSession(session)
-		})
-
-		return () => subscription.unsubscribe()
-	}, [])
 
 	return (
 		<NavigationMenu asChild>
@@ -70,28 +49,10 @@ export function Header() {
 									<DropdownMenuItem onClick={() => setTheme('system')}>System</DropdownMenuItem>
 								</DropdownMenuContent>
 							</DropdownMenu>
-							{session ? (
-								<DropdownMenu>
-									<DropdownMenuTrigger asChild>
-										<Avatar>
-											<AvatarImage src="" />
-											<AvatarFallback />
-										</Avatar>
-									</DropdownMenuTrigger>
-									<DropdownMenuContent align="end" className="flex flex-col space-y-2">
-										<Button asChild variant="ghost">
-											<Link href="/auth/profile">Profile</Link>
-										</Button>
-										<Button asChild variant="ghost">
-											<Link href="/auth/logout">Logout</Link>
-										</Button>
-									</DropdownMenuContent>
-								</DropdownMenu>
-							) : (
-								<Button asChild>
-									<Link href="/auth/login">Login</Link>
-								</Button>
-							)}
+							<Button asChild>
+								<Link href="/auth/login">Login</Link>
+							</Button>
+							<Button onClick={() => supabaseClient.auth.signOut()}>Logout</Button>
 						</div>
 					</NavigationMenuItem>
 				</NavigationMenuList>
