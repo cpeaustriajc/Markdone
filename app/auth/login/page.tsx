@@ -2,22 +2,23 @@
 
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
-import { supabaseClient } from '@/lib/supabase'
 import { useTheme } from 'next-themes'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 
 export default function LogInPage() {
 	const { systemTheme } = useTheme()
+	const supabase = useSupabaseClient()
 
 	return (
 		<main className="container flex items-center justify-center">
 			<Auth
-				supabaseClient={supabaseClient}
+				supabaseClient={supabase}
 				appearance={{ theme: ThemeSupa }}
 				theme={systemTheme}
 				view="magic_link"
 				showLinks={false}
 				providers={[]}
-				redirectTo="http://localhost:3000/auth/callback"
+				redirectTo="http://localhost:3000/profile"
 			/>
 		</main>
 	)
