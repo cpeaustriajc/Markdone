@@ -34,39 +34,58 @@ export interface Database {
 					created_at: string
 					filename: string
 					id: string
+					user_id: string | null
 				}
 				Insert: {
 					content?: string
 					created_at?: string
 					filename?: string
 					id?: string
+					user_id?: string | null
 				}
 				Update: {
 					content?: string
 					created_at?: string
 					filename?: string
 					id?: string
+					user_id?: string | null
 				}
-				Relationships: []
+				Relationships: [
+					{
+						foreignKeyName: 'drafts_user_id_fkey'
+						columns: ['user_id']
+						referencedRelation: 'users'
+						referencedColumns: ['id']
+					},
+					{
+						foreignKeyName: 'user_id'
+						columns: ['id']
+						referencedRelation: 'profiles'
+						referencedColumns: ['id']
+					},
+				]
 			}
 			profiles: {
 				Row: {
 					avatar_url: string | null
-					first_name: string | null
+					full_name: string | null
 					id: string
-					last_name: string | null
+					updated_at: string | null
+					username: string | null
 				}
 				Insert: {
 					avatar_url?: string | null
-					first_name?: string | null
+					full_name?: string | null
 					id: string
-					last_name?: string | null
+					updated_at?: string | null
+					username?: string | null
 				}
 				Update: {
 					avatar_url?: string | null
-					first_name?: string | null
+					full_name?: string | null
 					id?: string
-					last_name?: string | null
+					updated_at?: string | null
+					username?: string | null
 				}
 				Relationships: [
 					{
