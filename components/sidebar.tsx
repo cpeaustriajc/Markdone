@@ -7,12 +7,13 @@ import { Fragment } from 'react'
 import Link from 'next/link'
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from './ui/dialog'
 import { DialogDescription } from '@radix-ui/react-dialog'
-import { supabaseClient } from '@/lib/supabase'
 import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
 import { useFetchDrafts } from '@/hooks/use-fetch-drafts'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 
 export function Sidebar() {
 	const { drafts, isLoading } = useFetchDrafts()
+	const supabase = useSupabaseClient()
 
 	return (
 		<Sheet>
@@ -29,7 +30,7 @@ export function Sidebar() {
 					<Button
 						className="justify-start text-left"
 						onClick={async () => {
-							const { error } = await supabaseClient.from('drafts').insert({})
+							const { error } = await supabase.from('drafts').insert({})
 							if (error) {
 								throw error
 							}
@@ -66,7 +67,7 @@ export function Sidebar() {
 													<Button
 														variant={'destructive'}
 														onClick={async () => {
-															const { error } = await supabaseClient
+															const { error } = await supabase
 																.from('drafts')
 																.delete()
 																.eq('id', draft.id)

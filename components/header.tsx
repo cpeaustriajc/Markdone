@@ -8,10 +8,12 @@ import { Button } from './ui/button'
 import Link from 'next/link'
 import { NavigationMenu } from '@radix-ui/react-navigation-menu'
 import { NavigationMenuItem, NavigationMenuList } from './ui/navigation-menu'
-import { supabaseClient } from '@/lib/supabase'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 export function Header() {
 	const { setTheme } = useTheme()
+	const supabase = useSupabaseClient()
+	const session = useSession()
 
 	return (
 		<NavigationMenu asChild>
@@ -49,10 +51,13 @@ export function Header() {
 									<DropdownMenuItem onClick={() => setTheme('system')}>System</DropdownMenuItem>
 								</DropdownMenuContent>
 							</DropdownMenu>
-							<Button asChild>
-								<Link href="/auth/login">Login</Link>
-							</Button>
-							<Button onClick={() => supabaseClient.auth.signOut()}>Logout</Button>
+							{session ? (
+								<Button onClick={() => supabase.auth.signOut()}>Logout</Button>
+							) : (
+								<Button asChild>
+									<Link href="/auth/login">Login</Link>
+								</Button>
+							)}
 						</div>
 					</NavigationMenuItem>
 				</NavigationMenuList>
