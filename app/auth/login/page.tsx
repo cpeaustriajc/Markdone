@@ -16,6 +16,7 @@ export default function LogInPage() {
 				theme={systemTheme}
 				view="magic_link"
 				providers={[]}
+				redirectTo="http://localhost:3000/auth/callback"
 			/>
 		</main>
 	)
