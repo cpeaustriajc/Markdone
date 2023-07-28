@@ -1,4 +1,4 @@
-import { Header } from '@/components/header'
+import { Header } from '@/components/editor/header'
 import { inter, roboto_mono } from '@/lib/fonts'
 import Providers from '@/lib/providers'
 import '@/styles/globals.css'
