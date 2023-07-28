@@ -20,8 +20,9 @@ export function Sidebar() {
 	return (
 		<Sheet>
 			<SheetTrigger asChild>
-				<Button variant="ghost">
-					<span className="sr-only">Open Menu</span> <HamburgerMenuIcon className="h-6 w-6" />
+				<Button variant="ghost" size="icon">
+					<span className="sr-only">Open Preferences</span>
+					<HamburgerMenuIcon className="h-5 w-5" />
 				</Button>
 			</SheetTrigger>
 			<SheetContent side="left">
