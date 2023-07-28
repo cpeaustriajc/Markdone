@@ -26,6 +26,8 @@
 		"@supabase/auth-ui-react": "^0.4.2",
 		"@supabase/auth-ui-shared": "^0.1.6",
 		"@supabase/supabase-js": "^2.31.0",
+		"@tanstack/eslint-plugin-query": "^4.29.25",
+		"@tanstack/react-query": "^4.32.0",
 		"next": "^13.4.12",
 		"next-themes": "^0.2.1",
 		"react": "^18.2.0",

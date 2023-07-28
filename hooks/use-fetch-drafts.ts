@@ -1,31 +1,17 @@
 'use client'
 
-import { DraftsResponseError, DraftsResponseSuccess, getDrafts } from '@/lib/supabase'
-import { useCallback, useEffect, useState } from 'react'
+import { getDrafts } from '@/lib/queries/get-drafts'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useQuery } from '@tanstack/react-query'
 
 export function useFetchDrafts() {
-	const [drafts, setDrafts] = useState<DraftsResponseSuccess>()
-	const [error, setError] = useState<DraftsResponseError>()
-	const [isLoading, setIsLoading] = useState(true)
+	const client = useSupabaseClient()
 
-	const getDraftsCallback = useCallback(getDrafts, [])
-
-	useEffect(() => {
-		const fetchDrafts = async () => {
-			try {
-				const { data, error } = await getDraftsCallback()
-				setDrafts(data)
-				if (error) {
-					setError(error)
-				}
-			} catch (error) {
-				throw error
-			} finally {
-				setIsLoading(false)
-			}
-		}
-		fetchDrafts()
-	}, [setDrafts, getDraftsCallback])
-
-	return { drafts, isLoading, error }
+	return useQuery({
+		queryKey: ['drafts', client],
+		queryFn: async () => {
+			const res = await getDrafts(client)
+			return res.data
+		},
+	})
 }

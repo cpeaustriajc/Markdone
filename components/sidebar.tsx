@@ -2,18 +2,20 @@
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { HamburgerMenuIcon, FilePlusIcon, FileIcon, TrashIcon } from '@radix-ui/react-icons'
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
 import { Fragment } from 'react'
 import Link from 'next/link'
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from './ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
 import { useFetchDrafts } from '@/hooks/use-fetch-drafts'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 export function Sidebar() {
-	const { drafts, isLoading } = useFetchDrafts()
+	const { data, isLoading } = useFetchDrafts()
 	const supabase = useSupabaseClient()
+	const session = useSession()
+	const user_id = session?.user?.id
 
 	return (
 		<Sheet>
@@ -30,7 +32,9 @@ export function Sidebar() {
 					<Button
 						className="justify-start text-left"
 						onClick={async () => {
-							const { error } = await supabase.from('drafts').insert({})
+							const { error } = await supabase
+								.from('drafts')
+								.insert({ filename: 'Untitled', content: '', user_id })
 							if (error) {
 								throw error
 							}
@@ -38,10 +42,10 @@ export function Sidebar() {
 						<FilePlusIcon className="mr-2 h-4 w-4" /> Create New Draft
 					</Button>
 					<h2 className="text-lg font-semibold text-foreground">Drafts</h2>
-					{isLoading || !drafts ? (
+					{isLoading || !data ? (
 						<SidebarLoadingSkeleton />
 					) : (
-						drafts.map(draft => (
+						data.map(draft => (
 							<Fragment key={draft.id}>
 								<Button className="justify-start text-left" variant="ghost" asChild>
 									<Link
