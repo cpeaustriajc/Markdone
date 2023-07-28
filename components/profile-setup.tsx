@@ -20,7 +20,7 @@ export function ProfileSetup({ session }: { session: Session | null }) {
 		try {
 			setIsLoading(true)
 
-			let { data, error, status } = await supabase
+			const { data, error, status } = await supabase
 				.from('profiles')
 				.select('full_name, username, avatar_url')
 				.eq('id', user?.id)
@@ -57,7 +57,7 @@ export function ProfileSetup({ session }: { session: Session | null }) {
 		try {
 			setIsLoading(true)
 
-			let { error } = await supabase.from('profiles').upsert({
+			const { error } = await supabase.from('profiles').upsert({
 				id: user?.id as string,
 				full_name: fullname,
 				username,
