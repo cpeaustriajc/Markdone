@@ -1,14 +1,14 @@
 'use client'
 
+import { Sidebar } from '@/components/sidebar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { GitHubLogoIcon, MoonIcon, SunIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
-import { useTheme } from 'next-themes'
-import { Sidebar } from './sidebar'
-import { Button } from './ui/button'
-import Link from 'next/link'
-import { NavigationMenu } from '@radix-ui/react-navigation-menu'
 import { NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigation-menu'
+import { GitHubLogoIcon, MoonIcon, SunIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
+import { NavigationMenu } from '@radix-ui/react-navigation-menu'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useTheme } from 'next-themes'
+import Link from 'next/link'
+import { Button } from './ui/button'
 
 export function Header() {
 	const { setTheme } = useTheme()
