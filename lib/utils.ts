@@ -1,4 +1,3 @@
-import { MarkdownData } from '@/types/markdown-data.types'
 import { ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
