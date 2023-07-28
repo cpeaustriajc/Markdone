@@ -3,9 +3,9 @@
 import { Database } from '@/types/database.types'
 import { Avatar } from '@radix-ui/react-avatar'
 import React, { useEffect, useState } from 'react'
-import { AvatarFallback, AvatarImage } from './ui/avatar'
-import { Label } from './ui/label'
-import { Input } from './ui/input'
+import { AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 type Profiles = Database['public']['Tables']['profiles']['Row']
 
@@ -48,7 +48,7 @@ export default function ProfileImage({ uid, url, size, onUpload }: ProfileImageP
 			const fileExt = file.name.split('.').pop()
 			const filePath = `${uid}-${Math.random()}.${fileExt}`
 
-			let { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file)
+			const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file)
 
 			if (uploadError) {
 				throw new Error('Failed to upload avatar: ' + uploadError)
@@ -70,7 +70,7 @@ export default function ProfileImage({ uid, url, size, onUpload }: ProfileImageP
 					<AvatarFallback />
 				</Avatar>
 			) : (
-				<div className='space-y-1'>
+				<div className="space-y-1">
 					<Label htmlFor="upload-single-file">{isUploading ? 'Uploading...' : 'Upload Avatar'}</Label>
 					<Input
 						type="file"

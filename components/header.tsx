@@ -7,7 +7,7 @@ import { Sidebar } from './sidebar'
 import { Button } from './ui/button'
 import Link from 'next/link'
 import { NavigationMenu } from '@radix-ui/react-navigation-menu'
-import { NavigationMenuItem, NavigationMenuList } from './ui/navigation-menu'
+import { NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigation-menu'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 export function Header() {
