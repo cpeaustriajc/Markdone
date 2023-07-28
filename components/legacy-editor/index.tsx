@@ -10,15 +10,15 @@ import { ElementRef, useRef, useState } from 'react'
 export default function LegacyEditor() {
 	const editorRef = useRef<ElementRef<'div'>>(null)
 	const previewRef = useRef<ElementRef<'div'>>(null)
-	const [content, setContent] = useState<string>('')
+	const [editorContent, setEditorContent] = useState<string>('')
 	const isDesktop = useMediaquery('(min-width: 768px)')
 
 	useSyncScroll(editorRef, previewRef)
 	return (
 		<>
-			<Editor editorRef={editorRef} content={content} setContent={setContent} />
+			<Editor editorRef={editorRef} content={editorContent} setContent={setEditorContent} />
 			<Separator orientation={isDesktop ? 'vertical' : 'horizontal'} />
-			<Preview previewRef={previewRef} content={content} />
+			<Preview previewRef={previewRef} content={editorContent} />
 		</>
 	)
 }
