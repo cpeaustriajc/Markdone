@@ -3,6 +3,20 @@ import { inter, roboto_mono } from '@/lib/fonts'
 import Providers from '@/lib/providers'
 import '@/styles/globals.css'
 
+export const metadata = {
+	manifest: '/site.webmanifest',
+	themeColor: [
+		{
+			media: '(prefers-color-scheme: dark)',
+			color: 'black',
+		},
+		{
+			media: '(prefers-color-scheme: light)',
+			color: 'black',
+		},
+	],
+}
+
 interface Props {
 	children: React.ReactNode
 }
