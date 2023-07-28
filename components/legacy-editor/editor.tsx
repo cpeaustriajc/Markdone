@@ -12,7 +12,7 @@ export function Editor({ editorRef, content, setContent }: EditorProps) {
 	const textAreaRef = useRef<ElementRef<'textarea'>>(null)
 
 	const lineNumber = content.split('\n').length
-	const longestString = content.split('\n').reduce((a: any, b: any) => (a.length > b.length ? a : b)).length
+	const longestString = content.split('\n').reduce((a, b) => (a.length > b.length ? a : b)).length
 
 	const handleChange = async (e: React.ChangeEvent<ElementRef<'textarea'>>) => {
 		e.preventDefault()
