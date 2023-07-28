@@ -40,7 +40,7 @@ export function Editor({ editorRef, content, setContent }: EditorProps) {
 
 	const LineNumbers = memo(() => {
 		return Array.from({ length: lineNumber! }).map((_, index) => (
-			<span className="select-none text-secondary" key={index}>
+			<span className="select-none dark:text-zinc-400 text-zinc-600" key={index}>
 				{index + 1}
 			</span>
 		))
