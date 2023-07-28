@@ -8,12 +8,12 @@ import Link from 'next/link'
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
-import { useFetchDrafts } from '@/hooks/use-fetch-drafts'
+import { useDraftsQuery } from '@/hooks/use-drafts-query'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 export function Sidebar() {
-	const { data, isLoading } = useFetchDrafts()
 	const supabase = useSupabaseClient()
+	const { data: drafts, isLoading } = useDraftsQuery()
 	const session = useSession()
 	const user_id = session?.user?.id
 
@@ -42,14 +42,14 @@ export function Sidebar() {
 						<FilePlusIcon className="mr-2 h-4 w-4" /> Create New Draft
 					</Button>
 					<h2 className="text-lg font-semibold text-foreground">Drafts</h2>
-					{isLoading || !data ? (
+					{isLoading || !drafts ? (
 						<SidebarLoadingSkeleton />
 					) : (
-						data.map(draft => (
+						drafts.map(draft => (
 							<Fragment key={draft.id}>
 								<Button className="justify-start text-left" variant="ghost" asChild>
 									<Link
-										href={`/drafts/${draft.id}`}
+										href={`/draft/${draft.id}`}
 										className="items-center justify-between align-middle">
 										<span className="flex">
 											<FileIcon className="mr-2 inline h-4 w-4" /> {draft.filename}
