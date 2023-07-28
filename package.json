@@ -28,7 +28,7 @@
 		"@supabase/supabase-js": "^2.31.0",
 		"@tanstack/eslint-plugin-query": "^4.29.25",
 		"@tanstack/react-query": "^4.32.0",
-		"next": "^13.4.12",
+		"next": "13.4.13-canary.5",
 		"next-themes": "^0.2.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
