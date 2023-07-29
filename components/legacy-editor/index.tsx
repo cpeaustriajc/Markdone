@@ -3,22 +3,43 @@
 import { Editor } from '@/components/legacy-editor/editor'
 import { Preview } from '@/components/legacy-editor/preview'
 import { Separator } from '@/components/ui/separator'
-import { useMediaquery } from '@/hooks/use-media-query'
+import { useGetDraftByIdQuery } from '@/hooks/use-get-draft-by-id-query'
 import { useSyncScroll } from '@/hooks/use-sync-scroll'
 import { ElementRef, useRef, useState } from 'react'
+import { LoadingSkeleton } from '@/components/loading-skeleton'
+import { useEditor } from '@/lib/providers/editor'
 
-export default function LegacyEditor() {
+export default function LegacyEditor({ id }: { id: string }) {
+	const { isLoading } = useGetDraftByIdQuery(id)
 	const editorRef = useRef<ElementRef<'div'>>(null)
 	const previewRef = useRef<ElementRef<'div'>>(null)
-	const [editorContent, setEditorContent] = useState<string>('')
-	const isDesktop = useMediaquery('(min-width: 768px)')
+	const { drafts } = useEditor()
+
+	if (!drafts) throw Error('Drafts not found')
+
+	const draft = drafts.find((draft) => draft.id === id)
+
+	if (draft === undefined)
+		throw new Error('Draft not found')
+
+	const content = draft.content
 
 	useSyncScroll(editorRef, previewRef)
+	if (isLoading) {
+		return (
+			<>
+				<LoadingSkeleton />
+				<Separator orientation="vertical" />
+				<LoadingSkeleton />
+			</>
+		)
+	}
+
 	return (
 		<>
-			<Editor editorRef={editorRef} content={editorContent} setContent={setEditorContent} />
-			<Separator orientation={isDesktop ? 'vertical' : 'horizontal'} />
-			<Preview previewRef={previewRef} content={editorContent} />
+			<Editor editorRef={editorRef} content={content} />
+			<Separator orientation="vertical" />
+			<Preview previewRef={previewRef} content={content} />
 		</>
 	)
 }

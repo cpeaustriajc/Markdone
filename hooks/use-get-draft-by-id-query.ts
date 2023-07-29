@@ -4,7 +4,7 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useQuery } from '@tanstack/react-query'
 import { Database } from '@/types/database.types'
 
-export function useDraftQuery(id: string) {
+export function useGetDraftByIdQuery(id: string) {
 	const client = useSupabaseClient<Database>()
 
 	const getDraft = (id: string) => {

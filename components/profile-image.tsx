@@ -1,23 +1,22 @@
 'use client'
 
-import { Database } from '@/types/database.types'
 import { Avatar } from '@radix-ui/react-avatar'
 import React, { useEffect, useState } from 'react'
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
-type Profiles = Database['public']['Tables']['profiles']['Row']
+import { Profile } from '@/lib/providers/editor'
 
 interface ProfileImageProps {
 	uid: string
-	url: Profiles['avatar_url']
+	url: Profile['avatar_url']
 	size: number
 	onUpload: (url: string) => void
 }
 
 export default function ProfileImage({ uid, url, size, onUpload }: ProfileImageProps) {
-	const [avatarUrl, setAvatarUrl] = useState<Profiles['avatar_url']>(url)
+	const [avatarUrl, setAvatarUrl] = useState<Profile['avatar_url']>(url)
 	const [isUploading, setIsUploading] = useState(false)
 	const supabase = useSupabaseClient()
 
