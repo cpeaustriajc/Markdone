@@ -23,12 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-.next
-out
-
-# Sentry Auth Token
-.sentryclirc
-
 .vercel
 .env*.local
 *.tsbuildinfo
