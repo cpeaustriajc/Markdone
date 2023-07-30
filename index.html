@@ -14,13 +14,38 @@
 		<link rel="manifest" href="/site.webmanifest" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<meta name="description" content="Markdown Editor" />
-		<meta name="color-sceme" content="dark light" />
 		<meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
 		<meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Markdone</title>
+		<script type="module" defer>
+			function noFlash() {
+				try {
+					const root = document.documentElement
+					root.classList.remove('light', 'dark')
+					const persistedStorage = localStorage.getItem('theme')
+					if ('system' === persistedStorage || (!persistedStorage && true)) {
+						const theme = '(prefers-color-scheme: dark)',
+							mql = window.matchMedia(theme)
+						if (mql.media !== theme || mql.matches) {
+							root.classList.add('dark')
+						} else {
+							root.classList.add('light')
+						}
+					} else if (persistedStorage) {
+						root.classList.add(persistedStorage || '')
+					}
+					if (persistedStorage === 'light' || persistedStorage === 'dark')
+						root.style.colorScheme = persistedStorage
+				} catch (e) {
+					/* empty */
+				}
+			}
+
+			noFlash()
+		</script>
 	</head>
-	<body className="h-full bg-background text-foreground">
+	<body class="h-full bg-background text-foreground">
 		<div id="root" class="isolate contents"></div>
 		<script type="module" src="/src/main.tsx"></script>
 	</body>
