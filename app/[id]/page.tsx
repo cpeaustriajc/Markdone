@@ -1,7 +1,7 @@
 'use client'
 
 import LegacyEditor from '@/components/legacy-editor'
-import { useParams } from 'next/navigation'
+import { useParams } from 'react-router-dom'
 
 export default function DraftsPage() {
 	const params = useParams()

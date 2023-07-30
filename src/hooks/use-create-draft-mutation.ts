@@ -13,7 +13,7 @@ export function useCreateDraftMutation() {
 	}
 
 	return useMutation({
-		mutationFn: async (draft: Draft) => {
+		mutationFn: async (draft: Omit<Draft, 'id' | 'created_at'>) => {
 			return createDraft(draft).then(res => res.data)
 		},
 		onSuccess: () => {

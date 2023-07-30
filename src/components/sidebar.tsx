@@ -1,24 +1,40 @@
 'use client'
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-import { HamburgerMenuIcon, FilePlusIcon, FileIcon, TrashIcon, Pencil1Icon } from '@radix-ui/react-icons'
+import { HamburgerMenuIcon, FilePlusIcon, FileIcon, TrashIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
 import { useDeleteDraftMutation } from '@/hooks/use-delete-draft-mutation'
 import { useCreateDraftMutation } from '@/hooks/use-create-draft-mutation'
-import { useSession } from '@supabase/auth-helpers-react'
-import { useEditor } from '@/lib/providers/editor'
+import { useGetDraftsQuery } from '@/hooks/use-get-drafts-query'
+import { useGetSessionQuery } from '@/hooks/use-get-session-query'
 
 export function Sidebar() {
-	const session = useSession()
-	const user_id = session?.user?.id!
-	const { drafts } = useEditor()
-
+	const { data: sessionData, error: sessionError } = useGetSessionQuery()
+	const { data: draftsData, isError, error: draftsError } = useGetDraftsQuery()
 	const createDraftMutation = useCreateDraftMutation()
 	const deleteDraftMutation = useDeleteDraftMutation()
+
+	if (!sessionData) {
+		throw new Error('Session is undefined')
+	}
+
+	if (sessionError) {
+		throw new Error('Error while fetching session: ' + sessionError)
+	}
+
+	if (sessionData.session === null) {
+		throw new Error('Session is null')
+	}
+
+	const user_id = sessionData.session.user.id
+
+	if (isError) {
+		throw new Error('Error while fetching drafts: ' + draftsError)
+	}
 
 	return (
 		<Sheet>
@@ -39,15 +55,11 @@ export function Sidebar() {
 						<FilePlusIcon className="mr-2 h-4 w-4" /> Create New Draft
 					</Button>
 					<h2 className="text-lg font-semibold text-foreground">Drafts</h2>
-					{!drafts ? (
-						<SidebarLoadingSkeleton />
-					) : (
-						drafts.map(draft => (
+					{draftsData ? (
+						draftsData.map(draft => (
 							<div className="flex w-full flex-row" key={draft.id}>
 								<Button className="grow justify-start text-left" variant="secondary" asChild>
-									<Link
-										href={`/${draft.id}/`}
-										className="rounded-br-none rounded-tr-none align-middle">
+									<Link to={`/${draft.id}/`} className="rounded-br-none rounded-tr-none align-middle">
 										<span className="inline-flex">
 											<FileIcon className="mr-2 inline h-4 w-4" /> {draft.filename}
 										</span>
@@ -73,6 +85,8 @@ export function Sidebar() {
 								</Dialog>
 							</div>
 						))
+					) : (
+						<SidebarLoadingSkeleton />
 					)}
 				</div>
 			</SheetContent>

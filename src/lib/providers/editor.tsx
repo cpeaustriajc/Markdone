@@ -4,7 +4,7 @@ import { createContext, Dispatch, Reducer, useContext, useReducer } from 'react'
 export type Draft = Database['public']['Tables']['drafts']['Row']
 export type Profile = Database['public']['Tables']['profiles']['Row']
 type Action = { type: 'UPDATE_CONTENT'; payload: Draft['content'] }
-type ContextValue = { drafts: Partial<Draft>; dispatch: Dispatch<Action> }
+type ContextValue = { draft: Partial<Draft>; dispatch: Dispatch<Action> }
 
 const EditorContext = createContext<ContextValue | undefined>(undefined)
 
@@ -22,8 +22,8 @@ export function EditorProvider({ children }: { children: React.ReactNode }) {
 		content: '',
 	}
 
-	const [drafts, dispatch] = useReducer<Reducer<Partial<Draft>, Action>>(editorReducer, initialState)
-	const value = { drafts, dispatch }
+	const [draft, dispatch] = useReducer<Reducer<Partial<Draft>, Action>>(editorReducer, initialState)
+	const value = { draft, dispatch }
 
 	return <EditorContext.Provider value={value}>{children}</EditorContext.Provider>
 }

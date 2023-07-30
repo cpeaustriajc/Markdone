@@ -7,10 +7,10 @@ import { unified } from 'unified'
 
 interface PreviewProps {
 	previewRef: React.MutableRefObject<HTMLDivElement | null>
-	content: string
+	content: string | undefined
 }
 
-export function Preview({ previewRef, content }: PreviewProps) {
+export function Preview({ previewRef, content = ''}: PreviewProps) {
 	const md = unified()
 		.use(remarkParse)
 		.use(remarkGfm)

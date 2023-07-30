@@ -8,7 +8,7 @@ import { NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigati
 import { NavigationMenu } from '@radix-ui/react-navigation-menu'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useQueryClient } from '@tanstack/react-query'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 
 export function Header() {
 	const supabase = useSupabaseClient()
@@ -37,7 +37,7 @@ export function Header() {
 							</Button>
 						) : (
 							<Button asChild>
-								<Link href="/auth/login">Login</Link>
+								<Link to="/auth/login">Login</Link>
 							</Button>
 						)}
 					</NavigationMenuItem>

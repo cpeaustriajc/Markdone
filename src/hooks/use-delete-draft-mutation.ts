@@ -2,13 +2,11 @@ import { Draft } from '@/lib/providers/editor'
 import { Database } from '@/types/database.types'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
-
+import { redirect } from 'react-router-dom'
 
 export function useDeleteDraftMutation() {
 	const supabase = useSupabaseClient<Database>()
 	const queryClient = useQueryClient()
-	const router = useRouter()
 
 	const deleteDraft = async (id: Draft['id']) => {
 		return supabase.from('drafts').delete().match({ id }).single()
@@ -20,7 +18,7 @@ export function useDeleteDraftMutation() {
 		},
 		onSuccess: () => {
 			queryClient.refetchQueries({ queryKey: ['drafts'] })
-			router.push('/')
+			redirect('/')
 		},
 	})
 }
