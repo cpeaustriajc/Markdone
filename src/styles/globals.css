@@ -74,17 +74,23 @@
 		scrollbar-width: thin;
 	}
 
-	::-webkit-scrollbar {
-		width: 4px;
-		height: 4px;
+	@supports selector(-webkit-scrollbar) {
+		::-webkit-scrollbar {
+			width: 4px;
+			height: 4px;
+		}
 	}
 
-	::-webkit-scrollbar-thumb {
-		background: hsl(var(--foreground));
-		border-radius: var(--radius);
+	@supports selector(-webkit-scrollbar-thumb) {
+		::-webkit-scrollbar-thumb {
+			background: hsl(var(--foreground));
+			border-radius: var(--radius);
+		}
 	}
 
-	::-webkit-scrollbar-corner {
-		background: hsl(var(--background));
+	@supports selector(-webkit-scrollbar-corner) {
+		::-webkit-scrollbar-corner {
+			background: hsl(var(--background));
+		}
 	}
 }
