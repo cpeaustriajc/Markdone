@@ -1,37 +1,29 @@
-import { Inter, Roboto_Mono } from 'next/font/google'
-import './globals.css'
-import Providers from './providers'
-import { getTheme } from './actions'
 import { Header } from '@/components/header'
+import { inter, roboto_mono } from '@/lib/fonts'
+import Providers from '@/lib/providers'
+import '@/styles/globals.css'
 
 export const metadata = {
-	title: 'Markdone | Get more things done with Markdone!',
-	description: 'Get more things done with Markdone!',
-	colorScheme: 'dark light',
 	manifest: '/site.webmanifest',
+	themeColor: [
+		{
+			media: '(prefers-color-scheme: dark)',
+			color: 'black',
+		},
+		{
+			media: '(prefers-color-scheme: light)',
+			color: 'black',
+		},
+	],
 }
-
-const inter = Inter({
-	subsets: ['latin'],
-	variable: '--font-inter',
-})
-
-const roboto_mono = Roboto_Mono({
-	subsets: ['latin'],
-	variable: '--font-roboto-mono',
-})
 
 interface Props {
 	children: React.ReactNode
 }
 
-export default function RootLayout(props: Props) {
-	const theme = getTheme()
+export default function EditorRootLayout(props: Props) {
 	return (
-		<html
-			lang="en"
-			className={`${inter.variable} ${roboto_mono.variable} h-full ${theme}`}
-			style={{ colorScheme: theme }}>
+		<html lang="en" className={`${inter.variable} ${roboto_mono.variable} h-full`} suppressHydrationWarning>
 			<body className="h-full bg-background text-foreground">
 				<Providers>
 					<Header />

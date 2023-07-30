@@ -1,30 +1,33 @@
+'use client'
+
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-import { HamburgerMenuIcon, FilePlusIcon, FileIcon } from '@radix-ui/react-icons'
-import { Button } from './ui/button'
-import { useDrafts } from '@/context/drafts-context'
-import { useEffect, useState } from 'react'
+import { HamburgerMenuIcon, FilePlusIcon, FileIcon, TrashIcon, Pencil1Icon } from '@radix-ui/react-icons'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
+import { DialogDescription } from '@radix-ui/react-dialog'
+import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
+import { useDeleteDraftMutation } from '@/hooks/use-delete-draft-mutation'
+import { useCreateDraftMutation } from '@/hooks/use-create-draft-mutation'
+import { useSession } from '@supabase/auth-helpers-react'
+import { useEditor } from '@/lib/providers/editor'
 
 export function Sidebar() {
-	const { state, dispatch } = useDrafts()
-	// Workaround until https://github.com/radix-ui/primitives/issues/1386 is fixed
-	const [domLoaded, setDomLoaded] = useState(false)
+	const session = useSession()
+	const user_id = session?.user?.id!
+	const { drafts } = useEditor()
 
-	useEffect(() => {
-		setDomLoaded(true)
-	}, [])
+	const createDraftMutation = useCreateDraftMutation()
+	const deleteDraftMutation = useDeleteDraftMutation()
 
 	return (
 		<Sheet>
-			<div className="h-9 w-14">
-				{domLoaded && (
-					<SheetTrigger asChild>
-						<Button variant="ghost">
-							<span className="sr-only">Open Menu</span> <HamburgerMenuIcon className="h-6 w-6" />
-						</Button>
-					</SheetTrigger>
-				)}
-			</div>
+			<SheetTrigger asChild>
+				<Button size="icon">
+					<span className="sr-only">Open Preferences</span>
+					<HamburgerMenuIcon className="h-5 w-5" />
+				</Button>
+			</SheetTrigger>
 			<SheetContent side="left">
 				<SheetHeader>
 					<SheetTitle>Menu</SheetTitle>
@@ -32,17 +35,45 @@ export function Sidebar() {
 				<div className="grid w-full gap-1.5">
 					<Button
 						className="justify-start text-left"
-						onClick={() => {
-							dispatch({ type: 'CREATE_DRAFT' })
-						}}>
+						onClick={() => createDraftMutation.mutate({ filename: 'Untitled', content: '', user_id })}>
 						<FilePlusIcon className="mr-2 h-4 w-4" /> Create New Draft
 					</Button>
 					<h2 className="text-lg font-semibold text-foreground">Drafts</h2>
-					<Button className="justify-start text-left" variant="ghost" asChild>
-						<Link href={'/' + state.draft.id} className='align-middle items-center'>
-							<FileIcon className="mr-2 h-4 w-4" /> {state.draft.filename}
-						</Link>
-					</Button>
+					{!drafts ? (
+						<SidebarLoadingSkeleton />
+					) : (
+						drafts.map(draft => (
+							<div className="flex w-full flex-row" key={draft.id}>
+								<Button className="grow justify-start text-left" variant="secondary" asChild>
+									<Link
+										href={`/${draft.id}/`}
+										className="rounded-br-none rounded-tr-none align-middle">
+										<span className="inline-flex">
+											<FileIcon className="mr-2 inline h-4 w-4" /> {draft.filename}
+										</span>
+									</Link>
+								</Button>
+								<Dialog>
+									<DialogTrigger asChild>
+										<Button variant="destructive" className="rounded-bl-none rounded-tl-none  px-2">
+											<TrashIcon className="h-4 w-4" />
+										</Button>
+									</DialogTrigger>
+									<DialogContent>
+										<DialogHeader>Are you sure you want to delete the file?</DialogHeader>
+										<DialogDescription>You will not be able to recover it.</DialogDescription>
+										<div>
+											<Button
+												variant={'destructive'}
+												onClick={() => deleteDraftMutation.mutate(draft.id)}>
+												Yes, I am Sure
+											</Button>
+										</div>
+									</DialogContent>
+								</Dialog>
+							</div>
+						))
+					)}
 				</div>
 			</SheetContent>
 		</Sheet>

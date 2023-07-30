@@ -1,13 +1,15 @@
-import { z } from 'zod'
+import { object, string, Output, safeParse } from 'valibot'
 
-const environmentVariables = z.object({
-	OPENAI_API_KEY: z.string(),
+const environmentVariables = object({
+	OPENAI_API_KEY: string(),
+	NEXT_PUBLIC_SUPABASE_URL: string(),
+	NEXT_PUBLIC_SUPABASE_ANON_KEY: string(),
 })
 
-environmentVariables.safeParse(process.env)
+safeParse(environmentVariables, process.env)
 
 declare global {
 	namespace NodeJS {
-		interface ProcessEnv extends z.infer<typeof environmentVariables> {}
+		interface ProcessEnv extends Output<typeof environmentVariables> {}
 	}
 }
