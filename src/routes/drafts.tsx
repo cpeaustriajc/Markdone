@@ -1,5 +1,3 @@
-'use client'
-
 import LegacyEditor from '@/components/legacy-editor'
 import { useParams } from 'react-router-dom'
 
