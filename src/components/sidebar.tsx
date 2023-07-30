@@ -39,7 +39,7 @@ export function Sidebar() {
 	return (
 		<Sheet>
 			<SheetTrigger asChild>
-				<Button size="icon">
+				<Button variant="ghost" size="icon">
 					<span className="sr-only">Open Preferences</span>
 					<HamburgerMenuIcon className="h-5 w-5" />
 				</Button>
