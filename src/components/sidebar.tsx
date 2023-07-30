@@ -13,26 +13,18 @@ import { useGetDraftsQuery } from '@/hooks/use-get-drafts-query'
 import { useGetSessionQuery } from '@/hooks/use-get-session-query'
 
 export function Sidebar() {
-	const { data: sessionData, error: sessionError } = useGetSessionQuery()
-	const { data: draftsData, isError, error: draftsError } = useGetDraftsQuery()
+	const { data: sessionData, isError:isSessionError, error: sessionError } = useGetSessionQuery()
+	const { data: draftsData, isError: isDraftsError, error: draftsError } = useGetDraftsQuery()
 	const createDraftMutation = useCreateDraftMutation()
 	const deleteDraftMutation = useDeleteDraftMutation()
 
-	if (!sessionData) {
-		throw new Error('Session is undefined')
-	}
-
-	if (sessionError) {
+	if (isSessionError) {
 		throw new Error('Error while fetching session: ' + sessionError)
 	}
 
-	if (sessionData.session === null) {
-		throw new Error('Session is null')
-	}
+	const user_id = sessionData?.session?.user.id  ?? ''
 
-	const user_id = sessionData.session.user.id
-
-	if (isError) {
+	if (isDraftsError) {
 		throw new Error('Error while fetching drafts: ' + draftsError)
 	}
 
