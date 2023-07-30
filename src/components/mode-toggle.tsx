@@ -1,8 +1,37 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { Button } from "./ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
+import { Button } from './ui/button'
+import { useLayoutEffect, useState } from 'react'
 
 export function ModeToggle() {
+	const getPreferredTheme = () => {
+		const persistedColorPreference = window.localStorage.getItem('theme')
+		const hasPersistedPreference = typeof persistedColorPreference === 'string'
+
+		if (hasPersistedPreference) {
+			return persistedColorPreference
+		}
+
+		const mql = window.matchMedia('(prefers-color-scheme: dark)')
+		const hasMediaQueryPreference = typeof mql.matches === 'boolean'
+		if (hasMediaQueryPreference) {
+			return mql.matches ? 'dark' : 'light'
+		}
+
+		return 'light'
+	}
+
+	const [theme, setTheme] = useState(getPreferredTheme)
+
+	useLayoutEffect(() => {
+		if (theme === 'system') {
+			setTheme(getPreferredTheme())
+			return
+		}
+
+		document.documentElement.classList.remove('dark', 'light')
+		document.documentElement.classList.add(theme)
+	}, [theme])
 
 	return (
 		<DropdownMenu>
@@ -14,9 +43,9 @@ export function ModeToggle() {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
-				<DropdownMenuItem onClick={() => console.log('light')}>Light</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => console.log('dark')}>Dark</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => console.log('system')}>System</DropdownMenuItem>
+				<DropdownMenuItem onClick={() => setTheme('light')}>Light</DropdownMenuItem>
+				<DropdownMenuItem onClick={() => setTheme('dark')}>Dark</DropdownMenuItem>
+				<DropdownMenuItem onClick={() => setTheme('system')}>System</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	)
