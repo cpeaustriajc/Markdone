@@ -69,6 +69,11 @@
 }
 
 @layer base {
+	#__next {
+		display: contents;
+		isolation: isolate;
+	}
+
 	* {
 		border-color: hsl(var(--border));
 		scrollbar-width: thin;

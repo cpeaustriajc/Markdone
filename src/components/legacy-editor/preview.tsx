@@ -1,16 +1,17 @@
-import { Fragment, ReactNode, createElement } from 'react'
+import { Fragment, ReactNode, createElement, useContext } from 'react'
 import rehypeReact from 'rehype-react'
 import remarkGfm from 'remark-gfm'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import { unified } from 'unified'
+import { EditorContext } from '.'
 
 interface PreviewProps {
 	previewRef: React.MutableRefObject<HTMLDivElement | null>
-	content: string
 }
 
-export function Preview({ previewRef, content }: PreviewProps) {
+export function Preview({ previewRef }: PreviewProps) {
+	const { content } = useContext(EditorContext)
 	const md = unified()
 		.use(remarkParse)
 		.use(remarkGfm)
