@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	darkMode: ['class'],
-	content: ['./src/**/*.{js,jsx,ts,tsx}', './index.html'],
+	content: ['./components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}'],
 	theme: {
 		container: {
 			center: true,
@@ -12,8 +12,8 @@ module.exports = {
 		},
 		extend: {
 			fontFamily: {
-				sans: 'Inter, sans-serif',
-				mono: 'Roboto Mono, monospace',
+				sans: 'var(--font-inter), sans-serif',
+				mono: 'var(--font-roboto-mono), monospace',
 			},
 			colors: {
 				border: 'hsl(var(--border))',
