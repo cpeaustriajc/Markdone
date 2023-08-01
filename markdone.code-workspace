@@ -1,0 +1,26 @@
+{
+  "folders": [
+    {
+      "name": "root",
+      "path": "./"
+    },
+	{
+		"name": "tauri",
+		"path": "./apps/tauri"
+	},
+	{
+		"name": "web",
+		"path": "./apps/web"
+	},
+    {
+      "name": "supabase-functions",
+      "path": "supabase/functions"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "supabase/functions/": true
+    },
+    "typescript.tsdk": "project-root/node_modules/typescript/lib"
+  }
+}

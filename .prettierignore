@@ -1,6 +1,7 @@
-.next
-out
-.vercel
-pnpm-lock.yaml
-package-lock.json
-yarn.lock
+**/yarn.lock
+**/package-lock.json
+
+supabase/.temp
+supabase/.branches
+**/*.yaml
+**/*.yml
