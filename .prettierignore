@@ -1,7 +1,7 @@
-yarn.lock
-package-lock.json
+**/yarn.lock
+**/package-lock.json
 
 supabase/.temp
-supabse/.branches
+supabase/.branches
 **/*.yaml
 **/*.yml

@@ -1,9 +1,17 @@
 {
   "folders": [
     {
-      "name": "project-root",
+      "name": "root",
       "path": "./"
     },
+	{
+		"name": "tauri",
+		"path": "./apps/tauri"
+	},
+	{
+		"name": "web",
+		"path": "./apps/web"
+	},
     {
       "name": "supabase-functions",
       "path": "supabase/functions"

@@ -1,6 +1,6 @@
 [package]
 name = "markdone"
-version = "0.0.1-alpha.0"
+version = "0.0.0"
 description = "Get more things done with markdone!"
 authors = ["John Carlo Austria <cpe.austria.johncarlo@gmail.com>"]
 license = ""
