@@ -1,10 +1,12 @@
 'use client'
 
-import { ModeToggle } from '@/components/mode-toggle'
 import { NavigationSocials } from '@/components/navigation-socials'
 import { Sidebar } from '@/components/sidebar'
 import { NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigation-menu'
 import { NavigationMenu } from '@radix-ui/react-navigation-menu'
+import dynamic from 'next/dynamic'
+
+const ModeToggle = dynamic(()=> import('./mode-toggle').then(mod => mod.ModeToggle), { ssr: false })
 
 export function Header() {
 	return (
