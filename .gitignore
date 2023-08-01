@@ -22,14 +22,27 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-.next
-out
+*.pem
 
 # Sentry Auth Token
 .sentryclirc
 
-.vercel
+# testing
+/coverage
+
+# next.js
+**/.next/
+**/out/
+
+# production
+**/build
+
+# local env files
 .env*.local
+
+# vercel
+.vercel
+
+# typescript
 *.tsbuildinfo
-.turbo
+next-env.d.ts
