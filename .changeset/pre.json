@@ -1,0 +1,14 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "markdone": "0.0.0",
+    "www": "0.0.0",
+    "eslint-config-markdone": "0.0.0",
+    "tailwind-config-markdone": "0.0.0",
+    "ts-config": "0.0.0"
+  },
+  "changesets": [
+    "perfect-pigs-add"
+  ]
+}
