@@ -1,0 +1,12 @@
+{
+	"name": "tailwind-config-markdone",
+	"version": "0.0.0",
+	"main": "index.cjs",
+	"license": "UNLICENSED",
+	"publishConfig": {
+		"access": "public"
+	},
+	"devDependencies": {
+		"tailwindcss": "^3.3.3"
+	}
+}
