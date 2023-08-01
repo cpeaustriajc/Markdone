@@ -9,6 +9,7 @@
     "ts-config": "0.0.0"
   },
   "changesets": [
-    "perfect-pigs-add"
+    "perfect-pigs-add",
+    "small-taxis-obey"
   ]
 }
