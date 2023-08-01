@@ -6,7 +6,10 @@ import { AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { Profile } from '@/lib/providers/drafts'
+import { Database } from '@/types/database.types'
+
+type Profile = Database['public']['Tables']['profiles']['Row']
+
 
 interface ProfileImageProps {
 	uid: string

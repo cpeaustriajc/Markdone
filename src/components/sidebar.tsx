@@ -1,25 +1,41 @@
 'use client'
 
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { HamburgerMenuIcon, FilePlusIcon, FileIcon, TrashIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
 import { useDrafts } from '@/lib/providers/drafts'
+import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
+import { Skeleton } from './ui/skeleton'
+
+const DialogTrigger = dynamic(() => import('../components/ui/dialog').then(mod => mod.DialogTrigger), { ssr: false })
+const SheetTrigger = dynamic(() => import('../components/ui/sheet').then(mod => mod.SheetTrigger), { ssr: false })
+
+const SheetTriggerSkeleton = () => (
+	<>
+		<Skeleton className="h-6 w-6 rounded-full" />
+		<Skeleton className="h-6 w-6 rounded-full" />
+		<Skeleton className="h-6 w-6 rounded-full" />
+	</>
+)
 
 export function Sidebar() {
 	const { drafts, dispatch } = useDrafts()
 
 	return (
 		<Sheet>
-			<SheetTrigger asChild>
-				<Button size="icon">
-					<span className="sr-only">Open Preferences</span>
-					<HamburgerMenuIcon className="h-5 w-5" />
-				</Button>
-			</SheetTrigger>
+			<Suspense fallback={<SheetTriggerSkeleton/>}>
+				<SheetTrigger asChild>
+					<Button size="icon">
+						<span className="sr-only">Open Preferences</span>
+						<HamburgerMenuIcon className="h-5 w-5" />
+					</Button>
+				</SheetTrigger>
+			</Suspense>
 			<SheetContent side="left">
 				<SheetHeader>
 					<SheetTitle>Menu</SheetTitle>

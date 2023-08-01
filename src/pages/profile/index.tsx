@@ -1,5 +1,3 @@
-'use client'
-
 import { ProfileSetup } from '@/components/profile-setup'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSession } from '@supabase/auth-helpers-react'
