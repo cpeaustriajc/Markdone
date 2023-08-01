@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"scripts": {
-		"ci:version": "changesets version",
+		"ci:version": "changeset version",
 		"build": "turbo run build",
 		"dev": "turbo run dev",
 		"lint": "turbo run lint",
