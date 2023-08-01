@@ -1,3 +1,5 @@
+import '@/styles/globals.css'
+
 import { inter, roboto_mono } from '@/lib/fonts'
 import { Providers } from '@/lib/providers'
 import { AppProps } from 'next/app'

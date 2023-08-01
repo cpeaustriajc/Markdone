@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, memo, ElementRef, useContext } from 'react'
-import { EditorContext, useEditor } from '.'
+import { useRef, memo, ElementRef } from 'react'
+import { useEditor } from '.'
 
 interface EditorProps {
 	editorRef: React.MutableRefObject<HTMLDivElement | null>

@@ -1,5 +1,5 @@
 import { useSessionStorage } from '@/hooks/use-session-storage'
-import { createContext, Dispatch, Reducer, useContext, useEffect, useReducer, useState } from 'react'
+import { createContext, Dispatch, Reducer, useContext, useReducer } from 'react'
 
 export interface Draft {
 	id: string
@@ -17,13 +17,14 @@ const DraftsContext = createContext<ContextValue | undefined>(undefined)
 
 function draftsReducer(drafts: Draft[], action: Action) {
 	switch (action.type) {
-		case 'CREATE_DRAFT':
+		case 'CREATE_DRAFT': {
 			const newDraft = {
 				id: action.payload.id,
 				filename: action.payload.filename,
 				content: action.payload.content,
 			}
 			return [...drafts, newDraft]
+		}
 		case 'DELETE_DRAFT':
 			return drafts.filter(draft => draft.id !== action.payload)
 		default:

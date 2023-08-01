@@ -1,6 +1,6 @@
 import { Header } from '@/components/header'
 import { LegacyEditor } from '@/components/legacy-editor'
-import { Draft, useDrafts } from '@/lib/providers/drafts'
+import { Draft } from '@/lib/providers/drafts'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
