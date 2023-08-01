@@ -1,19 +1,15 @@
 'use client'
 
-import { useEditor } from '@/lib/providers/editor'
-import { useParams } from 'next/navigation'
-import { useRef, memo, ElementRef } from 'react'
+import { useRef, memo, ElementRef, useContext } from 'react'
+import { EditorContext, useEditor } from '.'
 
 interface EditorProps {
 	editorRef: React.MutableRefObject<HTMLDivElement | null>
-	content: string
 }
 
-export function Editor({ editorRef, content }: EditorProps) {
+export function Editor({ editorRef }: EditorProps) {
 	const textAreaRef = useRef<ElementRef<'textarea'>>(null)
-	const { dispatch } = useEditor()
-	const params = useParams()
-	const id = Array.isArray(params.id) ? params.id[0] : params.id
+	const { content, setContent } = useEditor()
 	const lineNumber = content.split('\n').length
 	const longestString = content.split('\n').reduce((a, b) => (a.length > b.length ? a : b)).length
 
@@ -63,7 +59,7 @@ export function Editor({ editorRef, content }: EditorProps) {
 					name="markdown-editor"
 					className="resize-none break-keep bg-background pl-1 text-lg outline-none focus:border-none active:border-none"
 					onChange={e => {
-						dispatch({ type: 'UPDATE_CONTENT', payload: { id, content: e.target.value } })
+						setContent(e.target.value)
 					}}
 					onKeyDown={handleKeyDown}
 					wrap="off"

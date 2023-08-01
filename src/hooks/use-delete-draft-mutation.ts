@@ -1,4 +1,4 @@
-import { Draft } from '@/lib/providers/editor'
+import { Draft } from '@/lib/providers/drafts'
 import { Database } from '@/types/database.types'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'

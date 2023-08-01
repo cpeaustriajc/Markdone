@@ -1,24 +1,16 @@
 'use client'
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-import { HamburgerMenuIcon, FilePlusIcon, FileIcon, TrashIcon, Pencil1Icon } from '@radix-ui/react-icons'
+import { HamburgerMenuIcon, FilePlusIcon, FileIcon, TrashIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
-import { useDeleteDraftMutation } from '@/hooks/use-delete-draft-mutation'
-import { useCreateDraftMutation } from '@/hooks/use-create-draft-mutation'
-import { useSession } from '@supabase/auth-helpers-react'
-import { useEditor } from '@/lib/providers/editor'
+import { useDrafts } from '@/lib/providers/drafts'
 
 export function Sidebar() {
-	const session = useSession()
-	const user_id = session?.user?.id!
-	const { drafts } = useEditor()
-
-	const createDraftMutation = useCreateDraftMutation()
-	const deleteDraftMutation = useDeleteDraftMutation()
+	const { drafts, dispatch } = useDrafts()
 
 	return (
 		<Sheet>
@@ -35,7 +27,14 @@ export function Sidebar() {
 				<div className="grid w-full gap-1.5">
 					<Button
 						className="justify-start text-left"
-						onClick={() => createDraftMutation.mutate({ filename: 'Untitled', content: '', user_id })}>
+						onClick={() => {
+							const newDraft = { id: self.crypto.randomUUID(), content: '', filename: 'Untitled' }
+							dispatch({
+								type: 'CREATE_DRAFT',
+								payload: newDraft,
+							})
+							sessionStorage.setItem('markdone:drafts', JSON.stringify([...drafts, newDraft]))
+						}}>
 						<FilePlusIcon className="mr-2 h-4 w-4" /> Create New Draft
 					</Button>
 					<h2 className="text-lg font-semibold text-foreground">Drafts</h2>
@@ -46,7 +45,7 @@ export function Sidebar() {
 							<div className="flex w-full flex-row" key={draft.id}>
 								<Button className="grow justify-start text-left" variant="secondary" asChild>
 									<Link
-										href={`/${draft.id}/`}
+										href={`/editor/${draft.id}/`}
 										className="rounded-br-none rounded-tr-none align-middle">
 										<span className="inline-flex">
 											<FileIcon className="mr-2 inline h-4 w-4" /> {draft.filename}
@@ -65,7 +64,13 @@ export function Sidebar() {
 										<div>
 											<Button
 												variant={'destructive'}
-												onClick={() => deleteDraftMutation.mutate(draft.id)}>
+												onClick={() => {
+													dispatch({ type: 'DELETE_DRAFT', payload: draft.id })
+													sessionStorage.setItem(
+														'markdone:drafts',
+														JSON.stringify(drafts.filter(d => d.id !== draft.id)),
+													)
+												}}>
 												Yes, I am Sure
 											</Button>
 										</div>
