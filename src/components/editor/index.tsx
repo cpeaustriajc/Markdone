@@ -1,4 +1,5 @@
 'use client'
+
 import { inter } from '@/lib/fonts'
 import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
@@ -6,7 +7,6 @@ import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import { EditorThemeClasses } from 'lexical'
-import './default.css'
 
 const theme: EditorThemeClasses = {}
 
