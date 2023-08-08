@@ -5,7 +5,7 @@ import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalCompos
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
-import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { EditorThemeClasses } from 'lexical'
 
 const theme: EditorThemeClasses = {}
@@ -32,7 +32,7 @@ export function EditorV2() {
 	return (
 		<LexicalComposer initialConfig={initialConfig}>
 			<HistoryPlugin />
-			<PlainTextPlugin
+			<RichTextPlugin
 				contentEditable={
 					<ContentEditable
 						className={`h-full w-full self-center justify-self-center rounded border border-border p-2 ${inter.className}`}

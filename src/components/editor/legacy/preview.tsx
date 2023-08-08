@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import { unified } from 'unified'
+import { inter } from '@/lib/fonts'
 import { useEditor } from '.'
 
 interface PreviewProps {
@@ -12,6 +13,8 @@ interface PreviewProps {
 
 export function Preview({ previewRef }: PreviewProps) {
 	const { content } = useEditor()
+
+	console.log(content)
 	const md = unified()
 		.use(remarkParse)
 		.use(remarkGfm)
@@ -24,7 +27,7 @@ export function Preview({ previewRef }: PreviewProps) {
 	return (
 		<article
 			ref={previewRef}
-			className="prose h-full shrink-0 grow-0 basis-1/2 overflow-y-auto overflow-x-hidden pl-3 dark:prose-invert"
+			className={`prose h-full shrink-0 grow-0 basis-1/2 overflow-y-auto overflow-x-hidden pl-3 dark:prose-invert ${inter.className}`}
 			role="region"
 			aria-label="Preview">
 			{Content}

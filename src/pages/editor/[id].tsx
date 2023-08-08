@@ -1,10 +1,11 @@
 import { Header } from '@/components/header'
 import { Draft } from '@/lib/providers/drafts'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-import { EditorV2 } from '@/components/editor'
+const LegacyEditor = dynamic(() => import('@/components/editor/legacy').then(mod => mod.LegacyEditor), { ssr: false })
 
 export default function Editor() {
 	const router = useRouter()
@@ -25,8 +26,8 @@ export default function Editor() {
 			</Head>
 			<Header />
 			<main className="h-[calc(100%-4rem)] bg-background text-foreground">
-				<div className="container relative grid h-full">
-					<EditorV2 />
+				<div className="container relative flex h-full">
+					<LegacyEditor />
 				</div>
 			</main>
 		</>
