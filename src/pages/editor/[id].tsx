@@ -1,9 +1,10 @@
 import { Header } from '@/components/header'
-import { LegacyEditor } from '@/components/legacy-editor'
 import { Draft } from '@/lib/providers/drafts'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+
+import { EditorV2 } from '@/components/editor'
 
 export default function Editor() {
 	const router = useRouter()
@@ -15,7 +16,7 @@ export default function Editor() {
 		const sessionStorageDraft = sessionStorageDrafts.find(draft => draft.id === id) ?? {}
 
 		setDraft(sessionStorageDraft)
-	},[id])
+	}, [id])
 
 	return (
 		<>
@@ -23,8 +24,10 @@ export default function Editor() {
 				<title>Editor | {draft.filename}</title>
 			</Head>
 			<Header />
-			<main className="flex h-full bg-background text-foreground">
-				<LegacyEditor />
+			<main className="h-[calc(100%-4rem)] bg-background text-foreground">
+				<div className="container relative grid h-full">
+					<EditorV2 />
+				</div>
 			</main>
 		</>
 	)

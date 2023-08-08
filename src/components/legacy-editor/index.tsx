@@ -6,8 +6,9 @@ import { Separator } from '@/components/ui/separator'
 import { useSyncScroll } from '@/hooks/use-sync-scroll'
 import { Dispatch, ElementRef, SetStateAction, createContext, useContext, useRef, useState } from 'react'
 
-export const EditorContext = createContext<{ content: string; setContent: Dispatch<SetStateAction<string>> } | undefined>(undefined)
-
+export const EditorContext = createContext<
+	{ content: string; setContent: Dispatch<SetStateAction<string>> } | undefined
+>(undefined)
 
 export function EditorProvider({ children }: { children: React.ReactNode }) {
 	const [content, setContent] = useState('')

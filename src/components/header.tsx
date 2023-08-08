@@ -6,7 +6,7 @@ import { NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigati
 import { NavigationMenu } from '@radix-ui/react-navigation-menu'
 import dynamic from 'next/dynamic'
 
-const ModeToggle = dynamic(()=> import('./mode-toggle').then(mod => mod.ModeToggle), { ssr: false })
+const ModeToggle = dynamic(() => import('./mode-toggle').then(mod => mod.ModeToggle), { ssr: false })
 
 export function Header() {
 	return (

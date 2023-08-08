@@ -11,6 +11,7 @@ import { useDrafts } from '@/lib/providers/drafts'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import { Skeleton } from './ui/skeleton'
+import { inter } from '@/lib/fonts'
 
 const DialogTrigger = dynamic(() => import('../components/ui/dialog').then(mod => mod.DialogTrigger), { ssr: false })
 const SheetTrigger = dynamic(() => import('../components/ui/sheet').then(mod => mod.SheetTrigger), { ssr: false })
@@ -28,7 +29,7 @@ export function Sidebar() {
 
 	return (
 		<Sheet>
-			<Suspense fallback={<SheetTriggerSkeleton/>}>
+			<Suspense fallback={<SheetTriggerSkeleton />}>
 				<SheetTrigger asChild>
 					<Button size="icon">
 						<span className="sr-only">Open Preferences</span>
@@ -36,7 +37,7 @@ export function Sidebar() {
 					</Button>
 				</SheetTrigger>
 			</Suspense>
-			<SheetContent side="left">
+			<SheetContent className={inter.className} side="left">
 				<SheetHeader>
 					<SheetTitle>Menu</SheetTitle>
 				</SheetHeader>
