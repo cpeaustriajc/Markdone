@@ -14,7 +14,6 @@ interface PreviewProps {
 export function Preview({ previewRef }: PreviewProps) {
 	const { content } = useEditor()
 
-	console.log(content)
 	const md = unified()
 		.use(remarkParse)
 		.use(remarkGfm)

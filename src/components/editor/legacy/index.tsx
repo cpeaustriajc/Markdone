@@ -38,10 +38,10 @@ export function LegacyEditor() {
 	useSyncScroll(editorRef, previewRef)
 
 	return (
-		<EditorProvider>
+		<>
 			<Editor editorRef={editorRef} />
 			<Separator orientation="vertical" />
 			<Preview previewRef={previewRef} />
-		</EditorProvider>
+		</>
 	)
 }

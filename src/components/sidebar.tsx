@@ -1,7 +1,7 @@
 'use client'
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
-import { HamburgerMenuIcon, FilePlusIcon, FileIcon, TrashIcon } from '@radix-ui/react-icons'
+import { HamburgerMenuIcon, FilePlusIcon, FileIcon, TrashIcon, DownloadIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog'
@@ -9,34 +9,22 @@ import { DialogDescription } from '@radix-ui/react-dialog'
 import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
 import { useDrafts } from '@/lib/providers/drafts'
 import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
-import { Skeleton } from './ui/skeleton'
 import { inter } from '@/lib/fonts'
 
 const DialogTrigger = dynamic(() => import('../components/ui/dialog').then(mod => mod.DialogTrigger), { ssr: false })
 const SheetTrigger = dynamic(() => import('../components/ui/sheet').then(mod => mod.SheetTrigger), { ssr: false })
-
-const SheetTriggerSkeleton = () => (
-	<>
-		<Skeleton className="h-6 w-6 rounded-full" />
-		<Skeleton className="h-6 w-6 rounded-full" />
-		<Skeleton className="h-6 w-6 rounded-full" />
-	</>
-)
 
 export function Sidebar() {
 	const { drafts, dispatch } = useDrafts()
 
 	return (
 		<Sheet>
-			<Suspense fallback={<SheetTriggerSkeleton />}>
-				<SheetTrigger asChild>
-					<Button size="icon">
-						<span className="sr-only">Open Preferences</span>
-						<HamburgerMenuIcon className="h-5 w-5" />
-					</Button>
-				</SheetTrigger>
-			</Suspense>
+			<SheetTrigger asChild>
+				<Button size="icon">
+					<span className="sr-only">Open Preferences</span>
+					<HamburgerMenuIcon className="h-5 w-5" />
+				</Button>
+			</SheetTrigger>
 			<SheetContent className={inter.className} side="left">
 				<SheetHeader>
 					<SheetTitle>Menu</SheetTitle>
@@ -69,10 +57,27 @@ export function Sidebar() {
 										</span>
 									</Link>
 								</Button>
+								<Button
+									variant="secondary"
+									className="rounded-none px-2"
+									onClick={() => {
+										const a = document.createElement('a')
+										const blob = new Blob([draft.content], { type: 'text/plain' })
+										const url = URL.createObjectURL(blob)
+										a.href = url
+										a.download = `${draft.filename}.md`
+										a.click()
+										URL.revokeObjectURL(url)
+										a.remove()
+									}}>
+									<DownloadIcon className="h-4 w-4" />
+									<span className="sr-only">Download Draft</span>
+								</Button>
 								<Dialog>
 									<DialogTrigger asChild>
 										<Button variant="destructive" className="rounded-bl-none rounded-tl-none  px-2">
 											<TrashIcon className="h-4 w-4" />
+											<span className="sr-only">Delete Draft</span>
 										</Button>
 									</DialogTrigger>
 									<DialogContent>
@@ -81,6 +86,7 @@ export function Sidebar() {
 										<div>
 											<Button
 												variant={'destructive'}
+												className={inter.className}
 												onClick={() => {
 													dispatch({ type: 'DELETE_DRAFT', payload: draft.id })
 													sessionStorage.setItem(

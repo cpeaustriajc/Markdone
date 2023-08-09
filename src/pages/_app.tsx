@@ -6,10 +6,10 @@ import { AppProps } from 'next/app'
 
 export default function AppRoot({ Component, pageProps }: AppProps) {
 	return (
-		<Providers>
-			<div className={`isolate contents ${inter.variable} ${roboto_mono.variable}`}>
+		<div className={`isolate contents ${inter.variable} ${roboto_mono.variable}`}>
+			<Providers>
 				<Component {...pageProps} />
-			</div>
-		</Providers>
+			</Providers>
+		</div>
 	)
 }
