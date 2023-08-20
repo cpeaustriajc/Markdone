@@ -11,6 +11,9 @@ dependencies:
   '@codemirror/lang-markdown':
     specifier: ^6.2.0
     version: 6.2.0
+  '@codemirror/language':
+    specifier: ^6.9.0
+    version: 6.9.0
   '@codemirror/state':
     specifier: ^6.2.1
     version: 6.2.1
@@ -20,6 +23,9 @@ dependencies:
   '@lexical/react':
     specifier: ^0.12.0
     version: 0.12.0(lexical@0.12.0)(react-dom@18.2.0)(react@18.2.0)(yjs@13.6.7)
+  '@lezer/highlight':
+    specifier: ^1.1.6
+    version: 1.1.6
   '@radix-ui/react-avatar':
     specifier: ^1.0.3
     version: 1.0.3(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)
@@ -50,9 +56,6 @@ dependencies:
   '@tanstack/react-query':
     specifier: ^4.33.0
     version: 4.33.0(react-dom@18.2.0)(react@18.2.0)
-  '@uiw/codemirror-theme-github':
-    specifier: ^4.21.9
-    version: 4.21.9(@codemirror/language@6.9.0)(@codemirror/state@6.2.1)(@codemirror/view@6.16.0)
   '@uiw/codemirror-themes':
     specifier: ^4.21.9
     version: 4.21.9(@codemirror/language@6.9.0)(@codemirror/state@6.2.1)(@codemirror/view@6.16.0)
@@ -1738,16 +1741,6 @@ packages:
       '@codemirror/search': 6.5.1
       '@codemirror/state': 6.2.1
       '@codemirror/view': 6.16.0
-    dev: false
-
-  /@uiw/codemirror-theme-github@4.21.9(@codemirror/language@6.9.0)(@codemirror/state@6.2.1)(@codemirror/view@6.16.0):
-    resolution: {integrity: sha512-iTcnQHO6gCUp/8s6IzHBQ+oUq9H3zIMmlyhI3HBUpZNl++2gZrJIQCES8aQj6TSzQFqh4UBNal31lVl75j/Wkw==}
-    dependencies:
-      '@uiw/codemirror-themes': 4.21.9(@codemirror/language@6.9.0)(@codemirror/state@6.2.1)(@codemirror/view@6.16.0)
-    transitivePeerDependencies:
-      - '@codemirror/language'
-      - '@codemirror/state'
-      - '@codemirror/view'
     dev: false
 
   /@uiw/codemirror-themes@4.21.9(@codemirror/language@6.9.0)(@codemirror/state@6.2.1)(@codemirror/view@6.16.0):

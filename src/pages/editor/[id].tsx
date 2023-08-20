@@ -21,9 +21,9 @@ export default function Editor() {
 
 	return (
 		<>
-			<Head>
+			{/* <Head>
 				<title>Editor | {draft.filename}</title>
-			</Head>
+			</Head> */}
 			<Header />
 			<main className="h-[calc(100%-4rem)] bg-background text-foreground">
 				<div className="container relative flex h-full">
