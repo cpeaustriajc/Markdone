@@ -29,7 +29,7 @@ export function Header() {
 				<div className="flex gap-2">
 					<div className="min-w-[128px]">
 						<h1 className={`text-2xl font-bold ${inter.className}`}>
-							{currentDraft && currentDraft.filename}
+							{currentDraft ? currentDraft.filename : 'Empty'}
 						</h1>
 					</div>
 					<Dialog>
