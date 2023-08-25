@@ -1,12 +1,12 @@
 import { Header } from '@/components/header'
-import Head from 'next/head'
 
-export default function HomePage() {
+export const metadata = {
+	title: 'Markdone | Get more things done with markdone!',
+}
+
+export default function Page() {
 	return (
 		<>
-			<Head>
-				<title>Markdone | Get more things done with markdone!</title>
-			</Head>
 			<Header />
 			<main className="container flex h-[calc(100%-4rem)] flex-col justify-center bg-background font-sans text-foreground">
 				<div className="self-center">

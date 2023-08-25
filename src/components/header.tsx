@@ -6,7 +6,7 @@ import { NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigati
 import { useDrafts } from '@/lib/providers/drafts'
 import { NavigationMenu } from '@radix-ui/react-navigation-menu'
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import { CheckCircledIcon, Pencil1Icon } from '@radix-ui/react-icons'
 import { Input } from './ui/input'
 import { inter } from '@/lib/fonts'
@@ -19,8 +19,8 @@ const ModeToggle = dynamic(() => import('./mode-toggle').then(mod => mod.ModeTog
 export function Header() {
 	const { drafts, dispatch } = useDrafts()
 	const { content } = useEditor()
-	const router = useRouter()
-	const currentDraft = drafts?.find(draft => draft.id === router.query.id)
+	const params = useParams()
+	const currentDraft = drafts?.find(draft => draft.id === params?.id)
 
 	return (
 		<header className="container flex h-16 items-center justify-between gap-1.5 bg-background text-foreground">

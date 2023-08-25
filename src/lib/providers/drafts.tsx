@@ -1,3 +1,5 @@
+'use client'
+
 import { useSessionStorage } from '@/hooks/use-session-storage'
 import { createContext, Dispatch, Reducer, useContext, useReducer } from 'react'
 

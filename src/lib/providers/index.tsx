@@ -1,3 +1,5 @@
+'use client'
+
 import { ThemeProvider } from 'next-themes'
 import { DraftsProvider } from '@/lib/providers/drafts'
 import { EditorProvider } from '@/components/editor/legacy'
