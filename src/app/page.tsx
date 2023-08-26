@@ -4,7 +4,7 @@ export const metadata = {
 	title: 'Markdone | Get more things done with markdone!',
 }
 
-export default function Page() {
+export default async function Page() {
 	return (
 		<>
 			<Header />

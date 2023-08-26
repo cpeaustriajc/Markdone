@@ -1,30 +1,39 @@
-'use client'
-
 import { Header } from '@/components/header'
-import { Draft } from '@/lib/providers/drafts'
-import dynamic from 'next/dynamic'
-import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { prisma } from '@/lib/prisma'
+import { LegacyEditor } from '@/components/editor/legacy'
 
-const LegacyEditor = dynamic(() => import('@/components/editor/legacy').then(mod => mod.LegacyEditor), { ssr: false })
+type Props = {
+	params: { id: string }
+	searchParams: { [key: string]: string | string[] | undefined }
+}
 
-export default function Editor() {
-	const params = useParams()
-	const [draft, setDraft] = useState<Partial<Draft>>({})
+export async function generateStaticParams() {
+	const drafts = await prisma.drafts.findMany({ orderBy: { createdAt: 'desc' } })
 
-	useEffect(() => {
-		const sessionStorageDrafts = JSON.parse(sessionStorage.getItem('markdone:drafts') as string) as Draft[]
-		const sessionStorageDraft = sessionStorageDrafts.find(draft => draft.id === params?.id) ?? {}
+	return drafts.map(draft => ({
+		params: {
+			id: draft.id,
+		},
+	}))
+}
 
-		setDraft(sessionStorageDraft)
-		document.title = draft.filename ?? 'Untitled'
-	}, [params?.id, draft.filename])
+export async function generateMetadata({ params }: Props) {
+	const id = params.id
 
+	// @ts-ignore Type 'string' is not assignable to type 'number'. But the actual required type of the value is a string?
+	const draft = await prisma.drafts.findUnique({ where: { id }, select: { filename: true } })
+
+	return {
+		title: draft?.filename,
+	}
+}
+
+export default function Editor({ params }: Props) {
 	return (
 		<>
-			<Header />
+			<Header id={params.id} />
 			<main className="h-[calc(100%-4rem)] bg-background text-foreground">
-				<div className="container relative flex h-full">
+				<div className="container relative flex	h-full md:flex-row flex-col">
 					<LegacyEditor />
 				</div>
 			</main>

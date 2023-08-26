@@ -40,8 +40,8 @@ export function LegacyEditor() {
 	return (
 		<>
 			<Editor editorRef={editorRef} />
-			<Separator orientation="horizontal" className="lg:hidden" />
 			<Separator orientation="vertical" className="hidden md:block" />
+			<Separator orientation="horizontal" className="block md:hidden" />
 			<Preview previewRef={previewRef} />
 		</>
 	)
