@@ -20,7 +20,6 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
 	const id = params.id
 
-	// @ts-ignore Type 'string' is not assignable to type 'number'. But the actual required type of the value is a string?
 	const draft = await prisma.drafts.findUnique({ where: { id }, select: { filename: true } })
 
 	return {
