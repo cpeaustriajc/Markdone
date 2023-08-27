@@ -6,6 +6,7 @@ import { markdown } from '@codemirror/lang-markdown'
 import { useCallback } from 'react'
 import { useEditor } from '.'
 import { tags } from '@lezer/highlight'
+import { trpc } from '@/lib/trpc'
 
 const defaultTheme = createTheme({
 	theme: 'dark',
@@ -41,14 +42,19 @@ const defaultTheme = createTheme({
 
 interface EditorProps {
 	editorRef: React.MutableRefObject<HTMLDivElement | null>
+	id: string
 }
 
-export function Editor({ editorRef }: EditorProps) {
+export function Editor({ editorRef, id }: EditorProps) {
 	const { content, dispatch } = useEditor()
-
+	const { mutate } = trpc.updateDraftContent.useMutation()
 	const onChange = useCallback(
 		(value: string) => {
 			dispatch({ type: 'UPDATE_CONTENT', content: value })
+
+			setTimeout(() => {
+				mutate({ id, content: value })
+			}, 1000)
 		},
 		[dispatch],
 	)

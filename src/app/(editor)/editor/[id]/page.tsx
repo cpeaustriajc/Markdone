@@ -1,4 +1,3 @@
-import { Header } from '@/components/header'
 import { prisma } from '@/lib/prisma'
 import { LegacyEditor } from '@/components/editor/legacy'
 
@@ -27,13 +26,12 @@ export async function generateMetadata({ params }: Props) {
 	}
 }
 
-export default function Editor({ params }: Props) {
+export default function Editor({params}: Props) {
 	return (
 		<>
-			<Header id={params.id} />
 			<main className="h-[calc(100%-4rem)] bg-background text-foreground">
 				<div className="container relative flex	h-full md:flex-row flex-col">
-					<LegacyEditor />
+					<LegacyEditor params={params} />
 				</div>
 			</main>
 		</>

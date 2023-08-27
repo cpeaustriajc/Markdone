@@ -2,7 +2,7 @@
 
 type Props = { error: Error; reset: () => void }
 
-export default function Error({ error, reset }: Props) {
+export default function Error({ reset }: Props) {
 	return (
 		<div>
 			<h2>Something went wrong!</h2>
