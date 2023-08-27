@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation'
 
 export function Drawer() {
 	const { data: drafts, refetch } = trpc.getDrafts.useQuery()
+	const router = useRouter()
 	const { mutate: createDraft, isLoading: isCreateDraftLoading } = trpc.createDraft.useMutation({
 		onSettled: () => {
 			refetch()
@@ -21,7 +22,7 @@ export function Drawer() {
 	const { mutate: deleteDraft } = trpc.deleteDraft.useMutation({
 		onSettled: () => {
 			refetch()
-			useRouter().push('/')
+			router.replace('/')
 		},
 	})
 	return (
