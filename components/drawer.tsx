@@ -1,30 +1,33 @@
 'use client'
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-import { HamburgerMenuIcon, FilePlusIcon, FileIcon, TrashIcon } from '@radix-ui/react-icons'
+import { HamburgerMenuIcon, FilePlusIcon, FileIcon, TrashIcon, DownloadIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Dialog, DialogContent, DialogHeader, DialogTrigger, DialogDescription } from '@/components/ui/dialog'
 import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
 import { inter } from '@/lib/fonts'
-import { DownloadButton } from './download-button'
 import { trpc } from '@/lib/trpc'
 import { useRouter } from 'next/navigation'
+import { downloadMarkdownFile } from '@/lib/utils'
 
 export function Drawer() {
 	const { data: drafts, refetch } = trpc.getDrafts.useQuery()
 	const router = useRouter()
+
 	const { mutate: createDraft, isLoading: isCreateDraftLoading } = trpc.createDraft.useMutation({
 		onSettled: () => {
 			refetch()
 		},
 	})
+
 	const { mutate: deleteDraft } = trpc.deleteDraft.useMutation({
 		onSettled: () => {
 			refetch()
 			router.replace('/')
 		},
 	})
+
 	return (
 		<Sheet>
 			<SheetTrigger asChild>
@@ -64,7 +67,16 @@ export function Drawer() {
 										</span>
 									</Link>
 								</Button>
-								<DownloadButton draft={draft} />
+								<Button
+									variant="secondary"
+									className="rounded-none px-2"
+									onClick={() => {
+										downloadMarkdownFile(draft)
+									}}
+									type="button">
+									<DownloadIcon className="h-4 w-4" />
+									<span className="sr-only">Download Draft</span>
+								</Button>
 								<Dialog>
 									<DialogTrigger asChild>
 										<Button variant="destructive" className="rounded-bl-none rounded-tl-none  px-2">
@@ -77,7 +89,7 @@ export function Drawer() {
 										<DialogDescription>You will not be able to recover it.</DialogDescription>
 										<div>
 											<Button
-												variant={'destructive'}
+												variant="destructive"
 												className={inter.className}
 												onClick={() => {
 													const { id } = draft

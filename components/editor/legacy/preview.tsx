@@ -5,15 +5,14 @@ import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import { unified } from 'unified'
 import { inter } from '@/lib/fonts'
-import { useEditor } from '.'
+import { useDraftsStore } from '@/store/editor'
 
 interface PreviewProps {
 	previewRef: React.MutableRefObject<HTMLDivElement | null>
 }
 
 export function Preview({ previewRef }: PreviewProps) {
-	const { content } = useEditor()
-
+	const { content } = useDraftsStore()
 	const md = unified()
 		.use(remarkParse)
 		.use(remarkGfm)

@@ -1,7 +1,6 @@
 'use client'
 
 import { ThemeProvider } from 'next-themes'
-import { EditorProvider } from '@/components/editor/legacy'
 import { trpc } from '@/lib/trpc'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -26,7 +25,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 		<ThemeProvider attribute="class" enableSystem defaultTheme="system">
 			<TRPCProvider client={trpcClient} queryClient={queryClient}>
 				<QueryClientProvider client={queryClient}>
-					<EditorProvider>{children}</EditorProvider>
+					{children}
 				</QueryClientProvider>
 			</TRPCProvider>
 		</ThemeProvider>

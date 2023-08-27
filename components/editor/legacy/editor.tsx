@@ -4,9 +4,9 @@ import CodeMirror from '@uiw/react-codemirror'
 import { createTheme } from '@uiw/codemirror-themes'
 import { markdown } from '@codemirror/lang-markdown'
 import { useCallback } from 'react'
-import { useEditor } from '.'
 import { tags } from '@lezer/highlight'
 import { trpc } from '@/lib/trpc'
+import { useDraftsStore } from '@/store/editor'
 
 const defaultTheme = createTheme({
 	theme: 'dark',
@@ -46,17 +46,17 @@ interface EditorProps {
 }
 
 export function Editor({ editorRef, id }: EditorProps) {
-	const { content, dispatch } = useEditor()
 	const { mutate } = trpc.updateDraftContent.useMutation()
+	const { content, setContent } = useDraftsStore()
 	const onChange = useCallback(
 		(value: string) => {
-			dispatch({ type: 'UPDATE_CONTENT', content: value })
+			setContent(value)
 
 			setTimeout(() => {
 				mutate({ id, content: value })
 			}, 1000)
 		},
-		[dispatch, id, mutate],
+		[id, mutate, setContent],
 	)
 
 	return (
