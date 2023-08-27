@@ -4,7 +4,6 @@ import { Editor } from '@/components/editor/legacy/editor'
 import { Preview } from '@/components/editor/legacy/preview'
 import { Separator } from '@/components/ui/separator'
 import { useSyncScroll } from '@/hooks/use-sync-scroll'
-import { trpc } from '@/lib/trpc'
 import { Dispatch, ElementRef, createContext, useContext, useReducer, useRef } from 'react'
 
 type EditorContext = { content: string; dispatch: Dispatch<{ type: string; content: string }> }
