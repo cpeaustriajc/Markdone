@@ -56,7 +56,7 @@ export function Editor({ editorRef, id }: EditorProps) {
 				mutate({ id, content: value })
 			}, 1000)
 		},
-		[dispatch],
+		[dispatch, id, mutate],
 	)
 
 	return (
