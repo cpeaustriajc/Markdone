@@ -5,8 +5,9 @@ import { createTheme } from '@uiw/codemirror-themes'
 import { markdown } from '@codemirror/lang-markdown'
 import { useCallback } from 'react'
 import { tags } from '@lezer/highlight'
-import { trpc } from '@/lib/trpc'
+import { trpc } from '@/lib/trpc/client'
 import { useDraftsStore } from '@/store/editor'
+import { useToast } from '@/components/ui/use-toast'
 
 const defaultTheme = createTheme({
 	theme: 'dark',
@@ -46,7 +47,15 @@ interface EditorProps {
 }
 
 export function Editor({ editorRef, id }: EditorProps) {
-	const { mutate } = trpc.updateDraftContent.useMutation()
+	const { toast } = useToast()
+	const { mutate } = trpc.updateDraftContent.useMutation({
+		onSuccess: () => {
+			toast({
+				title: 'File Saved!',
+				description: 'Your file has been saved successfully.',
+			})
+		},
+	})
 	const { content, setContent } = useDraftsStore()
 	const onChange = useCallback(
 		(value: string) => {

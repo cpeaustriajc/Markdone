@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { Dialog, DialogContent, DialogHeader, DialogTrigger, DialogDescription } from '@/components/ui/dialog'
 import { SidebarLoadingSkeleton } from './sidebar-loading-skeleton'
 import { inter } from '@/lib/fonts'
-import { trpc } from '@/lib/trpc'
+import { trpc } from '@/lib/trpc/client'
 import { useRouter } from 'next/navigation'
 import { downloadMarkdownFile } from '@/lib/utils'
 

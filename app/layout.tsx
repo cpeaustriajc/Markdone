@@ -3,6 +3,7 @@ import { Providers } from '@/lib/providers'
 import { ClerkProvider } from '@clerk/nextjs'
 import { inter, roboto_mono } from '@/lib/fonts'
 import { dark } from '@clerk/themes'
+import { Toaster } from '@/components/ui/toaster'
 
 export const metadata = {
 	themeColor: [
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<head />
 				<body className="h-full bg-background text-foreground">
 					<Providers>{children}</Providers>
+					<Toaster />
 				</body>
 			</html>
 		</ClerkProvider>

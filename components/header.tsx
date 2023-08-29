@@ -6,7 +6,7 @@ import { NavigationMenuItem, NavigationMenuList, NavigationMenu } from '@/compon
 import { CheckCircledIcon } from '@radix-ui/react-icons'
 import { Input } from './ui/input'
 import { ModeToggle } from './mode-toggle'
-import { trpc } from '@/lib/trpc'
+import { trpc } from '@/lib/trpc/client'
 import { useState } from 'react'
 import { Spinner } from './ui/spinner'
 import { Skeleton } from './ui/skeleton'

@@ -1,14 +1,18 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { trpc } from '@/lib/trpc'
+import { trpc } from '@/lib/trpc/client'
 import { downloadMarkdownFile } from '@/lib/utils'
 import { DownloadIcon, FileIcon, PlusIcon, TrashIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { serverClient } from '@/lib/trpc/serverClient'
+type Props = {
+	initialDrafts: Awaited<ReturnType<(typeof serverClient)['getDrafts']>>
+}
 
-export function DraftsView() {
-	const { data: drafts, refetch } = trpc.getDrafts.useQuery()
+export function DraftsView({ initialDrafts }: Props) {
+	const { refetch, data: drafts } = trpc.getDrafts.useQuery(undefined, { initialData: initialDrafts })
 	const router = useRouter()
 	const { mutate: createDraft, isLoading: isCreateDraftLoading } = trpc.createDraft.useMutation({
 		onSettled: () => {
@@ -24,7 +28,7 @@ export function DraftsView() {
 	})
 
 	return (
-		<main className="container flex h-[calc(100%-4rem)] flex-col items-center justify-center bg-background font-sans text-foreground">
+		<>
 			<div className="flex flex-col gap-4">
 				<h1 className="scroll-m-20 text-2xl font-semibold">Drafts</h1>
 				<ul className="space-y-2">
@@ -68,6 +72,6 @@ export function DraftsView() {
 					<PlusIcon className="mr-2 h-4 w-4" /> New
 				</Button>
 			</div>
-		</main>
+		</>
 	)
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { trpc } from '@/lib/trpc'
+import { trpc } from '@/lib/trpc/client'
 import { Button } from './ui/button'
 
 export function EmptyDrafts() {

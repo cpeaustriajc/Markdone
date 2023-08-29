@@ -1,7 +1,7 @@
 'use client'
 
 import { ThemeProvider } from 'next-themes'
-import { trpc } from '@/lib/trpc'
+import { trpc } from '@/lib/trpc/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
 import { httpBatchLink } from '@trpc/react-query'
