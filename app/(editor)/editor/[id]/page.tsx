@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { LegacyEditor } from '@/components/editor/legacy'
+import { serverClient } from '@/lib/trpc/serverClient'
 
 type Props = {
 	params: { id: string }
@@ -7,7 +8,7 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-	const drafts = await prisma.drafts.findMany({ orderBy: { createdAt: 'desc' } })
+	const drafts = await serverClient.getDrafts()
 
 	return drafts.map(draft => ({
 		params: {
@@ -19,7 +20,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
 	const id = params.id
 
-	const draft = await prisma.drafts.findUnique({ where: { id }, select: { filename: true } })
+	const draft = await serverClient.getDraftById({ id })
 
 	return {
 		title: draft?.filename,

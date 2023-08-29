@@ -1,11 +1,10 @@
 import { Header } from '@/components/header'
-import { prisma } from '@/lib/prisma'
 import { serverClient } from '@/lib/trpc/serverClient'
 
 type Props = { params: { id: string }; children: React.ReactNode }
 
 export async function generateStaticParams() {
-	const drafts = await prisma.drafts.findMany({ orderBy: { createdAt: 'desc' } })
+	const drafts = await serverClient.getDrafts()
 
 	return drafts.map(draft => ({
 		params: {
