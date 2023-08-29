@@ -1,4 +1,3 @@
-import { prisma } from '@/lib/prisma'
 import { LegacyEditor } from '@/components/editor/legacy'
 import { serverClient } from '@/lib/trpc/serverClient'
 
