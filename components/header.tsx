@@ -10,12 +10,19 @@ import { trpc } from '@/lib/trpc/client'
 import { useState } from 'react'
 import { Spinner } from './ui/spinner'
 import { Skeleton } from './ui/skeleton'
+import { serverClient } from '@/lib/trpc/serverClient'
 
-export function Header({ id }: { id: string }) {
+type Props = {
+	id: string
+	initialDraft: Awaited<ReturnType<(typeof serverClient)['getDraftById']>>
+}
+
+export function Header({ id, initialDraft }: Props) {
 	const [filename, setFilename] = useState<string | undefined>('')
 	const { refetch, isLoading: isDraftLoading } = trpc.getDraftById.useQuery(
 		{ id },
 		{
+			initialData: initialDraft,
 			onSuccess: data => {
 				setFilename(data?.filename)
 			},

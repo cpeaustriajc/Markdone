@@ -1,5 +1,6 @@
 import { Header } from '@/components/header'
 import { prisma } from '@/lib/prisma'
+import { serverClient } from '@/lib/trpc/serverClient'
 
 type Props = { params: { id: string }; children: React.ReactNode }
 
@@ -14,9 +15,11 @@ export async function generateStaticParams() {
 }
 
 export default async function Layout({ params, children }: Props) {
+	const initialDraft = await serverClient.getDraftById({ id: params.id })
+
 	return (
 		<>
-			<Header id={params.id} />
+			<Header id={params.id} initialDraft={initialDraft} />
 			{children}
 		</>
 	)
