@@ -14,7 +14,7 @@ import { Drafts } from '@prisma/client'
 
 type Props = {
 	id: string
-	initialDraft: Drafts
+	initialDraft: Drafts | null
 }
 
 export function Header({ id, initialDraft }: Props) {
