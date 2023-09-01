@@ -7,7 +7,7 @@ import { CheckCircledIcon } from '@radix-ui/react-icons'
 import { Input } from './ui/input'
 import { ModeToggle } from './mode-toggle'
 import { trpc } from '@/lib/trpc/client'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { Spinner } from './ui/spinner'
 import { Skeleton } from './ui/skeleton'
 import { serverClient } from '@/lib/trpc/serverClient'
@@ -19,7 +19,7 @@ type Props = {
 
 export function Header({ id, initialDraft }: Props) {
 	const [filename, setFilename] = useState<string | undefined>('')
-	const { refetch, isLoading: isDraftLoading } = trpc.getDraftById.useQuery(
+	const [,draftQuery] = trpc.getDraftById.useSuspenseQuery(
 		{ id },
 		{
 			initialData: initialDraft,
@@ -28,9 +28,9 @@ export function Header({ id, initialDraft }: Props) {
 			},
 		},
 	)
-	const { mutate, isLoading } = trpc.updateDraftFilename.useMutation({
+	const { mutate } = trpc.updateDraftFilename.useMutation({
 		onSettled: () => {
-			refetch()
+			draftQuery.refetch()
 		},
 	})
 
@@ -42,7 +42,7 @@ export function Header({ id, initialDraft }: Props) {
 				<Drawer />
 				<div className="flex gap-2">
 					<div className="flex min-w-[128px] flex-row gap-2">
-						{!isDraftLoading ? (
+						<Suspense fallback={<TitleSkeleton />}>
 							<Input
 								type="text"
 								className="max-w-fit rounded-md border-none bg-background p-2 text-2xl font-bold"
@@ -54,10 +54,10 @@ export function Header({ id, initialDraft }: Props) {
 									}, 1000)
 								}}
 							/>
-						) : (
-							<TitleSkeleton />
-						)}
-						{isLoading ? <Spinner /> : <CheckCircledIcon className="h-9 w-9" />}
+						</Suspense>
+						<Suspense fallback={<Spinner />}>
+							<CheckCircledIcon className="h-9 w-9" />
+						</Suspense>
 					</div>
 				</div>
 			</div>

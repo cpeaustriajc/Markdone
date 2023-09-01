@@ -10,20 +10,21 @@ import { inter } from '@/lib/fonts'
 import { trpc } from '@/lib/trpc/client'
 import { useRouter } from 'next/navigation'
 import { downloadMarkdownFile } from '@/lib/utils'
+import { Suspense } from 'react'
 
 export function Drawer() {
-	const { data: drafts, refetch } = trpc.getDrafts.useQuery()
+	const [drafts, draftsQuery] = trpc.getDrafts.useSuspenseQuery()
 	const router = useRouter()
 
 	const { mutate: createDraft, isLoading: isCreateDraftLoading } = trpc.createDraft.useMutation({
 		onSettled: () => {
-			refetch()
+			draftsQuery.refetch()
 		},
 	})
 
 	const { mutate: deleteDraft } = trpc.deleteDraft.useMutation({
 		onSettled: () => {
-			refetch()
+			draftsQuery.refetch()
 			router.replace('/')
 		},
 	})
@@ -53,54 +54,56 @@ export function Drawer() {
 					<h2 className="text-lg font-semibold text-foreground">Drafts</h2>
 					{drafts === null ? (
 						<p>No drafts available</p>
-					) : drafts === undefined ? (
-						<SidebarLoadingSkeleton />
 					) : (
 						drafts.map(draft => (
-							<div className="flex w-full flex-row" key={draft.id}>
-								<Button className="grow justify-start text-left" variant="secondary" asChild>
-									<Link
-										href={`/editor/${draft.id}/`}
-										className="rounded-br-none rounded-tr-none align-middle">
-										<span className="inline-flex">
-											<FileIcon className="mr-2 inline h-4 w-4" /> {draft.filename}
-										</span>
-									</Link>
-								</Button>
-								<Button
-									variant="secondary"
-									className="rounded-none px-2"
-									onClick={() => {
-										downloadMarkdownFile(draft)
-									}}
-									type="button">
-									<DownloadIcon className="h-4 w-4" />
-									<span className="sr-only">Download Draft</span>
-								</Button>
-								<Dialog>
-									<DialogTrigger asChild>
-										<Button variant="destructive" className="rounded-bl-none rounded-tl-none  px-2">
-											<TrashIcon className="h-4 w-4" />
-											<span className="sr-only">Delete Draft</span>
-										</Button>
-									</DialogTrigger>
-									<DialogContent>
-										<DialogHeader>Are you sure you want to delete the file?</DialogHeader>
-										<DialogDescription>You will not be able to recover it.</DialogDescription>
-										<div>
+							<Suspense fallback={<SidebarLoadingSkeleton />} key={draft.id}>
+								<div className="flex w-full flex-row">
+									<Button className="grow justify-start text-left" variant="secondary" asChild>
+										<Link
+											href={`/editor/${draft.id}/`}
+											className="rounded-br-none rounded-tr-none align-middle">
+											<span className="inline-flex">
+												<FileIcon className="mr-2 inline h-4 w-4" /> {draft.filename}
+											</span>
+										</Link>
+									</Button>
+									<Button
+										variant="secondary"
+										className="rounded-none px-2"
+										onClick={() => {
+											downloadMarkdownFile(draft)
+										}}
+										type="button">
+										<DownloadIcon className="h-4 w-4" />
+										<span className="sr-only">Download Draft</span>
+									</Button>
+									<Dialog>
+										<DialogTrigger asChild>
 											<Button
 												variant="destructive"
-												className={inter.className}
-												onClick={() => {
-													const { id } = draft
-													deleteDraft({ id })
-												}}>
-												Yes, I am Sure
+												className="rounded-bl-none rounded-tl-none  px-2">
+												<TrashIcon className="h-4 w-4" />
+												<span className="sr-only">Delete Draft</span>
 											</Button>
-										</div>
-									</DialogContent>
-								</Dialog>
-							</div>
+										</DialogTrigger>
+										<DialogContent>
+											<DialogHeader>Are you sure you want to delete the file?</DialogHeader>
+											<DialogDescription>You will not be able to recover it.</DialogDescription>
+											<div>
+												<Button
+													variant="destructive"
+													className={inter.className}
+													onClick={() => {
+														const { id } = draft
+														deleteDraft({ id })
+													}}>
+													Yes, I am Sure
+												</Button>
+											</div>
+										</DialogContent>
+									</Dialog>
+								</div>
+							</Suspense>
 						))
 					)}
 				</div>
