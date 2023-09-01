@@ -7,7 +7,7 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-	const drafts = await serverClient.getDrafts()
+	const drafts = await serverClient.draft.list()
 
 	return drafts.map(draft => ({
 		params: {
@@ -19,7 +19,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
 	const id = params.id
 
-	const draft = await serverClient.getDraftById({ id })
+	const draft = await serverClient.draft.byId({ id })
 
 	return {
 		title: draft?.filename,

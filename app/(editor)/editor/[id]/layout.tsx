@@ -4,7 +4,7 @@ import { serverClient } from '@/lib/trpc/serverClient'
 type Props = { params: { id: string }; children: React.ReactNode }
 
 export async function generateStaticParams() {
-	const drafts = await serverClient.getDrafts()
+	const drafts = await serverClient.draft.list()
 
 	return drafts.map(draft => ({
 		params: {
@@ -14,7 +14,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Layout({ params, children }: Props) {
-	const initialDraft = await serverClient.getDraftById({ id: params.id })
+	const initialDraft = await serverClient.draft.byId({ id: params.id })
 
 	return (
 		<>
