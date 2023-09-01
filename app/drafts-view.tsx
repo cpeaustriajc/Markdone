@@ -10,19 +10,19 @@ import { serverClient } from '@/lib/trpc/serverClient'
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 type Props = {
-	initialDrafts: Awaited<ReturnType<(typeof serverClient)['getDrafts']>>
+	initialDrafts: Awaited<ReturnType<(typeof serverClient)['draft']['list']>>
 }
 
 export function DraftsView({ initialDrafts }: Props) {
-	const [drafts, draftsQuery] = trpc.getDrafts.useSuspenseQuery(undefined, { initialData: initialDrafts })
+	const [drafts, draftsQuery] = trpc.draft.list.useSuspenseQuery(undefined, { initialData: initialDrafts })
 	const router = useRouter()
-	const { mutate: createDraft, isLoading: isCreateDraftLoading } = trpc.createDraft.useMutation({
+	const { mutate: createDraft, isLoading: isCreateDraftLoading } = trpc.draft.create.useMutation({
 		onSettled: () => {
 			draftsQuery.refetch()
 			router.refresh()
 		},
 	})
-	const { mutate: deleteDraft, isLoading: isDeleteDraftLoading } = trpc.deleteDraft.useMutation({
+	const { mutate: deleteDraft, isLoading: isDeleteDraftLoading } = trpc.draft.delete.useMutation({
 		onSettled: () => {
 			draftsQuery.refetch()
 			router.refresh()

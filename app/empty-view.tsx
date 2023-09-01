@@ -4,8 +4,8 @@ import { trpc } from '@/lib/trpc/client'
 import { Button } from '@/components/ui/button'
 
 export function EmptyView() {
-	const [, draftsQuery] = trpc.getDrafts.useSuspenseQuery()
-	const draftMutation = trpc.createDraft.useMutation({
+	const [, draftsQuery] = trpc.draft.list.useSuspenseQuery()
+	const draftMutation = trpc.draft.create.useMutation({
 		onSuccess: () => {
 			draftsQuery.refetch()
 		},

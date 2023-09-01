@@ -13,16 +13,16 @@ import { downloadMarkdownFile } from '@/lib/utils'
 import { Suspense } from 'react'
 
 export function Drawer() {
-	const [drafts, draftsQuery] = trpc.getDrafts.useSuspenseQuery()
+	const [drafts, draftsQuery] = trpc.draft.list.useSuspenseQuery()
 	const router = useRouter()
 
-	const { mutate: createDraft, isLoading: isCreateDraftLoading } = trpc.createDraft.useMutation({
+	const { mutate: createDraft, isLoading: isCreateDraftLoading } = trpc.draft.create.useMutation({
 		onSettled: () => {
 			draftsQuery.refetch()
 		},
 	})
 
-	const { mutate: deleteDraft } = trpc.deleteDraft.useMutation({
+	const { mutate: deleteDraft } = trpc.draft.delete.useMutation({
 		onSettled: () => {
 			draftsQuery.refetch()
 			router.replace('/')

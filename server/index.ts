@@ -4,11 +4,11 @@ import { z } from 'zod'
 import { currentUser } from '@clerk/nextjs'
 import { TRPCError } from '@trpc/server'
 
-export const appRouter = router({
-	getDrafts: publicProcedure.query(async () => {
+export const draftRouter = router({
+	list: publicProcedure.query(async () => {
 		return await prisma.drafts.findMany()
 	}),
-	createDraft: publicProcedure.mutation(async () => {
+	create: publicProcedure.mutation(async () => {
 		const user = await currentUser()
 		if (!user || !user.primaryEmailAddressId) {
 			throw new TRPCError({
@@ -23,7 +23,7 @@ export const appRouter = router({
 			},
 		})
 	}),
-	deleteDraft: publicProcedure.input(z.object({ id: z.string() })).mutation(async ({ input }) => {
+	delete: publicProcedure.input(z.object({ id: z.string() })).mutation(async ({ input }) => {
 		const id = input.id
 
 		const user = await currentUser()
@@ -37,11 +37,11 @@ export const appRouter = router({
 
 		return await prisma.drafts.delete({ where: { id, email: user.primaryEmailAddressId } })
 	}),
-	getDraftById: publicProcedure.input(z.object({ id: z.string() })).query(async ({ input }) => {
+	byId: publicProcedure.input(z.object({ id: z.string() })).query(async ({ input }) => {
 		const id = input.id
 		return await prisma.drafts.findUnique({ where: { id } })
 	}),
-	updateDraftFilename: publicProcedure
+	updateFilename: publicProcedure
 		.input(z.object({ id: z.string(), filename: z.string() }))
 		.mutation(async ({ input }) => {
 			const { id, filename } = input
@@ -56,7 +56,7 @@ export const appRouter = router({
 
 			return await prisma.drafts.update({ where: { id, email: user.primaryEmailAddressId }, data: { filename } })
 		}),
-	updateDraftContent: publicProcedure
+	updateContent: publicProcedure
 		.input(z.object({ id: z.string(), content: z.string() }))
 		.mutation(async ({ input }) => {
 			const { id, content } = input
@@ -71,6 +71,10 @@ export const appRouter = router({
 
 			return await prisma.drafts.update({ where: { id }, data: { content, email: user.primaryEmailAddressId } })
 		}),
+})
+
+export const appRouter = router({
+	draft: draftRouter,
 })
 
 export type AppRouter = typeof appRouter

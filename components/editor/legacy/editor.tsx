@@ -3,11 +3,12 @@
 import CodeMirror from '@uiw/react-codemirror'
 import { createTheme } from '@uiw/codemirror-themes'
 import { markdown } from '@codemirror/lang-markdown'
-import { useCallback } from 'react'
 import { tags } from '@lezer/highlight'
 import { trpc } from '@/lib/trpc/client'
 import { useDraftsStore } from '@/store/editor'
 import { useToast } from '@/components/ui/use-toast'
+import debounce from 'lodash/debounce'
+import { useCallback } from 'react'
 
 const defaultTheme = createTheme({
 	theme: 'dark',
@@ -48,7 +49,7 @@ interface EditorProps {
 
 export function Editor({ editorRef, id }: EditorProps) {
 	const { toast } = useToast()
-	const { mutate } = trpc.updateDraftContent.useMutation({
+	const { mutate } = trpc.draft.updateContent.useMutation({
 		onSuccess: () => {
 			toast({
 				title: 'File Saved!',
@@ -57,16 +58,19 @@ export function Editor({ editorRef, id }: EditorProps) {
 		},
 	})
 	const { content, setContent } = useDraftsStore()
-	const onChange = useCallback(
-		(value: string) => {
-			setContent(value)
 
-			setTimeout(() => {
-				mutate({ id, content: value })
-			}, 1000)
-		},
-		[id, mutate, setContent],
-	)
+	const mutation = debounce(() => {
+		mutate({ id, content })
+	}, 1500)
+
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const save = useCallback(() => mutation(), [])
+
+	const onChange = (value: string) => {
+		setContent(value)
+
+		save()
+	}
 
 	return (
 		<div ref={editorRef} className="shrink-0 grow-0 basis-1/2 overflow-auto font-mono text-sm">

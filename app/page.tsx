@@ -11,7 +11,7 @@ export const metadata = {
 }
 
 export default async function Page() {
-	const initialDrafts = await serverClient.getDrafts()
+	const initialDrafts = await serverClient.draft.list()
 	const AvatarLoading = () => <Skeleton className="h-9 w-9 rounded-full bg-secondary"></Skeleton>
 
 	return (
