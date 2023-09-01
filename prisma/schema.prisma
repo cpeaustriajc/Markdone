@@ -15,7 +15,7 @@ datasource db {
 
 model Drafts {
     id        String   @id @default(uuid())
-    email     String   @unique
+    owner     String
     filename  String   @default("Untitled")
     content   String   @default("")
     createdAt DateTime @default(now())

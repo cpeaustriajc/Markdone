@@ -1,5 +1,5 @@
 import { LegacyEditor } from '@/components/editor/legacy'
-import { serverClient } from '@/lib/trpc/serverClient'
+import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-	const drafts = await serverClient.draft.list()
+	const drafts = await prisma.drafts.findMany()
 
 	return drafts.map(draft => ({
 		params: {
@@ -20,7 +20,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
 	const id = params.id
 
-	const draft = await serverClient.draft.byId({ id })
+	const draft = await prisma.drafts.findUnique({ where: { id } })
 
 	if (!draft) {
 		notFound()
@@ -31,11 +31,11 @@ export async function generateMetadata({ params }: Props) {
 	}
 }
 
-export default function Editor({params}: Props) {
+export default function Editor({ params }: Props) {
 	return (
 		<>
 			<main className="h-[calc(100%-4rem)] bg-background text-foreground">
-				<div className="container relative flex	h-full md:flex-row flex-col">
+				<div className="container relative flex	h-full flex-col md:flex-row">
 					<LegacyEditor params={params} />
 				</div>
 			</main>

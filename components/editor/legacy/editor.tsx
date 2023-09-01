@@ -4,11 +4,11 @@ import CodeMirror from '@uiw/react-codemirror'
 import { createTheme } from '@uiw/codemirror-themes'
 import { markdown } from '@codemirror/lang-markdown'
 import { tags } from '@lezer/highlight'
-import { trpc } from '@/lib/trpc/client'
 import { useDraftsStore } from '@/store/editor'
 import { useToast } from '@/components/ui/use-toast'
 import debounce from 'lodash/debounce'
-import { useCallback } from 'react'
+import { useCallback, useTransition } from 'react'
+import { updateContent } from '@/app/_actions/draft'
 
 const defaultTheme = createTheme({
 	theme: 'dark',
@@ -49,18 +49,14 @@ interface EditorProps {
 
 export function Editor({ editorRef, id }: EditorProps) {
 	const { toast } = useToast()
-	const { mutate } = trpc.draft.updateContent.useMutation({
-		onSuccess: () => {
-			toast({
-				title: 'File Saved!',
-				description: 'Your file has been saved successfully.',
-			})
-		},
-	})
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const [isPending, startTransition] = useTransition()
 	const { content, setContent } = useDraftsStore()
 
 	const mutation = debounce(() => {
-		mutate({ id, content })
+		startTransition(() => updateContent( id, content ))
+
+		toast({ title: 'File Saved!', description: 'Your file has been saved successfully.' })
 	}, 1500)
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps

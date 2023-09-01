@@ -5,36 +5,24 @@ import { NavigationMenuItem, NavigationMenuList, NavigationMenu } from '@/compon
 import { HomeIcon } from '@radix-ui/react-icons'
 import { Input } from './ui/input'
 import { ModeToggle } from './mode-toggle'
-import { trpc } from '@/lib/trpc/client'
-import { useCallback, useState } from 'react'
-import { serverClient } from '@/lib/trpc/serverClient'
+import { useCallback, useState, useTransition } from 'react'
 import { UserButton } from '@clerk/nextjs'
 import { debounce } from 'lodash'
 import Link from 'next/link'
+import { updateFilename } from '@/app/_actions/draft'
+import { Drafts } from '@prisma/client'
 
 type Props = {
 	id: string
-	initialDraft: Awaited<ReturnType<(typeof serverClient)['draft']['byId']>>
+	initialDraft: Drafts
 }
 
 export function Header({ id, initialDraft }: Props) {
-	const [filename, setFilename] = useState<string | undefined>('')
-	const { refetch } = trpc.draft.byId.useQuery(
-		{ id },
-		{
-			initialData: initialDraft,
-			onSuccess: data => {
-				setFilename(data?.filename)
-			},
-		},
-	)
-	const { mutate, isLoading } = trpc.draft.updateFilename.useMutation({
-		onSettled: () => {
-			refetch()
-		},
-	})
+	const [filename, setFilename] = useState<string | undefined>(() => initialDraft?.filename)
+	const [isPending, startTransition] = useTransition()
+
 	const mutation = debounce(filename => {
-		mutate({ id, filename })
+		startTransition(() => updateFilename(id, filename))
 	}, 1500)
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,7 +45,7 @@ export function Header({ id, initialDraft }: Props) {
 							type="text"
 							className="max-w-fit rounded-md border-none bg-background p-2 text-2xl font-bold focus-visible:ring-0"
 							value={filename}
-							disabled={isLoading}
+							disabled={isPending}
 							onChange={handleChange}
 						/>
 					</div>

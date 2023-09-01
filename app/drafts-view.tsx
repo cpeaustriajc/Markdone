@@ -1,34 +1,14 @@
-'use client'
-
 import { Button } from '@/components/ui/button'
-import { trpc } from '@/lib/trpc/client'
-import { downloadMarkdownFile } from '@/lib/utils'
 import { DownloadIcon, FileIcon, PlusIcon, TrashIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { serverClient } from '@/lib/trpc/serverClient'
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
-type Props = {
-	initialDrafts: Awaited<ReturnType<(typeof serverClient)['draft']['list']>>
-}
+import { prisma } from '@/lib/prisma'
+import { Input } from '@/components/ui/input'
+import { createDraft, deleteDraft } from './_actions/draft'
 
-export function DraftsView({ initialDrafts }: Props) {
-	const [drafts, draftsQuery] = trpc.draft.list.useSuspenseQuery(undefined, { initialData: initialDrafts })
-	const router = useRouter()
-	const { mutate: createDraft, isLoading: isCreateDraftLoading } = trpc.draft.create.useMutation({
-		onSettled: () => {
-			draftsQuery.refetch()
-			router.refresh()
-		},
-	})
-	const { mutate: deleteDraft, isLoading: isDeleteDraftLoading } = trpc.draft.delete.useMutation({
-		onSettled: () => {
-			draftsQuery.refetch()
-			router.refresh()
-		},
-	})
-
+export async function DraftsView() {
+	const drafts = await prisma.drafts.findMany()
 	const DraftSkeleton = () => <Skeleton className="h-9 w-32 bg-secondary"></Skeleton>
 
 	return (
@@ -45,38 +25,27 @@ export function DraftsView({ initialDrafts }: Props) {
 											<FileIcon className="mr-2 inline h-4 w-4" /> {draft.filename}
 										</Link>
 									</Button>
-									<Button
-										variant="ghost"
-										size="icon"
-										onClick={() => {
-											downloadMarkdownFile(draft)
-										}}
-										type="button">
+									<Button variant="ghost" size="icon" type="button">
 										<DownloadIcon className="h-4 w-4" />
 										<span className="sr-only">Download Draft</span>
 									</Button>
-									<Button
-										variant="ghost"
-										size="icon"
-										onClick={() => {
-											deleteDraft({ id: draft.id })
-										}}
-										disabled={isDeleteDraftLoading}>
-										<TrashIcon />
-										<span className="sr-only">Delete Draft</span>
-									</Button>
+									<form action={deleteDraft}>
+										<Input id="id" name="id" className="hidden" value={draft.id} readOnly />
+										<Button variant="ghost" size="icon" type="submit">
+											<TrashIcon />
+											<span className="sr-only">Delete Draft</span>
+										</Button>
+									</form>
 								</div>
 							</li>
 						</Suspense>
 					))}
 				</ul>
-				<Button
-					onClick={() => {
-						createDraft()
-					}}
-					disabled={isCreateDraftLoading}>
-					<PlusIcon className="mr-2 h-4 w-4" /> New
-				</Button>
+				<form action={createDraft}>
+					<Button>
+						<PlusIcon className="mr-2 h-4 w-4" /> New
+					</Button>
+				</form>
 			</div>
 		</>
 	)
