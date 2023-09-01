@@ -1,5 +1,6 @@
 import { Header } from '@/components/header'
 import { serverClient } from '@/lib/trpc/serverClient'
+import { Suspense } from 'react'
 
 type Props = { params: { id: string }; children: React.ReactNode }
 
@@ -18,7 +19,9 @@ export default async function Layout({ params, children }: Props) {
 
 	return (
 		<>
-			<Header id={params.id} initialDraft={initialDraft} />
+			<Suspense>
+				<Header id={params.id} initialDraft={initialDraft} />
+			</Suspense>
 			{children}
 		</>
 	)

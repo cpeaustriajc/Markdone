@@ -11,7 +11,6 @@ import { serverClient } from '@/lib/trpc/serverClient'
 import { UserButton } from '@clerk/nextjs'
 import { debounce } from 'lodash'
 import Link from 'next/link'
-import { Button } from './ui/button'
 
 type Props = {
 	id: string
@@ -20,7 +19,7 @@ type Props = {
 
 export function Header({ id, initialDraft }: Props) {
 	const [filename, setFilename] = useState<string | undefined>('')
-	const [draft, draftQuery] = trpc.draft.byId.useSuspenseQuery(
+	const { refetch } = trpc.draft.byId.useQuery(
 		{ id },
 		{
 			initialData: initialDraft,
@@ -31,7 +30,7 @@ export function Header({ id, initialDraft }: Props) {
 	)
 	const { mutate, isLoading } = trpc.draft.updateFilename.useMutation({
 		onSettled: () => {
-			draftQuery.refetch()
+			refetch()
 		},
 	})
 	const mutation = debounce(filename => {
@@ -40,8 +39,10 @@ export function Header({ id, initialDraft }: Props) {
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const save = useCallback((filename: string) => mutation(filename), [])
-	const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-		save(e.currentTarget.value)
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setFilename(e.target.value)
+		save(e.target.value)
 	}
 
 	return (
@@ -54,14 +55,11 @@ export function Header({ id, initialDraft }: Props) {
 					<div className="flex min-w-[128px] flex-row gap-2">
 						<Input
 							type="text"
-							className="max-w-fit rounded-md border-none bg-background p-2 text-2xl font-bold"
-							value={draft?.filename}
+							className="max-w-fit rounded-md border-none bg-background p-2 text-2xl font-bold focus-visible:ring-0"
+							value={filename}
 							disabled={isLoading}
-							onChange={() => setFilename(filename)}
+							onChange={handleChange}
 						/>
-						<Button type="submit" onClick={handleSubmit} disabled={isLoading}>
-							Submit
-						</Button>
 					</div>
 				</div>
 			</div>

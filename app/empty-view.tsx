@@ -4,24 +4,22 @@ import { trpc } from '@/lib/trpc/client'
 import { Button } from '@/components/ui/button'
 
 export function EmptyView() {
-	const [, draftsQuery] = trpc.draft.list.useSuspenseQuery()
+	const { refetch } = trpc.draft.list.useQuery()
 	const draftMutation = trpc.draft.create.useMutation({
 		onSuccess: () => {
-			draftsQuery.refetch()
+			refetch()
 		},
 	})
 
 	return (
 		<>
-			<h1 className="scroll-m-20 text-center text-2xl font-semibold">
-				You have no files open, <br />
-				click on the menu to open a file
-			</h1>
+			<h1 className="w-52 scroll-m-20 text-center font-semibold">You have no files open</h1>
 			<Button
 				onClick={() => {
 					draftMutation.mutate()
 				}}
-				disabled={draftMutation.isLoading}>
+				disabled={draftMutation.isLoading}
+				className="w-52">
 				New
 			</Button>
 		</>

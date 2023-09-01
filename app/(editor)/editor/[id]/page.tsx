@@ -1,5 +1,6 @@
 import { LegacyEditor } from '@/components/editor/legacy'
 import { serverClient } from '@/lib/trpc/serverClient'
+import { notFound } from 'next/navigation'
 
 type Props = {
 	params: { id: string }
@@ -21,8 +22,12 @@ export async function generateMetadata({ params }: Props) {
 
 	const draft = await serverClient.draft.byId({ id })
 
+	if (!draft) {
+		notFound()
+	}
+
 	return {
-		title: draft?.filename,
+		title: draft.filename,
 	}
 }
 
