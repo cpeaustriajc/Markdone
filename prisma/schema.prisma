@@ -16,7 +16,7 @@ datasource db {
 model Drafts {
     id        String   @id @default(uuid())
     owner     String
-    filename  String   @default("Untitled")
-    content   String   @default("")
+    filename  String
+    content   String
     createdAt DateTime @default(now())
 }
