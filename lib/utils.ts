@@ -13,6 +13,16 @@ export function toKebabCase(input: string) {
 		.replace(/(^-|-$)+/g, '')
 }
 
+function getBaseUrl() {
+	if (typeof window !== 'undefined') return ''
+	if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
+	return `http://localhost:${process.env.PORT || 3000}`
+}
+
+export function getUrl() {
+	return `${getBaseUrl()}`
+}
+
 export function downloadMarkdownFile(draft: Drafts) {
 	const a = document.createElement('a')
 	const blob = new Blob([draft.content], { type: 'text/plain' })
