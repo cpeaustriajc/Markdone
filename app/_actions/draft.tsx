@@ -3,14 +3,6 @@
 import { prisma } from '@/lib/prisma'
 import { currentUser } from '@clerk/nextjs'
 import { revalidatePath } from 'next/cache'
-import { z } from 'zod'
-
-const DraftsSchema = z.object({
-	id: z.string().uuid().optional(),
-	filename: z.string(),
-	content: z.string(),
-	createdAt: z.date(),
-})
 
 export async function createDraft() {
 	'use server'
@@ -30,14 +22,8 @@ export async function createDraft() {
 	revalidatePath('/')
 }
 
-export async function deleteDraft(formData: FormData) {
-	'use server'
-
-	const parsedFormData = DraftsSchema.parse({
-		id: formData.get('id'),
-	})
-
-	await prisma.drafts.delete({ where: { id: parsedFormData.id } })
+export async function deleteDraft(id: string) {
+	await prisma.drafts.delete({ where: { id } })
 
 	revalidatePath('/')
 }

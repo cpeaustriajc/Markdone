@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
-import { createDraft } from './_actions/draft'
+import { createDraft } from '@/app/_actions/draft'
 
-export function EmptyView() {
+export default function Page() {
 	return (
 		<>
 			<h1 className="w-52 scroll-m-20 text-center font-semibold">You have no files open</h1>
