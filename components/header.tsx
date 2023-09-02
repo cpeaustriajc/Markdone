@@ -5,12 +5,13 @@ import { NavigationMenuItem, NavigationMenuList, NavigationMenu } from '@/compon
 import { HomeIcon } from '@radix-ui/react-icons'
 import { Input } from './ui/input'
 import { ModeToggle } from './mode-toggle'
-import { useCallback, useState, useTransition } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { UserButton } from '@clerk/nextjs'
-import { debounce } from 'lodash'
 import Link from 'next/link'
 import { updateFilename } from '@/app/_actions/draft'
 import { Drafts } from '@prisma/client'
+import { useDebounce } from '@/hooks/use-debounce'
+import { useToast } from './ui/use-toast'
 
 type Props = {
 	id: string
@@ -20,17 +21,19 @@ type Props = {
 export function Header({ id, initialDraft }: Props) {
 	const [filename, setFilename] = useState<string | undefined>(() => initialDraft?.filename)
 	const [isPending, startTransition] = useTransition()
+	const asyncFilename = useDebounce(filename, 5000)
+	const { toast } = useToast()
 
-	const mutation = debounce(filename => {
-		startTransition(() => updateFilename(id, filename))
-	}, 1500)
-
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const save = useCallback((filename: string) => mutation(filename), [])
+	useEffect(() => {
+		startTransition(() => updateFilename(id, asyncFilename as string))
+		toast({
+			title: 'Filename Updated!',
+			description: 'Your file has been saved successfully.',
+		})
+	}, [asyncFilename, id, toast])
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFilename(e.target.value)
-		save(e.target.value)
 	}
 
 	return (
