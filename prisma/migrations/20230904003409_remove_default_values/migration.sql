@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Drafts" ALTER COLUMN "filename" DROP DEFAULT,
+ALTER COLUMN "content" DROP DEFAULT;
