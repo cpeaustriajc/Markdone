@@ -33,12 +33,10 @@ export async function generateMetadata({ params }: Props) {
 
 export default function Editor({ params }: Props) {
 	return (
-		<>
-			<main className="h-[calc(100%-4rem)] bg-background text-foreground">
-				<div className="container relative flex	h-full flex-col md:flex-row">
-					<LegacyEditor params={params} />
-				</div>
-			</main>
-		</>
+		<main className="h-[calc(100%-4rem)] bg-background text-foreground">
+			<div className="container relative flex	h-full flex-col md:flex-row">
+				<LegacyEditor params={params} />
+			</div>
+		</main>
 	)
 }
