@@ -5,7 +5,6 @@ import { currentUser } from '@clerk/nextjs'
 import { revalidatePath } from 'next/cache'
 
 export async function createDraft() {
-	'use server'
 	const user = await currentUser()
 
 	if (!user || !user.primaryEmailAddressId) {
