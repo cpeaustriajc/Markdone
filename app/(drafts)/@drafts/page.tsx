@@ -10,7 +10,7 @@ import { prisma } from '@/lib/prisma'
 
 export default async function Page() {
 	const drafts = await prisma.drafts.findMany()
-	const DraftSkeleton = () => <Skeleton className="h-9 w-32 bg-secondary"></Skeleton>
+	const DraftSkeleton = () => <Skeleton className="h-9 w-48 bg-secondary"></Skeleton>
 
 	return (
 		<div className="flex flex-col gap-4">
