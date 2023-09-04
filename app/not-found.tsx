@@ -3,13 +3,11 @@ import Link from 'next/link'
 
 export default function NotFound() {
 	return (
-		<main className="flex h-full flex-col items-center justify-center bg-background text-foreground">
-			<div>
-				<h1>Page not Found</h1>
-				<Button asChild>
-					<Link href="/">Go back home</Link>
-				</Button>
-			</div>
+		<main className="flex h-full flex-col items-center justify-center gap-4 bg-background text-foreground">
+			<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">Page not Found</h1>
+			<Button asChild>
+				<Link href="/">Return</Link>
+			</Button>
 		</main>
 	)
 }
