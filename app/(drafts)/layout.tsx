@@ -1,8 +1,8 @@
 import { Shell } from '@/components/shell'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { prisma } from '@/lib/prisma'
 import { ClerkLoaded, ClerkLoading, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { getDrafts } from '../loaders'
 
 type Props = {
 	drafts: React.ReactNode
@@ -14,7 +14,7 @@ export const metadata = {
 }
 
 export default async function Layout({ drafts, empty }: Props) {
-	const initialDrafts = await prisma.drafts.findMany()
+	const initialDrafts = await getDrafts()
 	const AvatarLoading = () => <Skeleton className="h-9 w-9 rounded-full bg-secondary"></Skeleton>
 	const containsDrafts = initialDrafts?.length === 0
 

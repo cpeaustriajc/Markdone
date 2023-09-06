@@ -6,10 +6,10 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { createDraft } from '@/app/_actions/draft'
 import { DownloadButton } from './download-button'
 import { DeleteButton } from './delete-button'
-import { prisma } from '@/lib/prisma'
+import { getDrafts } from '@/app/loaders'
 
 export default async function Page() {
-	const drafts = await prisma.drafts.findMany()
+	const drafts = await getDrafts()
 	const DraftSkeleton = () => <Skeleton className="h-9 w-48 bg-secondary"></Skeleton>
 
 	return (

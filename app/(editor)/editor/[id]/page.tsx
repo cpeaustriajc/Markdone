@@ -1,5 +1,5 @@
+import { getDraftById, getDrafts } from '@/app/loaders'
 import { LegacyEditor } from '@/components/editor/legacy'
-import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-	const drafts = await prisma.drafts.findMany()
+	const drafts = await getDrafts()
 
 	return drafts.map(draft => ({
 		params: {
@@ -20,7 +20,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
 	const id = params.id
 
-	const draft = await prisma.drafts.findUnique({ where: { id } })
+	const draft = await getDraftById({ id })
 
 	if (!draft) {
 		notFound()
