@@ -1,4 +1,4 @@
-import { Drafts } from '@prisma/client'
+import { Database } from '@/lib/database.types'
 import { CxOptions, cx } from 'class-variance-authority'
 import { twMerge } from 'tailwind-merge'
 
@@ -23,9 +23,10 @@ export function getUrl() {
 	return `${getBaseUrl()}`
 }
 
-export function downloadMarkdownFile(draft: Drafts) {
+export function downloadMarkdownFile(draft: Database['public']['Tables']['drafts']['Row']) {
 	const a = document.createElement('a')
-	const blob = new Blob([draft.content], { type: 'text/plain' })
+	// temporary fix
+	const blob = new Blob([draft.content ?? ''], { type: 'text/plain' })
 	const url = URL.createObjectURL(blob)
 	a.href = url
 	a.download = `${draft.filename}.md`

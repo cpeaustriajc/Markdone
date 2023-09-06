@@ -1,22 +1,12 @@
-import { authMiddleware } from '@clerk/nextjs'
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 
-export default authMiddleware({
-	publicRoutes: ['/', '/drafts(.*)', '/sign-in(.*)', '/sign-up(.*)'],
-	afterAuth: async (auth, req) => {
-		if (auth.isPublicRoute) {
-			return NextResponse.next()
-		}
+import type { NextRequest } from 'next/server'
+import type { Database } from '@/lib/database.types'
 
-		const url = new URL(req.nextUrl.origin)
-
-		if (!auth.userId) {
-			url.pathname = '/sign-in'
-			return NextResponse.redirect(url)
-		}
-	},
-})
-
-export const config = {
-	matcher: ['/((?!.*\\..*|_next).*)', '/(api)(.*)'],
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient<Database>({ req, res })
+  await supabase.auth.getSession()
+  return res
 }

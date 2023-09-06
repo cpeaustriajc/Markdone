@@ -11,7 +11,6 @@ import { getDrafts } from '@/app/loaders'
 export default async function Page() {
 	const drafts = await getDrafts()
 	const DraftSkeleton = () => <Skeleton className="h-9 w-48 bg-secondary"></Skeleton>
-
 	return (
 		<div className="flex flex-col gap-4">
 			<h1 className="scroll-m-20 text-2xl font-semibold">Drafts</h1>

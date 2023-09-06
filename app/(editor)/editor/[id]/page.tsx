@@ -1,5 +1,6 @@
-import { getDraftById, getDrafts } from '@/app/loaders'
 import { LegacyEditor } from '@/components/editor/legacy'
+import { sql } from '@/lib/db'
+import { unstable_cache } from 'next/cache'
 import { notFound } from 'next/navigation'
 
 type Props = {
@@ -8,6 +9,13 @@ type Props = {
 }
 
 export async function generateStaticParams() {
+	const getDrafts = unstable_cache(async () => {
+		return await sql`
+			select *
+			from drafts
+		`
+	})
+
 	const drafts = await getDrafts()
 
 	return drafts.map(draft => ({
@@ -20,15 +28,23 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
 	const id = params.id
 
-	const draft = await getDraftById({ id })
+	const getDraftById = unstable_cache(async ({ id }: { id: string }) => {
+		return await sql`
+			select *
+			from drafts
+			where id = ${id}
+		`
+	})
 
-	if (!draft) {
+	const drafts = await getDraftById({ id })
+
+	if (!drafts) {
 		notFound()
 	}
 
-	return {
+	return drafts.map(draft => ({
 		title: draft.filename,
-	}
+	}))
 }
 
 export default function Editor({ params }: Props) {

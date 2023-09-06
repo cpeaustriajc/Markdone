@@ -6,20 +6,19 @@ import { HomeIcon } from '@radix-ui/react-icons'
 import { Input } from './ui/input'
 import { ModeToggle } from './mode-toggle'
 import { useEffect, useState, useTransition } from 'react'
-import { UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import { updateFilename } from '@/app/_actions/draft'
-import { Drafts } from '@prisma/client'
 import { useDebounce } from '@/hooks/use-debounce'
 import { useToast } from './ui/use-toast'
+import { Database } from '@/lib/database.types'
 
 type Props = {
 	id: string
-	initialDraft: Drafts | null
+	initialDraft: Database['public']['Tables']['drafts']['Row']
 }
 
 export function Header({ id, initialDraft }: Props) {
-	const [filename, setFilename] = useState<string | undefined>(() => initialDraft?.filename)
+	const [filename, setFilename] = useState<string | null>(() => initialDraft.filename)
 	const [isPending, startTransition] = useTransition()
 	const asyncFilename = useDebounce(filename, 5000)
 	const { toast } = useToast()
@@ -59,9 +58,6 @@ export function Header({ id, initialDraft }: Props) {
 					<NavigationSocials />
 					<NavigationMenuItem>
 						<ModeToggle />
-					</NavigationMenuItem>
-					<NavigationMenuItem>
-						<UserButton />
 					</NavigationMenuItem>
 				</NavigationMenuList>
 			</NavigationMenu>
