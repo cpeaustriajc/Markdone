@@ -33,6 +33,3 @@ out
 .env*.local
 *.tsbuildinfo
 .turbo
-
-# Prisma
-.env
