@@ -1,24 +1,24 @@
-// Data fetching patterns with the cache function in Next.js
-// Do not use in production.
+'use server'
 
-import { sql } from '@/lib/db'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { unstable_cache } from 'next/cache'
+import { cookies } from 'next/headers'
 
 export const revalidate = 60 * 60 * 24 * 7 // 1 week
 
-type Draft = Database['public']['Tables']['drafts']['Row']
+// Data fetching patterns with the cache function in Next.js
+// Do not use in production.
+export const unstable_getDrafts = unstable_cache(async () => {
+	const supabase = createServerComponentClient({ cookies })
+	const { data, error } = await supabase.from('drafts').select('*')
 
-export const getDrafts = unstable_cache(async () => {
-	return await sql<Draft[]>`
-		select *
-		from drafts
-	`
-})
+	return data
+}, [], { tags: ['drafts'] })
 
-export const getDraftById = unstable_cache(async ({ id }: { id: string }) => {
-	return await sql`
-		select *
-		from drafts
-		where id = ${id}
-	`
-})
+export const unstasble_getDraftById = unstable_cache(async ({ id }: { id: string }) => {
+	const supabase = createServerComponentClient({ cookies })
+
+	const { data, error } = await supabase.from('drafts').select('*').eq('id', id).single()
+
+	return data
+}, [], { tags: ['draft'] })
