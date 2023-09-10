@@ -1,4 +1,6 @@
-import { Database } from '@/lib/database.types'
+// Data fetching patterns with the cache function in Next.js
+// Do not use in production.
+
 import { sql } from '@/lib/db'
 import { unstable_cache } from 'next/cache'
 

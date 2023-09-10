@@ -1,3 +1,5 @@
+// Experimental Server Actions code, will be used once the feature is stable in Next.js
+
 'use server'
 
 import { sql } from '@/lib/db'
