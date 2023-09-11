@@ -1,19 +1,18 @@
 import { Header } from '@/components/header'
-import { sql } from '@/lib/db'
-import { unstable_cache } from 'next/cache'
+import { Tables } from '@/lib/common.types';
 import { Suspense } from 'react'
 
 type Props = { params: { id: string }; children: React.ReactNode }
 
 export async function generateStaticParams() {
-	const getDrafts = unstable_cache(async () => {
-		return await sql`
-			select *
-			from drafts
-		`
-	})
 
-	const drafts = await getDrafts()
+	const res = await fetch("/api/drafts")
+
+	if (!res.ok) {
+		throw new Error('Failed to fetch data')
+	}
+
+	const drafts = await res.json() as Tables<'drafts'>[]
 
 	return drafts.map(draft => ({
 		params: {
@@ -23,15 +22,20 @@ export async function generateStaticParams() {
 }
 
 export default async function Layout({ params, children }: Props) {
-	const getDraftById = unstable_cache(async ({ id }: { id: string }) => {
-		return await sql`
-			select *
-			from drafts
-			where id = ${id}
-		`
+	const res = await fetch("/api/draft", {
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			id: params.id
+		})
 	})
 
-	const initialDraft = await getDraftById({ id: params.id })
+	if (!res.ok) {
+		throw new Error('Failed to fetch data')
+	}
+
+	const initialDraft = await res.json()
 
 	return (
 		<>

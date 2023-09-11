@@ -2,11 +2,11 @@
 
 import { Button } from '@/components/ui/button'
 import { downloadMarkdownFile } from '@/lib/utils'
-import { Database } from '@/lib/database.types'
 import { DownloadIcon } from '@radix-ui/react-icons'
 import { useTransition } from 'react'
+import { Tables } from '@/lib/common.types'
 
-export function DownloadButton({ draft }: { draft: Database['public']['Tables']['drafts']['Row'] }) {
+export function DownloadButton({ draft }: { draft: Tables<'drafts'> }) {
 	const [isPending, startTransition] = useTransition()
 	return (
 		<Button

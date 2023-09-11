@@ -1,5 +1,4 @@
 import { LegacyEditor } from '@/components/editor/legacy'
-import { sql } from '@/lib/db'
 import { unstable_cache } from 'next/cache'
 import { notFound } from 'next/navigation'
 

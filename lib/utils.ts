@@ -1,6 +1,6 @@
-import { Database } from '@/lib/database.types'
 import { CxOptions, cx } from 'class-variance-authority'
 import { twMerge } from 'tailwind-merge'
+import { Tables } from './common.types'
 
 export function cn(...inputs: CxOptions) {
 	return twMerge(cx(inputs))
@@ -23,7 +23,7 @@ export function getUrl() {
 	return `${getBaseUrl()}`
 }
 
-export function downloadMarkdownFile(draft: Database['public']['Tables']['drafts']['Row']) {
+export function downloadMarkdownFile(draft: Tables<'drafts'>) {
 	const a = document.createElement('a')
 	// temporary fix
 	const blob = new Blob([draft.content ?? ''], { type: 'text/plain' })

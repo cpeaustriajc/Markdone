@@ -2,50 +2,44 @@
 
 'use server'
 
-import { sql } from '@/lib/db'
 import { cookies } from 'next/headers'
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
+import { Database } from '@/lib/database.types'
 
-export async function createDraft() {
-	const supabase = createServerActionClient({ cookies })
+export async function experimental_createDraft() {
+	const supabase = createServerActionClient<Database>({ cookies })
 	const { data } = await supabase.auth.getUser()
 
 	if (!data?.user) {
 		throw new Error('You must be logged in to create a draft with cloud storage.')
 	}
 
-	await sql`
-		insert into drafts (filename, content, owner)
-		values ('Untitled', '', ${data?.user.id})
-	`
-	revalidatePath('/')
+	await supabase.from('drafts').insert({ filename: "Untitled", content: "", id: data?.user.id })
+
+	revalidateTag('drafts')
 }
 
-export async function deleteDraft(id: string) {
-	await sql`
-		delete from drafts
-		where id = ${id}
-	`
+export async function experimental_deleteDraft(id: string) {
+	const supabase = createServerActionClient<Database>({ cookies })
+	await supabase.from('drafts').delete().eq("id", id)
 
-	revalidatePath('/')
+	revalidateTag('drafts')
 }
 
-export async function updateFilename(id: string, filename: string) {
-	await sql`
-		update drafts
-		set filename = ${filename}
-		where id = ${id}
-	`
+export async function experimental_updateFilename(id: string, filename: string) {
+	const supabase = createServerActionClient<Database>({ cookies })
 
-	revalidatePath(`/editor/${id}`)
+	await supabase.from('drafts').update({ filename }).eq('id', id)
+
+	revalidateTag('filename')
 }
 
-export async function updateContent(id: string, content: string) {
+export async function experimental_updateContent(id: string, content: string) {
 	await sql`
 		update drafts
 		set content = ${content}
 		where id = ${id}
 	`
-	revalidatePath(`/editor/${id}`)
+	revalidateTag('content')
 }

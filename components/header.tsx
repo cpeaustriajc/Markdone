@@ -10,11 +10,11 @@ import Link from 'next/link'
 import { updateFilename } from '@/app/_actions/draft'
 import { useDebounce } from '@/hooks/use-debounce'
 import { useToast } from './ui/use-toast'
-import { Database } from '@/lib/database.types'
+import { Tables } from '@/lib/common.types'
 
 type Props = {
 	id: string
-	initialDraft: Database['public']['Tables']['drafts']['Row']
+	initialDraft: Tables<'drafts'>
 }
 
 export function Header({ id, initialDraft }: Props) {
