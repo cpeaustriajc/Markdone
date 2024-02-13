@@ -1,6 +1,8 @@
-import { ThemeProvider } from 'next-themes'
-import { DraftsProvider } from '@/lib/providers/drafts'
-import { EditorProvider } from '@/components/editor/legacy'
+"use client";
+
+import { ThemeProvider } from "next-themes";
+import { DraftsProvider } from "@/lib/providers/drafts";
+import { EditorProvider } from "@/components/editor/legacy";
 
 export function Providers({ children }: { children: React.ReactNode }) {
 	return (
@@ -9,5 +11,5 @@ export function Providers({ children }: { children: React.ReactNode }) {
 				<DraftsProvider>{children}</DraftsProvider>
 			</EditorProvider>
 		</ThemeProvider>
-	)
+	);
 }

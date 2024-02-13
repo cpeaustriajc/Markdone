@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function SidebarLoadingSkeleton() {
 	return (
@@ -8,5 +8,5 @@ export function SidebarLoadingSkeleton() {
 			<Skeleton className="h-4 w-1/2" />
 			<Skeleton className="h-4 w-1/2" />
 		</div>
-	)
+	);
 }

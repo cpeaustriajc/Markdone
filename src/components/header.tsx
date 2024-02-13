@@ -1,26 +1,37 @@
-'use client'
+"use client";
 
-import { NavigationSocials } from '@/components/navigation-socials'
-import { Sidebar } from '@/components/sidebar'
-import { NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigation-menu'
-import { useDrafts } from '@/lib/providers/drafts'
-import { NavigationMenu } from '@radix-ui/react-navigation-menu'
-import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
-import { CheckCircledIcon, Pencil1Icon } from '@radix-ui/react-icons'
-import { Input } from './ui/input'
-import { inter } from '@/lib/fonts'
-import { Button } from './ui/button'
-import { Dialog, DialogTrigger, DialogContent, DialogHeader } from './ui/dialog'
-import { useEditor } from './editor/legacy'
+import { NavigationSocials } from "@/components/navigation-socials";
+import { Sidebar } from "@/components/sidebar";
+import {
+	NavigationMenuItem,
+	NavigationMenuList,
+} from "@/components/ui/navigation-menu";
+import { useDrafts } from "@/lib/providers/drafts";
+import { NavigationMenu } from "@radix-ui/react-navigation-menu";
+import dynamic from "next/dynamic";
+import { useParams } from "next/navigation";
+import { CheckCircledIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import { Input } from "./ui/input";
+import { inter } from "@/lib/fonts";
+import { Button } from "./ui/button";
+import {
+	Dialog,
+	DialogTrigger,
+	DialogContent,
+	DialogHeader,
+} from "./ui/dialog";
+import { useEditor } from "./editor/legacy";
 
-const ModeToggle = dynamic(() => import('./mode-toggle').then(mod => mod.ModeToggle), { ssr: false })
+const ModeToggle = dynamic(
+	() => import("./mode-toggle").then((mod) => mod.ModeToggle),
+	{ ssr: false },
+);
 
 export function Header() {
-	const { drafts, dispatch } = useDrafts()
-	const { content } = useEditor()
-	const router = useRouter()
-	const currentDraft = drafts?.find(draft => draft.id === router.query.id)
+	const { drafts, dispatch } = useDrafts();
+	const { content } = useEditor();
+	const { id } = useParams();
+	const currentDraft = drafts?.find((draft) => draft.id === id);
 
 	return (
 		<header className="container flex h-16 items-center justify-between gap-1.5 bg-background text-foreground">
@@ -41,7 +52,9 @@ export function Header() {
 						</DialogTrigger>
 						<DialogContent>
 							<DialogHeader>
-								<h2 className={`text-lg font-semibold text-foreground ${inter.className}`}>
+								<h2
+									className={`text-lg font-semibold text-foreground ${inter.className}`}
+								>
 									Edit Filename
 								</h2>
 							</DialogHeader>
@@ -50,15 +63,15 @@ export function Header() {
 									type="text"
 									className="rounded-md border border-foreground bg-background p-2"
 									value={currentDraft && currentDraft.filename}
-									onChange={e => {
+									onChange={(e) => {
 										if (e.currentTarget.value !== currentDraft?.filename) {
 											dispatch({
-												type: 'CHANGE_FILENAME',
+												type: "CHANGE_FILENAME",
 												payload: {
-													id: currentDraft?.id ?? '',
+													id: currentDraft?.id ?? "",
 													filename: e.currentTarget.value,
 												},
-											})
+											});
 										}
 									}}
 								/>
@@ -71,13 +84,14 @@ export function Header() {
 						title="Save Draft"
 						onClick={() => {
 							dispatch({
-								type: 'CHANGE_CONTENT',
+								type: "CHANGE_CONTENT",
 								payload: {
-									id: currentDraft?.id ?? '',
+									id: currentDraft?.id ?? "",
 									content: content,
 								},
-							})
-						}}>
+							});
+						}}
+					>
 						<CheckCircledIcon className="h-5 w-5" />
 						<span className="sr-only">Save</span>
 					</Button>
@@ -92,5 +106,5 @@ export function Header() {
 				</NavigationMenuList>
 			</NavigationMenu>
 		</header>
-	)
+	);
 }
