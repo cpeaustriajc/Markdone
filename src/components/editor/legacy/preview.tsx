@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, createElement } from "react";
+import { Fragment, ReactNode, } from "react";
 import rehypeReact from "rehype-react";
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
@@ -6,7 +6,10 @@ import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { inter } from "@/lib/fonts";
 import { useEditor } from ".";
+import * as prod from 'react/jsx-runtime'
 
+// @ts-expect-error: the react types are missing.
+const production = {Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs}
 interface PreviewProps {
 	previewRef: React.MutableRefObject<HTMLDivElement | null>;
 }
@@ -18,7 +21,7 @@ export function Preview({ previewRef }: PreviewProps) {
 		.use(remarkParse)
 		.use(remarkGfm)
 		.use(remarkRehype)
-		.use(rehypeReact, { createElement, Fragment })
+		.use(rehypeReact, production)
 		.processSync(content);
 
 	const Content = md.result as ReactNode;
