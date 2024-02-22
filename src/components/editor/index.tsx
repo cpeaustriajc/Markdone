@@ -1,6 +1,5 @@
 "use client";
 
-import { inter } from "@/lib/fonts";
 import {
 	InitialConfigType,
 	LexicalComposer,
@@ -27,7 +26,7 @@ export function EditorV2() {
 	const Placeholder: React.FC = () => {
 		return (
 			<div
-				className={`absolute left-10 top-2 text-gray-50 opacity-30 ${inter.className}`}
+				className={`absolute left-10 top-2 text-gray-50 opacity-30`}
 			>
 				Enter some text...
 			</div>
@@ -40,7 +39,7 @@ export function EditorV2() {
 			<RichTextPlugin
 				contentEditable={
 					<ContentEditable
-						className={`h-full w-full self-center justify-self-center rounded border border-border p-2 ${inter.className}`}
+						className={`h-full w-full self-center justify-self-center rounded border border-border p-2`}
 						title="Editor"
 					/>
 				}

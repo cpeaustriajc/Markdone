@@ -1,9 +1,9 @@
 "use client";
 
-import { Editor } from "@/components/editor/legacy/editor";
-import { Preview } from "@/components/editor/legacy/preview";
-import { Separator } from "@/components/ui/separator";
-import { useSyncScroll } from "@/hooks/use-sync-scroll";
+import { Editor } from "./editor";
+import { Preview } from "./preview";
+import { Separator } from "../../ui/separator";
+import { useSyncScroll } from "../../../hooks/use-sync-scroll";
 import {
 	Dispatch,
 	ElementRef,
