@@ -1,7 +1,6 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use comrak::{markdown_to_html, ComrakOptions};
 use std::fs;
 use std::path::PathBuf;
 
@@ -28,11 +27,11 @@ fn open_file(file_path: &PathBuf, window: &Window) {
 
     window
         .emit_all(
-        "open",
-        FileInfo {
+            "open",
+            FileInfo {
                 md,
-            file_path: file_path.clone(),
-        },
+                file_path: file_path.clone(),
+            },
         )
         .expect("Failed to perform open operation");
 
