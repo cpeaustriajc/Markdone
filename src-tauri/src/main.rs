@@ -46,11 +46,9 @@ fn open_file(file_path: &PathBuf, window: &Window) -> Result<(), ()> {
 fn main() {
     let open = CustomMenuItem::new("open".to_string(), "Open File");
     let file_menu = Submenu::new("File", Menu::new().add_item(open));
-    let edit_menu = Submenu::new("Edit", Menu::new());
     let menu = Menu::new()
         .add_submenu(file_menu)
-        .add_native_item(MenuItem::Separator)
-        .add_submenu(edit_menu);
+        .add_native_item(MenuItem::Separator);
 
     tauri::Builder::default()
         .menu(menu)
