@@ -17,6 +17,16 @@ export function Root() {
 		}
 	}, []);
 
+	if (content === '') {
+		return (
+			<div>
+				<p>
+					Get Started by  <button>Opening a File</button>
+				</p>
+			</div>
+		)
+	}
+
 	return (
 		<ReactMarkdown className="prose">
 			{content}
