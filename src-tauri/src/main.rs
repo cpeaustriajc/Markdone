@@ -22,25 +22,23 @@ fn read_md_file(file_path: &str) -> String {
     raw_markdown.into()
 }
 
-#[tauri::command]
-fn process_md_file(raw_markdown: &str) -> String {
-    markdown_to_html(raw_markdown, &ComrakOptions::default()).into()
-}
-
-fn open_file(file_path: &PathBuf, window: &Window) -> Result<(), ()> {
+fn open_file(file_path: &PathBuf, window: &Window) {
     let md = read_md_file(file_path.to_str().expect("Could not open file"));
+    let file_name = file_path.file_name().unwrap().to_str().unwrap();
 
-    window.emit_all(
+    window
+        .emit_all(
         "open",
         FileInfo {
-            md: md,
+                md,
             file_path: file_path.clone(),
         },
-    );
+        )
+        .expect("Failed to perform open operation");
 
-    window.set_title(file_path.file_name().unwrap().to_str().unwrap());
-
-    Ok(())
+    window
+        .set_title(file_name)
+        .expect("Failed to set the title");
 }
 
 fn main() {
@@ -60,10 +58,7 @@ fn main() {
                 "open" => dialog::FileDialogBuilder::default()
                     .add_filter("Markdown", &["md"])
                     .pick_file(move |path_buf| match path_buf {
-                        Some(p) => {
-                            open_file(&p, &app.windows()[window_name.as_str()])
-                                .expect("Could not open the file.");
-                        }
+                        Some(p) => open_file(&p, &app.windows()[window_name.as_str()]),
                         _ => {}
                     }),
                 _ => {}
