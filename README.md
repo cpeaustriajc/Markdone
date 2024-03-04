@@ -1,4 +1,4 @@
-# [Markdone][markdone] - Get more things done with Markdone
+# Markdone - Get more things done with Markdone
 
 An open source markdown editor built with the latest open source technologies in
 Next.js and React
@@ -16,9 +16,10 @@ engineers bootstrapped this project.
 
 ## Tech Stack
 
-- [Next.js][nextjs]
-- [Tailwind CSS][tailwindcss]
-- [shadcn/ui]
+- [react]
+- [tauri]
+- [tailwindcss]
+- [vite]
 
 ## Features
 
@@ -48,3 +49,6 @@ To run markdone locally, follow the steps below.
 [tailwindcss]: https://tailwindcss.com
 [markdone]: https://markdone.jaycedotbin.me
 [shadcn/ui]: https://ui.shadcn.com
+[tauri]: https://tauri.app
+[react]: https://react.dev
+[vite]: https://vitejs.dev/
