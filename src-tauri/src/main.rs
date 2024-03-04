@@ -21,6 +21,38 @@ fn read_md_file(file_path: &str) -> String {
     raw_markdown.into()
 }
 
+fn new_file(file_path: &PathBuf, window: &Window) {
+    fs::write(file_path, "").expect("Failed to create new file");
+    let md = read_md_file(file_path.to_str().expect("Could not open file"));
+    let file_name = file_path.file_name().unwrap().to_str().unwrap();
+
+    window
+        .emit_all(
+            "new",
+            FileInfo {
+                md,
+                file_path: file_path.clone(),
+            },
+        )
+        .expect("Failed to perform operation");
+
+    window
+        .set_title(file_name)
+        .expect("Failed to set the title");
+}
+
+fn save_file(file_path: &PathBuf, window: &Window) {
+    window
+        .emit_all(
+            "save",
+            FileInfo {
+                md: None,
+                file_path: file_path.clone(),
+            },
+        )
+        .expect("Failed to perform save operation");
+}
+
 fn open_file(file_path: &PathBuf, window: &Window) {
     let md = read_md_file(file_path.to_str().expect("Could not open file"));
     let file_name = file_path.file_name().unwrap().to_str().unwrap();
@@ -57,12 +89,16 @@ fn close_file(window: &Window) {
 }
 
 fn main() {
+    let new_file_item = CustomMenuItem::new("new".to_string(), "New File");
     let open_file_item = CustomMenuItem::new("open".to_string(), "Open File");
+    let save_file_item = CustomMenuItem::new("save".to_string(), "Save File");
     let close_file_item = CustomMenuItem::new("close".to_string(), "Close File");
     let file_menu = Submenu::new(
         "File",
         Menu::new()
+            .add_item(new_file_item)
             .add_item(open_file_item)
+            .add_item(save_file_item)
             .add_item(close_file_item),
     );
     let menu = Menu::new()
@@ -76,11 +112,24 @@ fn main() {
             let event_window = event.window();
             let window_name = event_window.label().to_string();
             let app = event_window.app_handle();
+
             match event.menu_item_id() {
+                "new" => dialog::FileDialogBuilder::new()
+                    .add_filter("Markdown", &["md"])
+                    .save_file(move |file_path| match file_path {
+                        Some(p) => new_file(&p, &app.windows()[window_name.as_str()]),
+                        _ => {}
+                    }),
                 "open" => dialog::FileDialogBuilder::default()
                     .add_filter("Markdown", &["md"])
-                    .pick_file(move |path_buf| match path_buf {
+                    .pick_file(move |file_path| match file_path {
                         Some(p) => open_file(&p, &app.windows()[window_name.as_str()]),
+                        _ => {}
+                    }),
+                "save" => dialog::FileDialogBuilder::default()
+                    .add_filter("Markdown", &["md"])
+                    .pick_file(move |file_path| match file_path {
+                        Some(p) => save_file(&p, &app.windows()[window_name.as_str()]),
                         _ => {}
                     }),
                 "close" => close_file(&app.windows()[window_name.as_str()]),

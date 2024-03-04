@@ -19,6 +19,15 @@
 				"message": true,
 				"open": true,
 				"save": true
+			},
+			"fs": {
+				"all": true,
+				"scope": [
+					"$HOME/**/*"
+				]
+			},
+			"path": {
+				"all": true
 			}
 		},
 		"bundle": {
