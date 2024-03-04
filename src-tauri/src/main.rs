@@ -11,7 +11,7 @@ use tauri::{CustomMenuItem, Manager, Menu, MenuItem, Submenu, Window};
 #[derive(Clone, Serialize)]
 pub struct FileInfo {
     pub file_path: PathBuf,
-    pub md: String,
+    pub md: Option<String>,
 }
 
 #[tauri::command]
@@ -23,7 +23,7 @@ fn read_md_file(file_path: &str) -> String {
 
 fn new_file(file_path: &PathBuf, window: &Window) {
     fs::write(file_path, "").expect("Failed to create new file");
-    let md = read_md_file(file_path.to_str().expect("Could not open file"));
+    let md = Some(read_md_file(file_path.to_str().expect("Could not open file")));
     let file_name = file_path.file_name().unwrap().to_str().unwrap();
 
     window
@@ -46,7 +46,7 @@ fn save_file(file_path: &PathBuf, window: &Window) {
         .emit_all(
             "save",
             FileInfo {
-                md: "".to_string(),
+                md: None,
                 file_path: file_path.clone(),
             },
         )
@@ -54,7 +54,9 @@ fn save_file(file_path: &PathBuf, window: &Window) {
 }
 
 fn open_file(file_path: &PathBuf, window: &Window) {
-    let md = read_md_file(file_path.to_str().expect("Could not open file"));
+    let md = Some(read_md_file(
+        file_path.to_str().expect("Could not open file"),
+    ));
     let file_name = file_path.file_name().unwrap().to_str().unwrap();
 
     window
@@ -77,7 +79,7 @@ fn close_file(window: &Window) {
         .emit_all(
             "open",
             FileInfo {
-                md: "".into(),
+                md: None,
                 file_path: "".into(),
             },
         )
@@ -118,19 +120,19 @@ fn main() {
                     .add_filter("Markdown", &["md"])
                     .save_file(move |file_path| match file_path {
                         Some(p) => new_file(&p, &app.windows()[window_name.as_str()]),
-                        _ => {}
+                        None => {}
                     }),
                 "open" => dialog::FileDialogBuilder::default()
                     .add_filter("Markdown", &["md"])
                     .pick_file(move |file_path| match file_path {
                         Some(p) => open_file(&p, &app.windows()[window_name.as_str()]),
-                        _ => {}
+                        None => {}
                     }),
                 "save" => dialog::FileDialogBuilder::default()
                     .add_filter("Markdown", &["md"])
                     .pick_file(move |file_path| match file_path {
                         Some(p) => save_file(&p, &app.windows()[window_name.as_str()]),
-                        _ => {}
+                        None => {}
                     }),
                 "close" => close_file(&app.windows()[window_name.as_str()]),
                 _ => {}
