@@ -5,3 +5,4 @@ supabase/.temp
 supabse/.branches
 **/*.yaml
 **/*.yml
+src-tauri/target
