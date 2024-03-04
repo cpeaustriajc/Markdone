@@ -39,7 +39,6 @@ export function App() {
 				throw new Error("Note content does not exist")
 			}
 			await writeTextFile({ path: event.payload.file_path, contents: note })
-			console.log(event.payload.file_path)
 		})
 
 		return () => {
