@@ -46,7 +46,7 @@ fn save_file(file_path: &PathBuf, window: &Window) {
         .emit_all(
             "save",
             FileInfo {
-                md: None,
+                md: "".to_string(),
                 file_path: file_path.clone(),
             },
         )
