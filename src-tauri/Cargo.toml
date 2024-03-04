@@ -1,11 +1,11 @@
 [package]
-name = "app"
+name = "markdone"
 version = "0.1.0"
 description = "A Tauri App"
-authors = ["you"]
-license = ""
-repository = ""
-default-run = "app"
+authors = ["jeyceedotdev"]
+license = "GPL-3.0-only"
+repository = "https://github.com/jeyceedotdev/markdone"
+default-run = "markdone"
 edition = "2021"
 rust-version = "1.60"
 
