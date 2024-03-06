@@ -78,7 +78,7 @@ export function App() {
 
   if (note === null) {
     return (
-      <div>
+      <div className="grid h-dvh place-items-center">
         <p>
           Get Started by <button onClick={openFile}>Opening a File</button>
         </p>
