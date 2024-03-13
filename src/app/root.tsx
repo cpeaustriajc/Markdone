@@ -1,14 +1,30 @@
 import { useCallback, useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import CodeMirror from '@uiw/react-codemirror'
-import { listen } from '@tauri-apps/api/event'
+import { Event, EventName, listen } from '@tauri-apps/api/event'
 import { invoke } from '@tauri-apps/api/tauri'
 import { writeTextFile } from '@tauri-apps/api/fs'
 import { open } from '@tauri-apps/api/dialog'
+import { components } from '@/lib/theme/default/components'
 
 interface FileInfo {
   md: string
   file_path: string
+}
+
+/**
+ * A hook for listening to Tauri events where the event payload is of type `<T>`.
+ * @param event The event name to listen to
+ * @param cb The callback function to be called when the event is triggered
+ */
+function useIPCTauri<T>(event: EventName, cb: (event: Event<T>) => void) {
+  useEffect(() => {
+    const unlisten = listen<T>(event, cb)
+    return () => {
+      unlisten.then(f => f())
+    }
+  })
+
 }
 
 export function App() {
@@ -18,45 +34,24 @@ export function App() {
     setNote(val)
   }, [])
 
-  useEffect(() => {
-    const unlisten = listen<FileInfo>('new', event => {
-      setNote(event.payload.md)
-    })
-    return () => {
-      unlisten.then(f => f())
-    }
-  }, [])
-
-  useEffect(() => {
-    const unlisten = listen<FileInfo>('open', event => {
-      setNote(event.payload.md)
-    })
-    return () => {
-      unlisten.then(f => f())
-    }
-  }, [])
-
-  useEffect(() => {
-    const unlisten = listen<FileInfo>('save', async event => {
-      if (!note) {
-        throw new Error('Note content does not exist')
-      }
-      await writeTextFile({ path: event.payload.file_path, contents: note })
-    })
-
-    return () => {
-      unlisten.then(f => f())
-    }
+  useIPCTauri<FileInfo>('new', (event) => {
+    setNote(event.payload.md)
   })
 
-  useEffect(() => {
-    const unlisten = listen<FileInfo>('close', () => {
+  useIPCTauri<FileInfo>('open', (event) => {
+    setNote(event.payload.md)
+  })
+
+  useIPCTauri<FileInfo>('save', async (event) => {
+    if (!note) {
+      throw new Error('Note content does not exist')
+    }
+    await writeTextFile({ path: event.payload.file_path, contents: note })
+  })
+
+  useIPCTauri<FileInfo>('close', async (event) => {
       setNote(null)
-      return () => {
-        unlisten.then(f => f())
-      }
-    })
-  }, [])
+  })
 
   const openFile = async () => {
     const selected = await open({
@@ -89,9 +84,9 @@ export function App() {
   return (
     <div className="flex flex-row">
       <CodeMirror className="basis-1/2" value={note} onChange={handleChange} />
-      <div className="basis-1/2">
-        <ReactMarkdown className="prose basis-1/2">{note}</ReactMarkdown>
+      <div className="basis-1/2 px-2">
+        <ReactMarkdown className="prose basis-1/2" components={components.markdown}>{note}</ReactMarkdown >
       </div>
-    </div>
+    </div >
   )
 }
