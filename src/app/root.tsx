@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import CodeMirror from '@uiw/react-codemirror'
 import { Event, EventName, listen } from '@tauri-apps/api/event'
-import { invoke } from '@tauri-apps/api/tauri'
-import { writeTextFile } from '@tauri-apps/api/fs'
-import { open } from '@tauri-apps/api/dialog'
+import { invoke } from '@tauri-apps/api/core'
+import { BaseDirectory, writeTextFile } from '@tauri-apps/plugin-fs'
+import { open } from '@tauri-apps/plugin-dialog'
 import { components } from '@/lib/theme/default/components'
 
 interface FileInfo {
@@ -46,11 +46,11 @@ export function App() {
     if (!note) {
       throw new Error('Note content does not exist')
     }
-    await writeTextFile({ path: event.payload.file_path, contents: note })
+    await writeTextFile({ path: event.payload.file_path, contents: note }, { baseDir: BaseDirectory.Home })
   })
 
   useIPCTauri<FileInfo>('close', async (event) => {
-      setNote(null)
+    setNote(null)
   })
 
   const openFile = async () => {
