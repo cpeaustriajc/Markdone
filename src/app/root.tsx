@@ -6,6 +6,7 @@ import { invoke } from '@tauri-apps/api/core'
 import { BaseDirectory, writeTextFile } from '@tauri-apps/plugin-fs'
 import { open } from '@tauri-apps/plugin-dialog'
 import { components } from '@/lib/theme/default/components'
+import { getSerwist } from 'virtual:serwist'
 
 interface FileInfo {
   md: string
@@ -20,11 +21,11 @@ interface FileInfo {
 function useIPCTauri<T>(event: EventName, cb: (event: Event<T>) => void) {
   useEffect(() => {
     if (window.__TAURI__) {
-        const unlisten = listen<T>(event, cb)
+      const unlisten = listen<T>(event, cb)
 
-        return () => {
-          unlisten.then(f => f())
-        }
+      return () => {
+        unlisten.then(f => f())
+      }
     }
   })
 }
@@ -48,9 +49,9 @@ export function App() {
     if (!note) {
       throw new Error('Note content does not exist')
     }
-    await writeTextFile(event.payload.file_path, note,
-      { baseDir: BaseDirectory.Home },
-    )
+    await writeTextFile(event.payload.file_path, note, {
+      baseDir: BaseDirectory.Home,
+    })
   })
 
   useIPCTauri<FileInfo>('close', () => {
@@ -75,13 +76,29 @@ export function App() {
       }
       md = await invoke<string>('read_md_file', { filePath: selected })
     } else {
-        [selected] = await window.showOpenFilePicker()
-        const file = await selected.getFile()
-        md = await file.text()
+      ;[selected] = await window.showOpenFilePicker()
+      const file = await selected.getFile()
+      md = await file.text()
     }
 
     setNote(md)
   }
+
+  useEffect(() => {
+    const loadSerwist = async () => {
+      if ('serviceWorker' in navigator) {
+        const serwist = await getSerwist()
+
+        serwist?.addEventListener('installed', () => {
+          console.log('Serwist installed!')
+        })
+
+        void serwist?.register()
+      }
+    }
+
+    loadSerwist()
+  }, [])
 
   if (note === null) {
     return (
