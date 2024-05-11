@@ -2,9 +2,7 @@
   "identifier": "migrated",
   "description": "permissions that were migrated from v1",
   "local": true,
-  "windows": [
-    "main"
-  ],
+  "windows": ["main"],
   "permissions": [
     "path:default",
     "event:default",
@@ -24,9 +22,7 @@
     "fs:allow-exists",
     {
       "identifier": "fs:scope",
-      "allow": [
-        "$HOME/**/*"
-      ]
+      "allow": ["$HOME/**/*"]
     },
     "dialog:allow-open",
     "dialog:allow-save",

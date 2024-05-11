@@ -19,12 +19,14 @@ interface FileInfo {
  */
 function useIPCTauri<T>(event: EventName, cb: (event: Event<T>) => void) {
   useEffect(() => {
-    const unlisten = listen<T>(event, cb)
-    return () => {
-      unlisten.then(f => f())
+    if (window.__TAURI__) {
+        const unlisten = listen<T>(event, cb)
+
+        return () => {
+          unlisten.then(f => f())
+        }
     }
   })
-
 }
 
 export function App() {
@@ -34,40 +36,50 @@ export function App() {
     setNote(val)
   }, [])
 
-  useIPCTauri<FileInfo>('new', (event) => {
+  useIPCTauri<FileInfo>('new', event => {
     setNote(event.payload.md)
   })
 
-  useIPCTauri<FileInfo>('open', (event) => {
+  useIPCTauri<FileInfo>('open', event => {
     setNote(event.payload.md)
   })
 
-  useIPCTauri<FileInfo>('save', async (event) => {
+  useIPCTauri<FileInfo>('save', async event => {
     if (!note) {
       throw new Error('Note content does not exist')
     }
-    await writeTextFile({ path: event.payload.file_path, contents: note }, { baseDir: BaseDirectory.Home })
+    await writeTextFile(event.payload.file_path, note,
+      { baseDir: BaseDirectory.Home },
+    )
   })
 
-  useIPCTauri<FileInfo>('close', async (event) => {
+  useIPCTauri<FileInfo>('close', () => {
     setNote(null)
   })
 
   const openFile = async () => {
-    const selected = await open({
-      filters: [
-        {
-          name: 'Markdown',
-          extensions: ['md'],
-        },
-      ],
-    })
+    let md: string | undefined = ''
+    let selected
+    if (window.__TAURI__) {
+      selected = await open({
+        filters: [
+          {
+            name: 'Markdown',
+            extensions: ['md'],
+          },
+        ],
+      })
 
-    if (!selected) {
-      throw new Error('File does not exist')
+      if (!selected) {
+        throw new Error('File does not exist')
+      }
+      md = await invoke<string>('read_md_file', { filePath: selected })
+    } else {
+        [selected] = await window.showOpenFilePicker()
+        const file = await selected.getFile()
+        md = await file.text()
     }
 
-    const md = await invoke<string>('read_md_file', { filePath: selected })
     setNote(md)
   }
 
@@ -85,8 +97,12 @@ export function App() {
     <div className="flex flex-row">
       <CodeMirror className="basis-1/2" value={note} onChange={handleChange} />
       <div className="basis-1/2 px-2">
-        <ReactMarkdown className="prose basis-1/2" components={components.markdown}>{note}</ReactMarkdown >
+        <ReactMarkdown
+          className="prose basis-1/2"
+          components={components.markdown}>
+          {note}
+        </ReactMarkdown>
       </div>
-    </div >
+    </div>
   )
 }
