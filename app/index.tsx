@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import React, { useState } from 'react';
 import Markdown from 'react-native-markdown-display';
-import { Button, Text, View } from 'react-native';
+import { Button, Text, View, Platform } from 'react-native';
 
 const pickerOpts: OpenFilePickerOptions = {
   types: [
@@ -17,13 +17,15 @@ const pickerOpts: OpenFilePickerOptions = {
 export default function Home() {
   let [content, setContent] = useState<string>(undefined);
   const onOpenFile = async () => {
-    const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
-    const file = await fileHandle.getFile();
-    const fileReader = new FileReader();
-    fileReader.readAsText(file);
-    fileReader.onload = () => {
-      setContent(fileReader.result as string);
-    };
+    if (Platform.OS === 'web') {
+      const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
+      const file = await fileHandle.getFile();
+      const fileReader = new FileReader();
+      fileReader.readAsText(file);
+      fileReader.onload = () => {
+        setContent(fileReader.result as string);
+      };
+    }
   };
   return (
     <React.Fragment>
