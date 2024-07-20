@@ -15,7 +15,7 @@ const pickerOpts: OpenFilePickerOptions = {
 };
 
 export default function Home() {
-  let [content, setContent] = useState<string>(undefined);
+  const [content, setContent] = useState<string>(undefined);
   const onOpenFile = async () => {
     if (Platform.OS === 'web') {
       const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
