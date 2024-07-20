@@ -1,0 +1,12 @@
+{
+  "name": "Markdone",
+  "slug": "markdone",
+  "scheme": "markdone",
+  "version": "0.1.0",
+  "web": {
+    "output": "server",
+    "bundler": "metro",
+    "favicon": "./assets/favicon.png"
+  },
+  "plugins": ["expo-router"]
+}

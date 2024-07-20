@@ -2,7 +2,13 @@
   "name": "Markdone",
   "short_name": "Markdone",
   "description": "Get more things done with markdone!",
+  "form_factor": "wide",
   "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "48x48 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
     {
       "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
@@ -14,8 +20,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/",
-  "id": "/",
+  "start_url": ".",
   "orientation": "landscape",
   "theme_color": "#fafafa",
   "background_color": "#09090b",
