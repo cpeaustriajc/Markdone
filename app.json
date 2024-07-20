@@ -4,7 +4,7 @@
   "scheme": "markdone",
   "version": "0.1.0",
   "web": {
-    "output": "server",
+    "output": "static",
     "bundler": "metro",
     "favicon": "./assets/favicon.png"
   },
