@@ -1,7 +1,12 @@
 import { Stack } from 'expo-router';
 import React, { useState } from 'react';
-import Markdown from 'react-native-markdown-display';
 import { Button, Text, View, Platform } from 'react-native';
+import { Editor } from 'components/Editor';
+import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import { $convertFromMarkdownString, TRANSFORMERS } from '@lexical/markdown';
+import { ListItemNode, ListNode } from '@lexical/list';
+import { CodeNode } from '@lexical/code';
+import { LinkNode } from '@lexical/link';
 
 const pickerOpts: OpenFilePickerOptions = {
   types: [
@@ -13,6 +18,8 @@ const pickerOpts: OpenFilePickerOptions = {
   excludeAcceptAllOption: true,
   multiple: false,
 };
+
+const EDITOR_NODES = [HeadingNode, ListNode, ListItemNode, QuoteNode, CodeNode, LinkNode];
 
 export default function Home() {
   const [content, setContent] = useState<string>(undefined);
@@ -31,12 +38,35 @@ export default function Home() {
     <React.Fragment>
       <Stack.Screen options={{ title: 'Home' }} />
       {!content && (
-        <View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 8,
+            justifyContent: 'center',
+            height: '100%',
+          }}>
           <Text>Open a file to Get Started</Text>
           <Button title="Open File" onPress={onOpenFile} />
         </View>
       )}
-      {content && <Markdown>{content}</Markdown>}
+      {content && (
+        <Editor
+          config={{
+            namespace: 'home',
+            editorState: () => {
+              $convertFromMarkdownString(content, TRANSFORMERS);
+            },
+            nodes: EDITOR_NODES,
+            theme: {
+              root: 'editor-root',
+            },
+            onError: error => {
+              console.log(error);
+            },
+          }}
+        />
+      )}
     </React.Fragment>
   );
 }

@@ -1,0 +1,11 @@
+.editor-root {
+  background: #ffffff;
+  border: solid 1px #e1e1e1;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 480pt;
+  height: 640pt;
+  margin-top: 8px;
+  margin-inline: auto;
+  padding: 8px;
+}
