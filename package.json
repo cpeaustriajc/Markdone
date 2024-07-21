@@ -38,17 +38,13 @@
     "@types/react": "~18.2.79",
     "@types/react-dom": "~18.2.25",
     "@types/wicg-file-system-access": "^2023.10.5",
-    "@typescript-eslint/eslint-plugin": "^7.16.1",
-    "@typescript-eslint/parser": "^7.16.1",
+    "eslint-config-expo": "^7.1.2",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.3.3",
     "typescript": "~5.3.3"
   },
   "packageManager": "yarn@4.3.1+sha512.af78262d7d125afbfeed740602ace8c5e4405cd7f4735c08feb327286b2fdb2390fbca01589bfd1f50b1240548b74806767f5a063c94b67e431aabd0d86f7774",
-  "eslintConfig": {
-    "extends": "universe/native",
-    "root": true
-  },
   "expo": {
     "install": {
       "exclude": [
