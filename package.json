@@ -20,7 +20,7 @@
     "@lexical/react": "^0.16.1",
     "@lexical/rich-text": "^0.16.1",
     "eslint": "8",
-    "expo": "^51.0.21",
+    "expo": "^51.0.26",
     "expo-constants": "~16.0.2",
     "expo-linking": "~6.3.1",
     "expo-router": "~3.5.18",
@@ -44,7 +44,7 @@
     "prettier": "^3.3.3",
     "typescript": "~5.3.3"
   },
-  "packageManager": "yarn@4.3.1+sha512.af78262d7d125afbfeed740602ace8c5e4405cd7f4735c08feb327286b2fdb2390fbca01589bfd1f50b1240548b74806767f5a063c94b67e431aabd0d86f7774",
+  "packageManager": "npm@10.8.2+sha512.c7f0088c520a46596b85c6f8f1da943400199748a0f7ea8cb8df75469668dc26f6fb3ba26df87e2884a5ebe91557292d0f3db7d0929cdb4f14910c3032ac81fb",
   "expo": {
     "install": {
       "exclude": [
