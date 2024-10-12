@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Editor } from "./components/Editor";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { $convertFromMarkdownString, TRANSFORMERS } from "@lexical/markdown";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { CodeNode } from "@lexical/code";
 import { LinkNode } from "@lexical/link";
+import "./App.css";
 
 const pickerOpts: OpenFilePickerOptions = {
   types: [
@@ -43,38 +44,43 @@ export default function Home() {
   };
   return (
     <React.Fragment>
-      {!content && (
-        <div
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 8,
-            justifyContent: "center",
-            height: "100%",
-          }}
-        >
-          <span>Open a file to Get Started</span>
-          <button onClick={onOpenFile}>Open File</button>
-          <button onClick={onNewFile}>New File</button>
-        </div>
-      )}
-      {content && (
-        <Editor
-          config={{
-            namespace: "home",
-            editorState: () => {
-              $convertFromMarkdownString(content, TRANSFORMERS);
-            },
-            nodes: EDITOR_NODES,
-            theme: {
-              root: "editor-root",
-            },
-            onError: (error) => {
-              console.log(error);
-            },
-          }}
-        />
-      )}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+          justifyContent: "center",
+          height: "100dvh",
+        }}
+      >
+        {!content && (
+          <Fragment>
+            <span>Open a file to Get Started</span>
+            <div style={{ flexDirection: "row", display: "flex", gap: 16 }}>
+              <button onClick={onOpenFile}>Open File</button>
+              <button onClick={onNewFile}>New File</button>
+            </div>
+          </Fragment>
+        )}
+        {content && (
+          <Editor
+            config={{
+              namespace: "home",
+              editorState: () => {
+                $convertFromMarkdownString(content, TRANSFORMERS);
+              },
+              nodes: EDITOR_NODES,
+              theme: {
+                root: "editor-root",
+              },
+              onError: (error) => {
+                console.log(error);
+              },
+            }}
+          />
+        )}
+      </div>
     </React.Fragment>
   );
 }

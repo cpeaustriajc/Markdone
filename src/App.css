@@ -95,6 +95,18 @@ button {
   margin-right: 5px;
 }
 
+.editor-root {
+  background: #ffffff;
+  border: solid 1px #e1e1e1;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 480pt;
+  height: 640pt;
+  margin-top: 8px;
+  margin-inline: auto;
+  padding: 8px;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;
@@ -112,5 +124,10 @@ button {
   }
   button:active {
     background-color: #0f0f0f69;
+  }
+
+  .editor-root {
+    background: #1f1f1f;
+    border: solid 1px #2f2f2f;
   }
 }
