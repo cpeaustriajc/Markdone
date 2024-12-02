@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { Editor } from "./components/Editor";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { $convertFromMarkdownString, TRANSFORMERS } from "@lexical/markdown";
@@ -55,13 +55,37 @@ export default function Home() {
         }}
       >
         {!content && (
-          <Fragment>
-            <span>Open a file to Get Started</span>
-            <div style={{ flexDirection: "row", display: "flex", gap: 16 }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              border: "1px solid #1a1a1a",
+              padding: 8,
+              borderRadius: 8,
+            }}
+          >
+            <span
+              style={{
+                marginBottom: 16,
+                fontSize: 16,
+                fontWeight: "bold",
+                color: "#efefef",
+              }}
+            >
+              Open a file or create a new one to get started
+            </span>
+            <div
+              style={{
+                flexDirection: "row",
+                display: "flex",
+                justifyContent: "space-between",
+                gap: 16,
+              }}
+            >
               <button onClick={onOpenFile}>Open File</button>
               <button onClick={onNewFile}>New File</button>
             </div>
-          </Fragment>
+          </div>
         )}
         {content && (
           <Editor
