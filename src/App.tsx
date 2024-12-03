@@ -28,14 +28,14 @@ const EDITOR_NODES = [
 ];
 
 export default function Home() {
-  const [content, setContent] = useState<string | undefined>(undefined);
+  const [content, setContent] = useState<string | ArrayBuffer | null>(null);
   const onOpenFile = async () => {
     const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
     const file = await fileHandle.getFile();
     const fileReader = new FileReader();
     fileReader.readAsText(file);
     fileReader.onload = () => {
-      setContent(fileReader.result as string);
+      setContent(fileReader.result);
     };
   };
 
@@ -92,7 +92,7 @@ export default function Home() {
             config={{
               namespace: "home",
               editorState: () => {
-                $convertFromMarkdownString(content, TRANSFORMERS);
+                $convertFromMarkdownString(content.toString(), TRANSFORMERS);
               },
               nodes: EDITOR_NODES,
               theme: {
