@@ -95,16 +95,40 @@ button {
   margin-right: 5px;
 }
 
-.editor-root {
-  background: #ffffff;
-  border: solid 1px #e1e1e1;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 480pt;
-  height: 640pt;
-  margin-top: 8px;
-  margin-inline: auto;
-  padding: 8px;
+.editor-shell {
+  margin: 20px auto;
+  border-radius: 2px;
+  max-width: 1100px;
+  color: #fafafafa;
+  position: relative;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.editor-shell .editor-container {
+  background: #0a0a0a;
+  position: relative;
+  display: block;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.editor-shell .editor-container.tree-view {
+  border-radius: 0;
+}
+
+.editor-shell .editor-container.plain-text {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.editor {
+  flex: auto;
+  position: relative;
+  resize: vertical;
+  color:#fafafafa;
+  max-width: 100%;
+  z-index: -1;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -12,12 +12,18 @@ type EditorProps = {
 export function Editor(props: EditorProps) {
   return (
     <LexicalComposer initialConfig={props.config}>
-      <RichTextPlugin
-        contentEditable={<ContentEditable />}
-        placeholder={<div>Start writing...</div>}
-        ErrorBoundary={LexicalErrorBoundary}
-      />
-      <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+      <div className="editor-container">
+        <RichTextPlugin
+          contentEditable={
+            <ContentEditable
+              aria-placeholder="Start writing..."
+              placeholder={<div className="editor">Start writing...</div>}
+            />
+          }
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+        <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+      </div>
     </LexicalComposer>
   );
 }

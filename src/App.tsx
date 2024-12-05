@@ -54,7 +54,7 @@ export default function Home() {
           height: "100dvh",
         }}
       >
-        {!content && (
+        {content === null && (
           <div
             style={{
               display: "flex",
@@ -87,22 +87,21 @@ export default function Home() {
             </div>
           </div>
         )}
-        {content && (
-          <Editor
-            config={{
-              namespace: "home",
-              editorState: () => {
-                $convertFromMarkdownString(content.toString(), TRANSFORMERS);
-              },
-              nodes: EDITOR_NODES,
-              theme: {
-                root: "editor-root",
-              },
-              onError: (error) => {
-                console.log(error);
-              },
-            }}
-          />
+        {content !== null && (
+          <div className="editor-shell">
+            <Editor
+              config={{
+                namespace: "home",
+                editorState: () => {
+                  $convertFromMarkdownString(content.toString(), TRANSFORMERS);
+                },
+                nodes: EDITOR_NODES,
+                onError: (error) => {
+                  console.log(error);
+                },
+              }}
+            />
+          </div>
         )}
       </div>
     </React.Fragment>
