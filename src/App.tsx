@@ -1,10 +1,5 @@
 import React, { useState } from "react";
 import { Editor } from "./components/Editor";
-import { HeadingNode, QuoteNode } from "@lexical/rich-text";
-import { $convertFromMarkdownString, TRANSFORMERS } from "@lexical/markdown";
-import { ListItemNode, ListNode } from "@lexical/list";
-import { CodeNode } from "@lexical/code";
-import { LinkNode } from "@lexical/link";
 import "./App.css";
 
 const pickerOpts: OpenFilePickerOptions = {
@@ -17,15 +12,6 @@ const pickerOpts: OpenFilePickerOptions = {
   excludeAcceptAllOption: true,
   multiple: false,
 };
-
-const EDITOR_NODES = [
-  HeadingNode,
-  ListNode,
-  ListItemNode,
-  QuoteNode,
-  CodeNode,
-  LinkNode,
-];
 
 export default function Home() {
   const [content, setContent] = useState<string | ArrayBuffer | null>(null);
@@ -46,11 +32,6 @@ export default function Home() {
     <React.Fragment>
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 8,
-          justifyContent: "center",
           height: "100dvh",
         }}
       >
@@ -87,22 +68,7 @@ export default function Home() {
             </div>
           </div>
         )}
-        {content !== null && (
-          <div className="editor-shell">
-            <Editor
-              config={{
-                namespace: "home",
-                editorState: () => {
-                  $convertFromMarkdownString(content.toString(), TRANSFORMERS);
-                },
-                nodes: EDITOR_NODES,
-                onError: (error) => {
-                  console.log(error);
-                },
-              }}
-            />
-          </div>
-        )}
+        {content !== null && <Editor />}
       </div>
     </React.Fragment>
   );
