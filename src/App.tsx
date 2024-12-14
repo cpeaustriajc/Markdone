@@ -36,25 +36,8 @@ export default function Home() {
         }}
       >
         {content === null && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              border: "1px solid #1a1a1a",
-              padding: 8,
-              borderRadius: 8,
-            }}
-          >
-            <span
-              style={{
-                marginBottom: 16,
-                fontSize: 16,
-                fontWeight: "bold",
-                color: "#efefef",
-              }}
-            >
-              Open a file or create a new one to get started
-            </span>
+          <div>
+            <span>Open a file or create a new one to get started</span>
             <div
               style={{
                 flexDirection: "row",
