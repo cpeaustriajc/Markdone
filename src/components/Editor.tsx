@@ -11,6 +11,10 @@ import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { CodeNode } from "@lexical/code";
 import { LinkNode } from "@lexical/link";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+
 const exampleTheme = {
   ltr: "ltr",
   rtl: "rtl",
@@ -98,14 +102,13 @@ export function Editor() {
       <div className="editor-container">
         <div className="editor-inner">
           <RichTextPlugin
-            contentEditable={
-              <ContentEditable
-                className="editor-input"
-              />
-            }
+            contentEditable={<ContentEditable className="editor-input" />}
             placeholder={<Placeholder />}
             ErrorBoundary={LexicalErrorBoundary}
           />
+          <AutoFocusPlugin />
+          <ListPlugin />
+          <LinkPlugin />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
         </div>
       </div>
