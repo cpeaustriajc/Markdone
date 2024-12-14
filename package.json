@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "react-router dev",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri"
@@ -16,20 +16,26 @@
     "@lexical/markdown": "^0.21.0",
     "@lexical/react": "^0.21.0",
     "@lexical/rich-text": "^0.21.0",
+    "@react-router/node": "^7.0.2",
+    "@react-router/serve": "^7.0.2",
     "@tauri-apps/api": ">=2.1.1",
     "@tauri-apps/plugin-shell": ">=2.0.1",
+    "isbot": "^5.1.17",
     "lexical": "^0.21.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router": "^7.0.2"
   },
   "devDependencies": {
+    "@react-router/dev": "^7.0.2",
     "@tauri-apps/cli": ">=2.1.0",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2",
     "@types/wicg-file-system-access": "^2023.10.5",
     "@vitejs/plugin-react": "^4.3.4",
     "typescript": "^5.7.2",
-    "vite": "^6.0.2"
+    "vite": "^6.0.2",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c"
 }

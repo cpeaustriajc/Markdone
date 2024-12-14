@@ -20,7 +20,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "types": ["@types/wicg-file-system-access"]
+    "types": ["@types/wicg-file-system-access"],
+
+    "rootDirs": [".", "./.react-router/types"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
