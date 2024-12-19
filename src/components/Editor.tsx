@@ -2,29 +2,46 @@ import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
-import { TRANSFORMERS } from "@lexical/markdown";
+import {
+  $convertFromMarkdownString,
+  $convertToMarkdownString,
+  TRANSFORMERS,
+} from "@lexical/markdown";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListItemNode, ListNode } from "@lexical/list";
-import { CodeNode } from "@lexical/code";
+import { CodeNode, CodeHighlightNode } from "@lexical/code";
 import { LinkNode } from "@lexical/link";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
-import { useContext } from "react";
 import { defaultTheme } from "../themes/defaultTheme";
-import { EditorContext } from "../routes/home";
+import { useCallback } from "react";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
+import { EditorState, LexicalEditor } from "lexical";
+import { useEditorStore } from "../stores/editor";
 
 function Placeholder() {
   return <div className="editor-placeholder">Start writing...</div>;
 }
 
 export function Editor() {
-  const editorContext = useContext(EditorContext);
+  const { content, setContent } = useEditorStore();
+
+  const onChange = useCallback((_: EditorState, editor: LexicalEditor) => {
+    editor.read(() => {
+      const markdown = $convertToMarkdownString(TRANSFORMERS);
+      if (!setContent || !markdown) return;
+
+      setContent(markdown);
+    });
+  }, []);
+
   return (
     <LexicalComposer
       initialConfig={{
-        editorState: editorContext.content?.toString(),
+        editorState: () =>
+          $convertFromMarkdownString(content?.toString() ?? ""),
         namespace: "main-editor",
         onError: (error) => {
           throw error;
@@ -37,6 +54,7 @@ export function Editor() {
           QuoteNode,
           CodeNode,
           LinkNode,
+          CodeHighlightNode,
         ],
       }}
     >
@@ -51,6 +69,7 @@ export function Editor() {
           <ListPlugin />
           <LinkPlugin />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+          <OnChangePlugin onChange={onChange} />
         </div>
       </div>
     </LexicalComposer>

@@ -1,5 +1,7 @@
-import React, { createContext, useState } from "react";
 import { Editor } from "../components/Editor";
+import { useEditorStore } from "../stores/editor";
+import { Route } from "../+types/root";
+import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels";
 
 const pickerOpts: OpenFilePickerOptions = {
   types: [
@@ -12,13 +14,16 @@ const pickerOpts: OpenFilePickerOptions = {
   multiple: false,
 };
 
-export const EditorContext = createContext<{
-  content: string | ArrayBuffer | null;
-}>({
-  content: null,
-});
+export const meta: Route.MetaFunction = () => [
+  {
+    title: "Home",
+  },
+];
+
 export default function Home() {
-  const [content, setContent] = useState<string | ArrayBuffer | null>(null);
+  const content = useEditorStore((state) => state.content);
+  const setContent = useEditorStore((state) => state.setContent);
+
   const onOpenFile = async () => {
     const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
     const file = await fileHandle.getFile();
@@ -26,11 +31,13 @@ export default function Home() {
     fileReader.readAsText(file);
     fileReader.onload = () => {
       setContent(fileReader.result);
+      document.title = file.name;
     };
   };
 
   const onNewFile = () => {
     setContent("");
+    document.title = "New File";
   };
 
   const onSaveFile = async () => {
@@ -48,39 +55,24 @@ export default function Home() {
   };
 
   return (
-    <EditorContext value={{ content }}>
-      <React.Fragment>
-        <div
-          style={{
-            height: "100dvh",
-          }}
-        >
-          {content === null && (
-            <div>
-              <span>Open a file or create a new one to get started</span>
-              <div
-                style={{
-                  flexDirection: "row",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: 16,
-                }}
-              >
-                <button type="button" onClick={onOpenFile}>
-                  Open File
-                </button>
-                <button type="button" onClick={onNewFile}>
-                  New File
-                </button>
-              </div>
-            </div>
-          )}
-          <button type="button" onClick={onSaveFile}>
-            Save File
-          </button>
-          {content !== null && <Editor />}
-        </div>
-      </React.Fragment>
-    </EditorContext>
+    <PanelGroup className="home" direction="horizontal">
+      <Panel className="sidebar" id="sidebar">
+        <button type="button" onClick={onNewFile}>
+          New File
+        </button>
+        <button type="button" onClick={onOpenFile}>
+          Open File
+        </button>
+        <button type="button" disabled={content === null} onClick={onSaveFile}>
+          Save File
+        </button>
+      </Panel>
+      <PanelResizeHandle />
+      <Panel>
+        <main className="main">
+          <Editor />
+        </main>
+      </Panel>
+    </PanelGroup>
   );
 }

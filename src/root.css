@@ -1,50 +1,130 @@
-.editor-container {
-  margin: 20px auto 20px auto;
-  border-radius: 2px;
-  max-width: 600px;
-  color: #000;
-  position: relative;
-  line-height: 20px;
-  font-weight: 400;
-  text-align: left;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+@layer base, editor-components, components;
+
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+  }
+
+  html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+
+  body {
+    font-family: "Inter", sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100dvh;
+  }
 }
 
-.editor-inner {
-  background: #fff;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  position: relative;
+@layer components {
+  .sidebar {
+    background: #ddd;
+    color: #333;
+    padding: 10px 20px;
+    min-height: 100dvh;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 25%;
+  }
+
+  .home {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .main {
+    width: 75%;
+  }
 }
 
-.editor-input {
-  min-height: 150px;
-  resize: none;
-  font-size: 15px;
-  caret-color: rgb(5, 5, 5);
-  position: relative;
-  tab-size: 1;
-  outline: 0;
-  padding: 15px 10px;
-  caret-color: #444;
-}
+@layer editor-components {
+  .editor-container {
+    margin: 0 auto 20px auto;
+    border-radius: 2px;
+    max-width: 600px;
+    color: #000;
+    min-height: 100dvh;
+    position: relative;
+    line-height: 20px;
+    font-weight: 400;
+    width: 100%;
+    text-align: left;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
 
-.editor-placeholder {
-  color: #999;
-  overflow: hidden;
-  position: absolute;
-  text-overflow: ellipsis;
-  top: 15px;
-  left: 10px;
-  font-size: 15px;
-  user-select: none;
-  display: inline-block;
-  pointer-events: none;
-}
+  .editor-inner {
+    background: #fff;
+    border-radius: 16px;
+    height: 100%;
+    position: relative;
+  }
 
-.editor-paragraph {
-  margin: 0;
-  margin-bottom: 8px;
-  position: relative;
+  .editor-input {
+    min-height: 150px;
+    resize: none;
+    font-size: 15px;
+    caret-color: rgb(5, 5, 5);
+    position: relative;
+    tab-size: 1;
+    outline: 0;
+    height: 100%;
+    padding: 15px 10px;
+    caret-color: #444;
+  }
+
+  .editor-placeholder {
+    color: #999;
+    overflow: hidden;
+    position: absolute;
+    text-overflow: ellipsis;
+    top: 15px;
+    left: 10px;
+    font-size: 15px;
+    user-select: none;
+    display: inline-block;
+    pointer-events: none;
+  }
+
+  .editor-paragraph {
+    margin: 0;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .editor-heading-h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .editor-quote {
+    font-style: italic;
+    padding-left: 16px;
+    border-left: 2px solid #ddd;
+  }
+
+  @media (prefers-colors-scheme: light) {
+    .editor-inner {
+      background-color: #333;
+    }
+
+    .header {
+      color: #ddd;
+      background: #333;
+    }
+  }
 }
