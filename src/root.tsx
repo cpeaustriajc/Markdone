@@ -23,6 +23,10 @@ export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
 
+export const meta: Route.MetaFunction = () => [
+  { name: "color-scheme", content: "light dark" },
+];
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -39,6 +43,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
+}
+
+export function HydrateFallback() {
+  return <p>Loading...</p>;
 }
 
 export default function App() {

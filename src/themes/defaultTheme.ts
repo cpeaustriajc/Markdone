@@ -1,6 +1,9 @@
-export const defaultTheme = {
+import { EditorThemeClasses } from "lexical";
+
+export const defaultTheme: EditorThemeClasses = {
   ltr: "ltr",
   rtl: "rtl",
+  blockCursor: "editor-block-cursor",
   placeholder: "editor-placeholder",
   paragraph: "editor-paragraph",
   quote: "editor-quote",

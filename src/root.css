@@ -1,14 +1,10 @@
-@layer base, editor-components, components;
+@layer editor-components, components, base;
 
 @layer reset {
   *,
   *::before,
   *::after {
     box-sizing: border-box;
-  }
-
-  * {
-    margin: 0;
   }
 
   html {
@@ -21,21 +17,25 @@
     font-family: "Inter", sans-serif;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    min-height: 100dvh;
+    margin: 0;
+    background-color: hsl(221, 30%, 13%);
   }
 }
 
 @layer components {
   .sidebar {
-    background: #ddd;
+    background: hsl(218, 29%, 15%);
     color: #333;
-    padding: 10px 20px;
-    min-height: 100dvh;
-    max-width: 320px;
+    margin: 8px;
+    border-radius: 8px;
+    padding-top: 8px;
+    padding-inline: 8px;
+    min-height: 98svh;
     display: flex;
     flex-direction: column;
     gap: 16px;
     width: 25%;
+    box-shadow: 0 0px 8px 8px hsla(221, 50%, 50%, 0.1);
   }
 
   .home {
@@ -46,6 +46,80 @@
   .main {
     width: 75%;
   }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: hsl(215, 100%, 87%);
+    background-color: hsl(218, 29%, 25%);
+    border-radius: 4px;
+    border: solid 1px hsl(219, 30%, 35%);
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+  }
+
+  .menu-button:hover {
+    background-color: hsl(218, 29%, 30%);
+  }
+
+  .menu-button {
+    display: inline flex;
+    justify-content: left;
+    align-items: center;
+    padding-inline: 8px;
+    padding-block: 4px;
+
+    .icon {
+      color: hsl(221, 75%, 81%);
+      width: 14px;
+      height: 14px;
+      margin-right: 4px;
+    }
+  }
+
+  .button {
+    display: inline flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 8px;
+    padding-block: 4px;
+    border-radius: 4px;
+    border: solid 1px hsl(219, 100%, 72%);
+    background-color: hsl(221, 36%, 15%);
+    color: hsl(221, 75%, 81%);
+    font-family: inherit;
+    height: 24px;
+    font-size: 12px;
+    vertical-align: middle;
+    white-space: nowrap;
+    transition: background-color 0.25s ease;
+
+    .icon {
+      color: hsl(221, 75%, 81%);
+      width: 14px;
+      height: 14px;
+      margin-right: 4px;
+    }
+  }
+
+  .sidebar-item {
+    color: hsl(215, 100%, 87%);
+  }
+
+  .button:hover {
+    background-color: hsl(221, 36%, 20%);
+  }
+
+  @media (prefers-colors-scheme: dark) {
+    .editor-inner {
+      background-color: hsl(218, 29%, 15%);
+    }
+
+    .sidebar {
+      color: #ddd;
+    }
+  }
 }
 
 @layer editor-components {
@@ -54,34 +128,30 @@
     border-radius: 2px;
     max-width: 600px;
     color: #000;
-    min-height: 100dvh;
     position: relative;
     line-height: 20px;
     font-weight: 400;
-    width: 100%;
+    min-width: 100%;
     text-align: left;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
 
   .editor-inner {
-    background: #fff;
-    border-radius: 16px;
-    height: 100%;
-    position: relative;
+    max-width: 50%;
   }
 
   .editor-input {
     min-height: 150px;
     resize: none;
-    font-size: 15px;
-    caret-color: rgb(5, 5, 5);
+    font-size: 16px;
     position: relative;
     tab-size: 1;
     outline: 0;
     height: 100%;
     padding: 15px 10px;
-    caret-color: #444;
+    color: hsl(206, 8%, 82%);
+    caret-color: hsl(0, 27%, 85%);
   }
 
   .editor-placeholder {
@@ -91,7 +161,7 @@
     text-overflow: ellipsis;
     top: 15px;
     left: 10px;
-    font-size: 15px;
+    font-size: 16px;
     user-select: none;
     display: inline-block;
     pointer-events: none;
@@ -115,16 +185,5 @@
     font-style: italic;
     padding-left: 16px;
     border-left: 2px solid #ddd;
-  }
-
-  @media (prefers-colors-scheme: light) {
-    .editor-inner {
-      background-color: #333;
-    }
-
-    .header {
-      color: #ddd;
-      background: #333;
-    }
   }
 }
