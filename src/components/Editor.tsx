@@ -19,21 +19,22 @@ import { defaultTheme } from "../themes/defaultTheme";
 import { useCallback } from "react";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { EditorState, LexicalEditor } from "lexical";
-import { useEditorStore } from "../stores/editor";
+import { editorStore } from "../stores/editor";
+import { useSelector } from "@xstate/store/react";
 
 function Placeholder() {
   return <div className="editor-placeholder">Start writing...</div>;
 }
 
 export function Editor() {
-  const { content, setContent } = useEditorStore();
+  const content = useSelector(editorStore, (state) => state.context.content);
 
   const onChange = useCallback((_: EditorState, editor: LexicalEditor) => {
     editor.read(() => {
       const markdown = $convertToMarkdownString(TRANSFORMERS);
-      if (!setContent || !markdown) return;
+      if (!markdown) return;
 
-      setContent(markdown);
+      editorStore.send({ type: "setContent", content: markdown });
     });
   }, []);
 

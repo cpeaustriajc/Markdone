@@ -1,8 +1,9 @@
-import { useEditorStore } from "#/stores/editor";
+import { useSelector } from "@xstate/store/react";
 import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels";
 import { MdAdd, MdFileDownload, MdFileOpen, MdMenu } from "react-icons/md";
 import { Menu, MenuProvider, MenuButton, MenuItem } from "@ariakit/react/menu";
 import { Outlet } from "react-router";
+import { editorStore } from "#/stores/editor";
 
 const pickerOpts: OpenFilePickerOptions = {
   types: [
@@ -16,8 +17,8 @@ const pickerOpts: OpenFilePickerOptions = {
 };
 
 export default function HomeLayout() {
-  const { content, setContent, setTitle, contents, setContents } =
-    useEditorStore();
+  const content = useSelector(editorStore, (state) => state.context.content);
+  const contents = useSelector(editorStore, (state) => state.context.contents);
 
   const onOpenFile = async () => {
     const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
@@ -25,34 +26,41 @@ export default function HomeLayout() {
     const fileReader = new FileReader();
     fileReader.readAsText(file);
     fileReader.onload = () => {
-      setContent(fileReader.result);
+      editorStore.send({ type: "setContent", content: fileReader.result });
       document.title = file.name;
-      setTitle(file.name);
+      editorStore.send({ type: "setTitle", title: file.name });
 
-      setContents([
-        ...contents,
-        {
-          id: crypto.randomUUID(),
-          content: fileReader.result,
-          title: file.name,
-        },
-      ]);
+      editorStore.send({
+        type: "setContents",
+        contents: [
+          ...contents,
+          {
+            id: crypto.randomUUID(),
+            content: fileReader.result,
+            title: file.name,
+          },
+        ],
+      });
     };
   };
 
   const onNewFile = () => {
-    setContent("");
+    editorStore.send({ type: "setContent", content: "" });
     document.title = "New File";
-    setTitle("New File");
+    editorStore.send({ type: "setTitle", title: "New File" });
 
-    setContents([
-      ...contents,
-      {
-        id: crypto.randomUUID(),
-        content: "",
-        title: "New File",
-      },
-    ]);
+    editorStore.send({
+      type: "setContents",
+      contents: [
+        ...contents,
+        {
+          id: crypto.randomUUID(),
+          content: "",
+          title: "New File",
+        },
+      ],
+    });
+
   };
 
   const onSaveFile = async () => {
