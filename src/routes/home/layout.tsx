@@ -1,9 +1,16 @@
 import { useSelector } from "@xstate/store/react";
 import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels";
-import { MdAdd, MdFileDownload, MdFileOpen, MdMenu } from "react-icons/md";
 import { Menu, MenuProvider, MenuButton, MenuItem } from "@ariakit/react/menu";
-import { Outlet } from "react-router";
+import { Link, Outlet } from "react-router";
 import { editorStore } from "#/stores/editor";
+import {
+  FaBars,
+  FaFile,
+  FaFileDownload,
+  FaHome,
+  FaPlus,
+  FaFileUpload,
+} from "react-icons/fa";
 
 const pickerOpts: OpenFilePickerOptions = {
   types: [
@@ -60,7 +67,6 @@ export default function HomeLayout() {
         },
       ],
     });
-
   };
 
   const onSaveFile = async () => {
@@ -81,34 +87,39 @@ export default function HomeLayout() {
     <PanelGroup className="home" direction="horizontal">
       <Panel className="sidebar" id="sidebar" minSize={15} maxSize={20}>
         <MenuProvider>
-          <MenuButton className="button">
-            <MdMenu className="icon" />
+          <MenuButton className="menu-button" title="Open Menu">
+            <FaBars className="icon" />
           </MenuButton>
           <Menu className="menu">
             <MenuItem
-              className="menu-button"
+              className="menu-item"
               onClick={() => {
                 onNewFile();
               }}
             >
-              <MdAdd className="icon" />
+              <FaPlus className="icon" />
               New File
             </MenuItem>
-            <MenuItem className="menu-button" onClick={() => onOpenFile}>
-              <MdFileOpen className="icon" />
+            <MenuItem className="menu-item" onClick={() => onOpenFile}>
+              <FaFileUpload className="icon" />
               Open File
             </MenuItem>
-            <MenuItem className="menu-button" onClick={() => onSaveFile()}>
-              <MdFileDownload className="icon" />
+            <MenuItem className="menu-item" onClick={() => onSaveFile()}>
+              <FaFileDownload className="icon" />
               Save File
             </MenuItem>
           </Menu>
         </MenuProvider>
+        <Link to="/" replace className="sidebar-item">
+          <FaHome size={16} />
+          <span>Home</span>
+        </Link>
         {contents.length > 0 &&
           contents.map((c) => (
-            <div className="sidebar-item" key={c.id}>
-              {c.title}
-            </div>
+            <Link to={`/${c.id}`} className="sidebar-item" key={c.id}>
+              <FaFile />
+              <span>{c.title}</span>
+            </Link>
           ))}
       </Panel>
       <PanelResizeHandle className="resize-panel" />
