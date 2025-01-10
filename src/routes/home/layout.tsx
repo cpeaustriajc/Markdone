@@ -117,7 +117,7 @@ export default function HomeLayout() {
             </MenuItem>
           </Menu>
         </MenuProvider>
-        <Link to="/" replace className="sidebar-item">
+        <Link to="/" replace viewTransition className="sidebar-item">
           <span className="icon">
             <HomeIcon size={16} />
           </span>
@@ -125,7 +125,7 @@ export default function HomeLayout() {
         </Link>
         {contents.length > 0 &&
           contents.map((c) => (
-            <Link to={`/${c.id}`} className="sidebar-item" key={c.id}>
+            <Link  viewTransition to={`/${c.id}`} className="sidebar-item" key={c.id}>
               <span className="icon">
                 <FileIcon size={16} />
               </span>
