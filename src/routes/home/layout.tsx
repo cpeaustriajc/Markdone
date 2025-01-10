@@ -4,13 +4,13 @@ import { Menu, MenuProvider, MenuButton, MenuItem } from "@ariakit/react/menu";
 import { Link, Outlet } from "react-router";
 import { editorStore } from "#/stores/editor";
 import {
-  FaBars,
-  FaFile,
-  FaFileDownload,
-  FaHome,
-  FaPlus,
-  FaFileUpload,
-} from "react-icons/fa";
+  FileIcon,
+  HomeIcon,
+  FilePlusIcon,
+  MenuIcon,
+  FileUpIcon,
+  SaveIcon,
+} from "lucide-react";
 
 const pickerOpts: OpenFilePickerOptions = {
   types: [
@@ -88,7 +88,7 @@ export default function HomeLayout() {
       <Panel className="sidebar" id="sidebar" minSize={15} maxSize={20}>
         <MenuProvider>
           <MenuButton className="menu-button" title="Open Menu">
-            <FaBars className="icon" />
+            <MenuIcon size={16} />
           </MenuButton>
           <Menu className="menu">
             <MenuItem
@@ -97,27 +97,37 @@ export default function HomeLayout() {
                 onNewFile();
               }}
             >
-              <FaPlus className="icon" />
-              New File
+              <span className="icon">
+                <FilePlusIcon size={16} />
+              </span>
+              <span className="text">New File</span>
             </MenuItem>
             <MenuItem className="menu-item" onClick={() => onOpenFile}>
-              <FaFileUpload className="icon" />
-              Open File
+              <span className="icon">
+                <FileUpIcon size={16} />
+              </span>
+              <span className="text">Open File</span>
             </MenuItem>
             <MenuItem className="menu-item" onClick={() => onSaveFile()}>
-              <FaFileDownload className="icon" />
-              Save File
+              <span className="icon">
+                <SaveIcon size={16} />
+              </span>
+              <span className="text">Save File</span>
             </MenuItem>
           </Menu>
         </MenuProvider>
         <Link to="/" replace className="sidebar-item">
-          <FaHome size={16} />
+          <span className="icon">
+            <HomeIcon size={16} />
+          </span>
           <span>Home</span>
         </Link>
         {contents.length > 0 &&
           contents.map((c) => (
             <Link to={`/${c.id}`} className="sidebar-item" key={c.id}>
-              <FaFile />
+              <span className="icon">
+                <FileIcon size={16}/>
+              </span>
               <span>{c.title}</span>
             </Link>
           ))}
