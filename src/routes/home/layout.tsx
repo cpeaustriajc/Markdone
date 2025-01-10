@@ -67,6 +67,7 @@ export default function HomeLayout() {
         },
       ],
     });
+    localStorage.setItem("editor", JSON.stringify(editorStore.getSnapshot()));
   };
 
   const onSaveFile = async () => {
@@ -102,7 +103,7 @@ export default function HomeLayout() {
               </span>
               <span className="text">New File</span>
             </MenuItem>
-            <MenuItem className="menu-item" onClick={() => onOpenFile}>
+            <MenuItem className="menu-item" onClick={() => onOpenFile()}>
               <span className="icon">
                 <FileUpIcon size={16} />
               </span>
@@ -126,7 +127,7 @@ export default function HomeLayout() {
           contents.map((c) => (
             <Link to={`/${c.id}`} className="sidebar-item" key={c.id}>
               <span className="icon">
-                <FileIcon size={16}/>
+                <FileIcon size={16} />
               </span>
               <span>{c.title}</span>
             </Link>

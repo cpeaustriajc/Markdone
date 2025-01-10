@@ -1,15 +1,36 @@
-import { createStore } from "@xstate/store";
+import { createStore, StoreSnapshot } from "@xstate/store";
 
+type EditorContext = {
+  content: string | ArrayBuffer | null;
+  title: string;
+  contents: {
+    id: string;
+    content: string | ArrayBuffer | null;
+    title: string;
+  }[];
+};
+
+function persist<T>(state: StoreSnapshot<T>) {
+  localStorage.setItem("editor", JSON.stringify(state));
+}
+
+function getPersistedState<T>(): StoreSnapshot<T> | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+  const persisted = localStorage.getItem("editor");
+  return persisted ? JSON.parse(persisted) : null;
+}
+
+const restoredState = getPersistedState<EditorContext>();
 export const editorStore = createStore({
-  context: {
-    content: null as string | ArrayBuffer | null,
-    title: "" as string,
-    contents: [] as {
-      id: string;
-      content: string | ArrayBuffer | null;
-      title: string;
-    }[],
-  },
+  context:
+    restoredState?.context ??
+    ({
+      content: null,
+      title: "",
+      contents: [],
+    } as EditorContext),
   on: {
     setContent: (context, event: { content: string | ArrayBuffer | null }) => {
       return {
@@ -39,4 +60,8 @@ export const editorStore = createStore({
       };
     },
   },
+});
+
+editorStore.subscribe((state) => {
+  persist(state);
 });
