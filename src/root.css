@@ -18,13 +18,14 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     margin: 0;
-    background-color: hsl(221, 30%, 13%);
+    background-color: light-dark(hsl(221, 30%, 95%), hsl(221, 30%, 13%));
   }
 }
 
 @layer components {
   .sidebar {
-    background: hsl(218, 29%, 15%);
+    background: light-dark(hsl(218, 29%, 90%), hsl(218, 29%, 15%));
+    border: solid 1px light-dark(hsl(218, 29%, 85%), hsl(218, 29%, 20%));
     color: #333;
     margin: 8px;
     border-radius: 8px;
@@ -48,30 +49,82 @@
   }
 
   .menu {
-    display: flex;
+    display: none;
     flex-direction: column;
+    opacity: 0;
     gap: 8px;
-    color: hsl(215, 100%, 87%);
-    background-color: hsl(218, 29%, 25%);
+    translate: 0 -2vh;
+    scale: 0;
+    color: light-dark(hsl(215, 100%, 15%), hsl(215, 100%, 87%));
+    background-color: light-dark(hsl(220, 35%, 75%), hsl(221, 36%, 15%));
+    color: light-dark(hsl(220, 75%, 15%), hsl(220, 75%, 80%));
     border-radius: 4px;
-    border: solid 1px hsl(219, 30%, 35%);
+    border: solid 1px light-dark(hsl(220, 30%, 72%), hsl(219, 30%, 35%));
     cursor: pointer;
-    transition: background-color 0.25s ease;
+    transform-origin: top left;
+    transition: display 125ms allow-discrete, opacity 250ms ease-out,
+      translate 250ms ease-out, scale 250ms ease-out;
   }
 
-  .menu-button:hover {
-    background-color: hsl(218, 29%, 30%);
+  .menu[data-open="true"] {
+    display: flex;
+    opacity: 1;
+    translate: 0 1vh;
+    scale: 1;
+  }
+
+  @starting-style {
+    .menu[data-open="true"] {
+      opacity: 0;
+      translate: 0 -2vh;
+      scale: 0;
+    }
   }
 
   .menu-button {
     display: inline flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
     padding-inline: 8px;
     padding-block: 4px;
+    border-radius: 4px;
+    border: solid 1px hsl(219, 100%, 72%);
+    background-color: light-dark(hsl(220, 35%, 75%), hsl(221, 36%, 15%));
+    color: light-dark(hsl(220, 75%, 15%), hsl(220, 75%, 80%));
+    font-family: inherit;
+    min-height: 36px;
+    font-size: 12px;
+    vertical-align: middle;
+    white-space: nowrap;
+    transition: background-color 0.25s ease;
+
+    &:hover {
+      background-color: light-dark(hsl(220, 35%, 55%), hsl(221, 36%, 20%));
+    }
 
     .icon {
-      color: hsl(221, 75%, 81%);
+      color: light-dark(hsl(220, 75%, 5%), hsl(221, 75%, 81%));
+      width: 14px;
+      height: 14px;
+      margin-right: 4px;
+    }
+  }
+
+  .menu-item {
+    display: inline flex;
+    align-items: center;
+    padding-inline: 16px;
+    padding-block: 8px;
+    margin: 4px;
+    border-radius: 4px;
+    transition: background-color 0.25s ease;
+
+    &:hover {
+      background-color: light-dark(hsl(220, 30%, 90%), hsl(218, 29%, 30%));
+    }
+
+    .icon {
+      color: light-dark(hsl(221, 75%, 25%), hsl(220, 75%, 80%));
       width: 14px;
       height: 14px;
       margin-right: 4px;
@@ -86,8 +139,8 @@
     padding-block: 4px;
     border-radius: 4px;
     border: solid 1px hsl(219, 100%, 72%);
-    background-color: hsl(221, 36%, 15%);
-    color: hsl(221, 75%, 81%);
+    background-color: light-dark(hsl(220, 35%, 75%), hsl(221, 36%, 15%));
+    color: light-dark(hsl(220, 75%, 15%), hsl(220, 75%, 80%));
     font-family: inherit;
     height: 24px;
     font-size: 12px;
@@ -95,8 +148,12 @@
     white-space: nowrap;
     transition: background-color 0.25s ease;
 
+    &:hover {
+      background-color: light-dark(hsl(220, 35%, 55%), hsl(221, 36%, 20%));
+    }
+
     .icon {
-      color: hsl(221, 75%, 81%);
+      color: light-dark(hsl(220, 75%, 5%), hsl(221, 75%, 81%));
       width: 14px;
       height: 14px;
       margin-right: 4px;
@@ -104,21 +161,55 @@
   }
 
   .sidebar-item {
-    color: hsl(215, 100%, 87%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+    color: light-dark(hsl(215, 100%, 15%), hsl(215, 100%, 87%));
+    text-decoration: none;
+    transition: color 0.25s ease, background-color 0.25s ease;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    &:hover {
+      color: light-dark(hsl(215, 100%, 25%), hsl(215, 100%, 75%));
+      background-color: light-dark(hsl(215, 100%, 80%), hsl(215, 100%, 30%));
+    }
+  }
+}
+
+@layer typography {
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: 8px;
   }
 
-  .button:hover {
-    background-color: hsl(221, 36%, 20%);
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: 8px;
   }
 
-  @media (prefers-colors-scheme: dark) {
-    .editor-inner {
-      background-color: hsl(218, 29%, 15%);
-    }
+  h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: 8px;
+  }
 
-    .sidebar {
-      color: #ddd;
-    }
+  h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin: 0;
+    margin-bottom: 8px;
   }
 }
 
@@ -138,6 +229,7 @@
   }
 
   .editor-inner {
+    background-color: ligth-dark(hsl(218, 29%, 75%), hsl(218, 29%, 15%));
     max-width: 50%;
   }
 
@@ -150,8 +242,8 @@
     outline: 0;
     height: 100%;
     padding: 15px 10px;
-    color: hsl(206, 8%, 82%);
-    caret-color: hsl(0, 27%, 85%);
+    color: light-dark(hsl(206, 8%, 13%), hsl(206, 8%, 82%));
+    caret-color: light-dark(hsl(206, 8%, 13%), hsl(0, 27%, 85%));
   }
 
   .editor-placeholder {
