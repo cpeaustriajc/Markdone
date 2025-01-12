@@ -137,7 +137,7 @@ export default function HomeLayout() {
         {contents.length > 0 &&
           contents.map((c) => (
             <Menu.Root key={c.id}>
-              <Menu.ContextTrigger  asChild>
+              <Menu.ContextTrigger asChild>
                 <Link viewTransition to={`/${c.id}`} className="sidebar-item">
                   <span className="icon">
                     <FileIcon size={16} />

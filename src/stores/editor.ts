@@ -52,7 +52,7 @@ export const editorStore = createStore({
           content: string | ArrayBuffer | null;
           title: string;
         }[];
-      }
+      },
     ) => {
       return {
         ...context,
