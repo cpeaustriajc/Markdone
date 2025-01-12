@@ -147,11 +147,11 @@ export default function HomeLayout() {
               </Menu.ContextTrigger>
               <Menu.Positioner>
                 <Menu.Content className="menu">
-                  <Menu.Item className="menu-item" value="delete-file">
-                    Delete
-                  </Menu.Item>
                   <Menu.Item className="menu-item" value="rename-file">
                     Rename
+                  </Menu.Item>
+                  <Menu.Item className="menu-item" value="delete-file">
+                    Delete
                   </Menu.Item>
                 </Menu.Content>
               </Menu.Positioner>
