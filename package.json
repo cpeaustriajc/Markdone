@@ -10,7 +10,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@ariakit/react": "^0.4.15",
+        "@ark-ui/react": "^4.8.0",
         "@lexical/code": "^0.23.1",
         "@lexical/link": "^0.23.1",
         "@lexical/list": "^0.23.1",

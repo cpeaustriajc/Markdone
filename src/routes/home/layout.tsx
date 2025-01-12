@@ -1,6 +1,6 @@
 import { useSelector } from "@xstate/store/react";
 import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels";
-import { Menu, MenuProvider, MenuButton, MenuItem } from "@ariakit/react/menu";
+import { Menu } from "@ark-ui/react";
 import { Link, Outlet } from "react-router";
 import { editorStore } from "#/stores/editor";
 import {
@@ -87,36 +87,47 @@ export default function HomeLayout() {
   return (
     <PanelGroup className="home" direction="horizontal">
       <Panel className="sidebar" id="sidebar" minSize={15} maxSize={20}>
-        <MenuProvider>
-          <MenuButton className="menu-button" title="Open Menu">
+        <Menu.Root>
+          <Menu.Trigger className="menu-button" title="Open Menu">
             <MenuIcon size={16} />
-          </MenuButton>
-          <Menu className="menu">
-            <MenuItem
-              className="menu-item"
-              onClick={() => {
-                onNewFile();
-              }}
-            >
-              <span className="icon">
-                <FilePlusIcon size={16} />
-              </span>
-              <span className="text">New File</span>
-            </MenuItem>
-            <MenuItem className="menu-item" onClick={() => onOpenFile()}>
-              <span className="icon">
-                <FileUpIcon size={16} />
-              </span>
-              <span className="text">Open File</span>
-            </MenuItem>
-            <MenuItem className="menu-item" onClick={() => onSaveFile()}>
-              <span className="icon">
-                <SaveIcon size={16} />
-              </span>
-              <span className="text">Save File</span>
-            </MenuItem>
-          </Menu>
-        </MenuProvider>
+          </Menu.Trigger>
+          <Menu.Positioner>
+            <Menu.Content className="menu">
+              <Menu.Item
+                className="menu-item"
+                onClick={() => {
+                  onNewFile();
+                }}
+                value="new-item"
+              >
+                <span className="icon">
+                  <FilePlusIcon size={16} />
+                </span>
+                <span className="text">New File</span>
+              </Menu.Item>
+              <Menu.Item
+                className="menu-item"
+                value="open-file"
+                onClick={() => onOpenFile()}
+              >
+                <span className="icon">
+                  <FileUpIcon size={16} />
+                </span>
+                <span className="text">Open File</span>
+              </Menu.Item>
+              <Menu.Item
+                className="menu-item"
+                value="save-file"
+                onClick={() => onSaveFile()}
+              >
+                <span className="icon">
+                  <SaveIcon size={16} />
+                </span>
+                <span className="text">Save File</span>
+              </Menu.Item>
+            </Menu.Content>
+          </Menu.Positioner>
+        </Menu.Root>
         <Link to="/" replace viewTransition className="sidebar-item">
           <span className="icon">
             <HomeIcon size={16} />
@@ -125,12 +136,26 @@ export default function HomeLayout() {
         </Link>
         {contents.length > 0 &&
           contents.map((c) => (
-            <Link  viewTransition to={`/${c.id}`} className="sidebar-item" key={c.id}>
-              <span className="icon">
-                <FileIcon size={16} />
-              </span>
-              <span>{c.title}</span>
-            </Link>
+            <Menu.Root key={c.id}>
+              <Menu.ContextTrigger  asChild>
+                <Link viewTransition to={`/${c.id}`} className="sidebar-item">
+                  <span className="icon">
+                    <FileIcon size={16} />
+                  </span>
+                  <span>{c.title}</span>
+                </Link>
+              </Menu.ContextTrigger>
+              <Menu.Positioner>
+                <Menu.Content className="menu">
+                  <Menu.Item className="menu-item" value="delete-file">
+                    Delete
+                  </Menu.Item>
+                  <Menu.Item className="menu-item" value="rename-file">
+                    Rename
+                  </Menu.Item>
+                </Menu.Content>
+              </Menu.Positioner>
+            </Menu.Root>
           ))}
       </Panel>
       <PanelResizeHandle className="resize-panel" />
