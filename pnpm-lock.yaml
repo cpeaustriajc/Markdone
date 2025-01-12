@@ -47,9 +47,6 @@ importers:
       lucide-react:
         specifier: ^0.471.0
         version: 0.471.0(react@19.0.0)
-      prettier:
-        specifier: ^3.4.2
-        version: 3.4.2
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -105,6 +102,9 @@ importers:
       eslint-plugin-react-compiler:
         specifier: 19.0.0-beta-63e3235-20250105
         version: 19.0.0-beta-63e3235-20250105(eslint@8.57.1)
+      prettier:
+        specifier: ^3.4.2
+        version: 3.4.2
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
