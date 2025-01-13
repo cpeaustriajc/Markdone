@@ -1,6 +1,7 @@
 import { useSelector } from "@xstate/store/react";
 import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels";
-import { Menu } from "@ark-ui/react";
+import { Editable, Menu } from "@ark-ui/react";
+import { Fragment } from "react";
 import { Link, Outlet } from "react-router";
 import { editorStore } from "#/stores/editor";
 import {
@@ -142,7 +143,65 @@ export default function HomeLayout() {
                   <span className="icon">
                     <FileIcon size={16} />
                   </span>
-                  <span>{c.title}</span>
+                  <Editable.Root
+                    onValueCommit={(title) => {
+                      editorStore.send({
+                        type: "setContents",
+                        contents: contents.map((content) => {
+                          if (content.id === c.id) {
+                            return {
+                              ...content,
+                              title: title.value,
+                            };
+                          }
+                          return content;
+                        }),
+                      });
+                    }}
+                    style={{
+                      display: "flex",
+                      flex: "1 0 auto",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                    defaultValue={c.title}
+                  >
+                    <Editable.Area>
+                      <Editable.Input
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          fontFamily: "inherit",
+                        }}
+                      />
+                      <Editable.Preview />
+                    </Editable.Area>
+                    <Editable.Context>
+                      {(editable) => (
+                        <Editable.Control
+                          style={{
+                            display: "flex",
+                            gap: "0.5rem",
+                          }}
+                        >
+                          {editable.editing ? (
+                            <Fragment>
+                              <Editable.SubmitTrigger className="button">
+                                Save
+                              </Editable.SubmitTrigger>
+                              <Editable.CancelTrigger className="button">
+                                Cancel
+                              </Editable.CancelTrigger>
+                            </Fragment>
+                          ) : (
+                            <Editable.EditTrigger className="button">
+                              Edit
+                            </Editable.EditTrigger>
+                          )}
+                        </Editable.Control>
+                      )}
+                    </Editable.Context>
+                  </Editable.Root>
                 </Link>
               </Menu.ContextTrigger>
               <Menu.Positioner>
