@@ -1,7 +1,7 @@
 import { Editor } from "#/components/Editor";
 import { JSX, useRef, useState, useEffect, useSyncExternalStore } from "react";
 import { Route } from "./+types";
-import { EditorContext, editorStore, getPersistedState } from "#/stores/editor";
+import { editorStore } from "#/stores/editor";
 import { useSelector } from "@xstate/store/react";
 
 export const meta: Route.MetaFunction = () => [
