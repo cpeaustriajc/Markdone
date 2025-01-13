@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import { reactRouter } from "@react-router/dev/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import babel from "vite-plugin-babel";
+import netlifyPlugin from "@netlify/vite-plugin-react-router";
 
 export default defineConfig(async () => ({
   plugins: [
@@ -14,5 +15,6 @@ export default defineConfig(async () => ({
       },
     }),
     tsconfigPaths(),
+    netlifyPlugin()
   ],
 }));
