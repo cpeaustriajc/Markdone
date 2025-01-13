@@ -22,6 +22,15 @@ import { editorStore } from "../stores/editor";
 import { useSelector } from "@xstate/store/react";
 import { AutosaveProps, useAutosave } from "#/routes/home/file";
 import { useParams } from "react-router";
+import { Fragment } from "react";
+import { createToaster, Toast, Toaster } from "@ark-ui/react";
+import { XIcon } from "lucide-react";
+
+const toaster = createToaster({
+  placement: "bottom-end",
+  overlap: true,
+  gap: 24,
+});
 
 function AutosavePlugin<TData, TReturn>({
   element = null,
@@ -49,46 +58,88 @@ export function Editor() {
   };
 
   return (
-    <LexicalComposer
-      initialConfig={{
-        editorState: () =>
-          $convertFromMarkdownString(content?.toString() ?? ""),
-        namespace: "main-editor",
-        onError: (error) => {
-          throw error;
-        },
-        theme: defaultTheme,
-        nodes: [
-          HeadingNode,
-          ListNode,
-          ListItemNode,
-          QuoteNode,
-          CodeNode,
-          LinkNode,
-          CodeHighlightNode,
-        ],
-      }}
-    >
-      <div className="editor-container">
-        <div className="editor-inner">
-          <RichTextPlugin
-            contentEditable={<ContentEditable className="editor-input" />}
-            placeholder={<Placeholder />}
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-          <AutoFocusPlugin />
-          <ListPlugin />
-          <LinkPlugin />
-          <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-          <OnChangePlugin onChange={onChange} />
-          <AutosavePlugin
-            data={content}
-            onSave={() => {
-              editorStore.send({ type: "updateFile", id: params.id, content });
-            }}
-          />
+    <Fragment>
+      <LexicalComposer
+        initialConfig={{
+          editorState: () =>
+            $convertFromMarkdownString(content?.toString() ?? ""),
+          namespace: "main-editor",
+          onError: (error) => {
+            throw error;
+          },
+          theme: defaultTheme,
+          nodes: [
+            HeadingNode,
+            ListNode,
+            ListItemNode,
+            QuoteNode,
+            CodeNode,
+            LinkNode,
+            CodeHighlightNode,
+          ],
+        }}
+      >
+        <div className="editor-container">
+          <div className="editor-inner">
+            <RichTextPlugin
+              contentEditable={<ContentEditable className="editor-input" />}
+              placeholder={<Placeholder />}
+              ErrorBoundary={LexicalErrorBoundary}
+            />
+            <AutoFocusPlugin />
+            <ListPlugin />
+            <LinkPlugin />
+            <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+            <OnChangePlugin onChange={onChange} />
+            <AutosavePlugin
+              data={content}
+              onSave={() => {
+                editorStore.send({
+                  type: "updateFile",
+                  id: params.id,
+                  content,
+                });
+                toaster.create({
+                  title: "Success",
+                  description: "File saved successfully",
+                  type: "success",
+                });
+              }}
+            />
+          </div>
         </div>
-      </div>
-    </LexicalComposer>
+      </LexicalComposer>
+      <Toaster toaster={toaster}>
+        {(toast) => (
+          <Toast.Root
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              backgroundColor: "#fff",
+              border: "solid 1px #eee",
+              padding: "8px",
+              minWidth: "240px",
+              minHeight: "80px",
+              borderRadius: "4px",
+            }}
+            key={toast.id}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Toast.Title>{toast.title}</Toast.Title>
+              <Toast.CloseTrigger className="button">
+                <XIcon className="icon" />
+              </Toast.CloseTrigger>
+            </div>
+            <Toast.Description>{toast.description}</Toast.Description>
+          </Toast.Root>
+        )}
+      </Toaster>
+    </Fragment>
   );
 }
