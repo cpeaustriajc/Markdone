@@ -62,7 +62,8 @@
     border: solid 1px light-dark(hsl(220, 30%, 72%), hsl(219, 30%, 35%));
     cursor: pointer;
     transform-origin: top;
-    transition: display 250ms allow-discrete,
+    transition:
+      display 250ms allow-discrete,
       opacity 250ms cubic-bezier(0.4, 0, 0.2, 1),
       translate 250ms cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -165,7 +166,8 @@
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
-    transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    transition:
+      color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
       background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     padding-inline: 8px;
     padding-block: 4px;
@@ -173,6 +175,8 @@
     border-radius: 8px;
     cursor: pointer;
     line-height: 0;
+
+
 
     .icon {
       margin-right: 8px;
@@ -184,6 +188,10 @@
     }
   }
 }
+
+.sidebar-item.active {
+    background-color: light-dark(hsl(215, 100%, 95%), hsl(215, 100%, 10%));
+  }
 
 @layer typography {
   h1 {

@@ -2,7 +2,7 @@ import { useSelector } from "@xstate/store/react";
 import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels";
 import { Editable, Menu } from "@ark-ui/react";
 import { Fragment } from "react";
-import { Link, Outlet } from "react-router";
+import { NavLink, Outlet } from "react-router";
 import { editorStore } from "#/stores/editor";
 import {
   FileIcon,
@@ -129,17 +129,21 @@ export default function HomeLayout() {
             </Menu.Content>
           </Menu.Positioner>
         </Menu.Root>
-        <Link to="/" replace viewTransition className="sidebar-item">
+        <NavLink to="/" replace viewTransition className="sidebar-item">
           <span className="icon">
             <HomeIcon size={16} />
           </span>
           <span>Home</span>
-        </Link>
+        </NavLink>
         {contents.length > 0 &&
           contents.map((c) => (
             <Menu.Root key={c.id}>
               <Menu.ContextTrigger asChild>
-                <Link viewTransition to={`/${c.id}`} className="sidebar-item">
+                <NavLink
+                  viewTransition
+                  to={`/${c.id}`}
+                  className="sidebar-item"
+                >
                   <span className="icon">
                     <FileIcon size={16} />
                   </span>
@@ -202,7 +206,7 @@ export default function HomeLayout() {
                       )}
                     </Editable.Context>
                   </Editable.Root>
-                </Link>
+                </NavLink>
               </Menu.ContextTrigger>
               <Menu.Positioner>
                 <Menu.Content className="menu">
