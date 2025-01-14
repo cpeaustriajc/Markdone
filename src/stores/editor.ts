@@ -11,9 +11,6 @@ export function persist<T>(state: StoreSnapshot<T>) {
 }
 
 export function getPersistedState<T>(): StoreSnapshot<T> | null {
-  if (typeof window === "undefined") {
-    return null;
-  }
   const persisted = localStorage.getItem("editor");
   return persisted ? JSON.parse(persisted) : null;
 }
