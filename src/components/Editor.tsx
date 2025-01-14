@@ -20,25 +20,17 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { EditorState, LexicalEditor } from "lexical";
 import { editorStore } from "../stores/editor";
 import { useSelector } from "@xstate/store/react";
-import { AutosaveProps, useAutosave } from "#/routes/home/file";
 import { useParams } from "react-router";
 import { Fragment, useState } from "react";
 import { createToaster, Toast, Toaster } from "@ark-ui/react";
 import { XIcon } from "lucide-react";
+import { AutosavePlugin } from "#/plugins/AutosavePlugin";
 
 const toaster = createToaster({
   placement: "bottom-end",
   overlap: true,
   gap: 24,
 });
-
-function AutosavePlugin<TData, TReturn>({
-  element = null,
-  ...props
-}: AutosaveProps<TData, TReturn>) {
-  useAutosave(props);
-  return element;
-}
 
 function Placeholder() {
   return <div className="editor-placeholder">Start writing...</div>;
