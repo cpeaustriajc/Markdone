@@ -22,11 +22,11 @@
 
     "types": ["@types/wicg-file-system-access"],
 
-    "rootDirs": [".", "./.react-router/types"],
+    "rootDirs": ["."],
     "paths": {
       "#/*": ["./src/*"]
     }
   },
-  "include": ["src", ".react-router/types/**/*"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
