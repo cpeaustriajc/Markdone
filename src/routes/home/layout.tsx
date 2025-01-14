@@ -2,7 +2,7 @@ import { useSelector } from "@xstate/store/react";
 import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels";
 import { Editable, Menu } from "@ark-ui/react";
 import { Fragment } from "react";
-import { NavLink, Outlet } from "react-router";
+import { NavLink, Outlet, useParams } from "react-router";
 import { editorStore } from "#/stores/editor";
 import {
   FileIcon,
@@ -25,49 +25,33 @@ const pickerOpts: OpenFilePickerOptions = {
 };
 
 export default function HomeLayout() {
-  const content = useSelector(editorStore, (state) => state.context.content);
-  const contents = useSelector(editorStore, (state) => state.context.contents);
+  const params = useParams();
+  const content = useSelector(
+    editorStore,
+    (state) =>
+      params.id && state.context.files.find((c) => c.id === params.id)?.content,
+  );
+  const contents = useSelector(editorStore, (state) => state.context);
 
   const onOpenFile = async () => {
     const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
     const file = await fileHandle.getFile();
     const fileReader = new FileReader();
     fileReader.readAsText(file);
-    fileReader.onload = () => {
-      editorStore.send({ type: "setContent", content: fileReader.result });
-      document.title = file.name;
-      editorStore.send({ type: "setTitle", title: file.name });
-
-      editorStore.send({
-        type: "setContents",
-        contents: [
-          ...contents,
-          {
-            id: crypto.randomUUID(),
-            content: fileReader.result,
-            title: file.name,
-          },
-        ],
-      });
-    };
+    fileReader.onload = () => {};
   };
 
   const onNewFile = () => {
-    editorStore.send({ type: "setContent", content: "" });
     document.title = "New File";
-    editorStore.send({ type: "setTitle", title: "New File" });
-
     editorStore.send({
-      type: "setContents",
-      contents: [
-        ...contents,
-        {
-          id: crypto.randomUUID(),
-          content: "",
-          title: "New File",
-        },
-      ],
+      type: "createFile",
+      file: {
+        id: "new-file",
+        content: "",
+        title: "New File",
+      },
     });
+
     localStorage.setItem("editor", JSON.stringify(editorStore.getSnapshot()));
   };
 
@@ -141,8 +125,8 @@ export default function HomeLayout() {
           </span>
           <span>Home</span>
         </NavLink>
-        {contents.length > 0 &&
-          contents.map((c) => (
+        {contents.files.length > 0 &&
+          contents.files.map((c) => (
             <Menu.Root key={c.id}>
               <Menu.ContextTrigger asChild>
                 <NavLink
@@ -156,16 +140,9 @@ export default function HomeLayout() {
                   <Editable.Root
                     onValueCommit={(title) => {
                       editorStore.send({
-                        type: "setContents",
-                        contents: contents.map((content) => {
-                          if (content.id === c.id) {
-                            return {
-                              ...content,
-                              title: title.value,
-                            };
-                          }
-                          return content;
-                        }),
+                        type: "updateTitle",
+                        id: c.id,
+                        title: title.value,
                       });
                     }}
                     style={{

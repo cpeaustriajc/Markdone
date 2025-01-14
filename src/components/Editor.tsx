@@ -22,7 +22,7 @@ import { editorStore } from "../stores/editor";
 import { useSelector } from "@xstate/store/react";
 import { AutosaveProps, useAutosave } from "#/routes/home/file";
 import { useParams } from "react-router";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { createToaster, Toast, Toaster } from "@ark-ui/react";
 import { XIcon } from "lucide-react";
 
@@ -45,15 +45,19 @@ function Placeholder() {
 }
 
 export function Editor() {
-  const content = useSelector(editorStore, (state) => state.context.content);
   const params = useParams();
+  const content = useSelector(
+    editorStore,
+    (state) => state.context.files.find((c) => c.id === params.id)!.content,
+  );
+  const [text, setText] = useState(content ?? "");
 
   const onChange = (_: EditorState, editor: LexicalEditor) => {
     editor.read(() => {
       const markdown = $convertToMarkdownString(TRANSFORMERS);
       if (!markdown) return;
 
-      editorStore.send({ type: "setContent", content: markdown });
+      setText(markdown);
     });
   };
 
@@ -92,12 +96,12 @@ export function Editor() {
             <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
             <OnChangePlugin onChange={onChange} />
             <AutosavePlugin
-              data={content}
+              data={text}
               onSave={() => {
                 editorStore.send({
-                  type: "updateFile",
-                  id: params.id,
-                  content,
+                  type: "updateContent",
+                  id: params.id!,
+                  content: text,
                 });
                 toaster.create({
                   title: "Success",

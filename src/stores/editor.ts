@@ -1,13 +1,9 @@
 import { createStore, StoreSnapshot } from "@xstate/store";
 
 export type EditorContext = {
+  id: string;
   content: string | ArrayBuffer | null;
   title: string;
-  contents: {
-    id: string;
-    content: string | ArrayBuffer | null;
-    title: string;
-  }[];
 };
 
 export function persist<T>(state: StoreSnapshot<T>) {
@@ -22,58 +18,46 @@ export function getPersistedState<T>(): StoreSnapshot<T> | null {
   return persisted ? JSON.parse(persisted) : null;
 }
 
-const restoredState = getPersistedState<EditorContext>();
+const restoredState = getPersistedState<EditorContext[]>();
+
 export const editorStore = createStore({
-  context:
-    restoredState?.context ??
-    ({
-      content: null,
-      title: "",
-      contents: [],
-    } as EditorContext),
+  context: { files: restoredState?.context ?? ([] as EditorContext[]) },
   on: {
-    setContent: (context, event: { content: string | ArrayBuffer | null }) => {
-      return {
-        ...context,
-        content: event.content,
-      };
-    },
-    setTitle: (context, event: { title: string }) => {
-      return {
-        ...context,
-        title: event.title,
-      };
-    },
-    setContents: (
+    updateContent: (
       context,
-      events: {
-        contents: {
-          id: string;
-          content: string | ArrayBuffer | null;
-          title: string;
-        }[];
-      },
+      event: { id: string; content: string | ArrayBuffer | null },
     ) => {
       return {
-        ...context,
-        contents: events.contents,
-      };
-    },
-    updateFile: (
-      context,
-      event: { id: string | undefined; content: string | ArrayBuffer | null },
-    ) => {
-      return {
-        ...context,
-        contents: context.contents.map((file) => {
+        files: context.files.map((file) => {
           if (file.id === event.id) {
             return {
               ...file,
               content: event.content,
             };
           }
+
           return file;
         }),
+      };
+    },
+    updateTitle: (context, event: { id: string; title: string }) => {
+      return {
+        files: context.files.map((file) => {
+          if (file.id === event.id) {
+            return {
+              ...file,
+              title: event.title,
+            };
+          }
+
+          return file;
+        }),
+      };
+    },
+    createFile: (context, events: { file: EditorContext }) => {
+      return {
+        ...context,
+        files: context.files.concat(events.file),
       };
     },
   },

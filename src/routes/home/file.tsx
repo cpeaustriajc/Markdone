@@ -86,7 +86,7 @@ export function useAutosave<TData, TReturn>({
 
 export default function Home({ params }: Route.ComponentProps) {
   const content = useSelector(editorStore, (state) =>
-    state.context.contents.find((file) => file.id === params.id),
+    state.context.files.find((file) => file.id === params.id),
   );
 
   if (!content) {
