@@ -87,7 +87,13 @@ export default function HomeLayout() {
 
   return (
     <PanelGroup className="home" direction="horizontal">
-      <Panel className="sidebar" id="sidebar" minSize={15} maxSize={20}>
+      <Panel
+        className="sidebar"
+        id="sidebar"
+        defaultSize={15}
+        minSize={15}
+        maxSize={20}
+      >
         <Menu.Root>
           <Menu.Trigger className="menu-button" title="Open Menu">
             <MenuIcon size={16} />
@@ -222,7 +228,7 @@ export default function HomeLayout() {
           ))}
       </Panel>
       <PanelResizeHandle className="resize-panel" />
-      <Panel className="main" id="main" minSize={80}>
+      <Panel className="main" id="main" defaultSize={85} minSize={80}>
         <Outlet />
       </Panel>
     </PanelGroup>

@@ -39,6 +39,38 @@
     box-shadow: 0 8px 8px 2px hsla(221, 50%, 50%, 0.1);
   }
 
+  .sidebar-item.active {
+    background-color: light-dark(hsl(215, 100%, 95%), hsl(215, 100%, 10%));
+  }
+
+  .sidebar-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: light-dark(hsl(215, 100%, 15%), hsl(215, 100%, 90%));
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition:
+      color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-inline: 8px;
+    padding-block: 4px;
+    min-height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    line-height: 0;
+
+    .icon {
+      margin-right: 8px;
+    }
+
+    &:hover {
+      color: light-dark(hsl(215, 100%, 25%), hsl(215, 100%, 85%));
+      background-color: light-dark(hsl(215, 25%, 80%), hsl(215, 100%, 30%));
+    }
+  }
+
   .home {
     display: flex;
     flex-direction: row;
@@ -158,40 +190,40 @@
     }
   }
 
-  .sidebar-item {
+  [data-scope="toast"][data-part="root"] {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    color: light-dark(hsl(215, 100%, 15%), hsl(215, 100%, 90%));
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    transition:
-      color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-      background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    padding-inline: 8px;
-    padding-block: 4px;
-    min-height: 36px;
-    border-radius: 8px;
-    cursor: pointer;
-    line-height: 0;
+    flex-direction: column;
+    background-color: #fff;
+    border: solid 1px #eee;
+    padding: 8px;
+    min-width: 240px;
+    min-height: 80px;
+    border-radius: 4px;
+    position: relative;
+    box-shadow: 0 8px 8px 2px hsla(221, 50%, 50%, 0.1);
+    overflow-wrap: anywhere;
+    height: var(--height);
+    opacity: var(--opacity);
+    scale: var(--scale);
+    translate: var(--x) var(--y) 0;
+    z-index: var(--z-index);
+    will-change: translate, opacity, height;
+    transition-duration: 250ms;
+    transition-property: opacity, translatex, scale, height;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-
-
-    .icon {
-      margin-right: 8px;
-    }
-
-    &:hover {
-      color: light-dark(hsl(215, 100%, 25%), hsl(215, 100%, 85%));
-      background-color: light-dark(hsl(215, 25%, 80%), hsl(215, 100%, 30%));
-    }
+  [data-scope="toast"][data-part="close-trigger"] {
+    position: absolute;
+    background: none;
+    border: none;
+    padding: 0;
+    width: 4px;
+    height: 4px;
+    top: 4px;
+    right: 24px;
   }
 }
-
-.sidebar-item.active {
-    background-color: light-dark(hsl(215, 100%, 95%), hsl(215, 100%, 10%));
-  }
 
 @layer typography {
   h1 {

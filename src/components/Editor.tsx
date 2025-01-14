@@ -111,31 +111,11 @@ export function Editor() {
       </LexicalComposer>
       <Toaster toaster={toaster}>
         {(toast) => (
-          <Toast.Root
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              backgroundColor: "#fff",
-              border: "solid 1px #eee",
-              padding: "8px",
-              minWidth: "240px",
-              minHeight: "80px",
-              borderRadius: "4px",
-            }}
-            key={toast.id}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <Toast.Title>{toast.title}</Toast.Title>
-              <Toast.CloseTrigger className="button">
-                <XIcon className="icon" />
-              </Toast.CloseTrigger>
-            </div>
+          <Toast.Root key={toast.id}>
+            <Toast.Title>{toast.title}</Toast.Title>
+            <Toast.CloseTrigger>
+              <XIcon className="icon" />
+            </Toast.CloseTrigger>
             <Toast.Description>{toast.description}</Toast.Description>
           </Toast.Root>
         )}
