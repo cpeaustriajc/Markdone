@@ -4,6 +4,8 @@
     "version": "0.1.0",
     "type": "module",
     "scripts": {
+        "generate-routes": "tsr generate",
+        "watch-routes": "tsr watch",
         "dev": "vite",
         "build": "cross-env NODE_ENV=production vite build",
         "start": "cross-env NODE_ENV=production vite preview",
@@ -18,16 +20,15 @@
         "@lexical/markdown": "^0.23.1",
         "@lexical/react": "^0.23.1",
         "@lexical/rich-text": "^0.23.1",
-        "@xstate/store": "^2.6.2",
+        "@tanstack/react-router": "^1.95.6",
         "lexical": "^0.23.1",
         "lucide-react": "^0.471.1",
         "react": "^19.0.0",
-        "react-dom": "^19.0.0",
-        "react-icons": "^5.4.0",
-        "react-resizable-panels": "^2.1.7",
-        "react-router": "^7.1.1"
+        "react-dom": "^19.0.0"
     },
     "devDependencies": {
+        "@tanstack/router-cli": "^1.95.6",
+        "@tanstack/router-plugin": "^1.95.6",
         "@types/react": "^19.0.6",
         "@types/react-dom": "^19.0.3",
         "@types/wicg-file-system-access": "^2023.10.5",

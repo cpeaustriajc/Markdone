@@ -18,13 +18,9 @@ import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { defaultTheme } from "../themes/defaultTheme";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { EditorState, LexicalEditor } from "lexical";
-import { editorStore } from "../stores/editor";
-import { useSelector } from "@xstate/store/react";
-import { useParams } from "react-router";
 import { Fragment, useState } from "react";
 import { createToaster, Toast, Toaster } from "@ark-ui/react";
 import { XIcon } from "lucide-react";
-import { AutosavePlugin } from "#/plugins/AutosavePlugin";
 
 const toaster = createToaster({
   placement: "bottom-end",
@@ -37,13 +33,7 @@ function Placeholder() {
 }
 
 export function Editor() {
-  const params = useParams();
-  const content = useSelector(
-    editorStore,
-    (state) => state.context.files.find((c) => c.id === params.id)!.content,
-  );
-  const [text, setText] = useState(content ?? "");
-
+  const [text, setText] = useState("");
   const onChange = (_: EditorState, editor: LexicalEditor) => {
     editor.read(() => {
       const markdown = $convertToMarkdownString(TRANSFORMERS);
@@ -57,8 +47,7 @@ export function Editor() {
     <Fragment>
       <LexicalComposer
         initialConfig={{
-          editorState: () =>
-            $convertFromMarkdownString(content?.toString() ?? ""),
+          editorState: () => $convertFromMarkdownString(text),
           namespace: "main-editor",
           onError: (error) => {
             throw error;
@@ -87,21 +76,6 @@ export function Editor() {
             <LinkPlugin />
             <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
             <OnChangePlugin onChange={onChange} />
-            <AutosavePlugin
-              data={text}
-              onSave={() => {
-                editorStore.send({
-                  type: "updateContent",
-                  id: params.id!,
-                  content: text,
-                });
-                toaster.create({
-                  title: "Success",
-                  description: "File saved successfully",
-                  type: "success",
-                });
-              }}
-            />
           </div>
         </div>
       </LexicalComposer>

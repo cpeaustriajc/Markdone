@@ -23,6 +23,9 @@
 }
 
 @layer components {
+  .resize-panel {
+    border: none;
+  }
   .sidebar {
     background: light-dark(hsl(218, 29%, 90%), hsl(218, 29%, 15%));
     border: solid 1px light-dark(hsl(218, 29%, 85%), hsl(218, 29%, 20%));
