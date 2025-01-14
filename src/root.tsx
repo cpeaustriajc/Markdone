@@ -1,8 +1,8 @@
 import * as ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router";
-import HomeLayout from "./routes/home/HomeLayout";
-import HomePage from "./routes/home/HomePage";
-import DocumentView from "./routes/home/DocumentView";
+import HomeLayout from "./components/HomeLayout";
+import HomePage from "./components/HomePage";
+import DocumentView from "./components/DocumentView";
 
 const root = document.getElementById("root");
 
